@@ -1,7 +1,7 @@
 /* Eco-Enzyme Dilution Guide — service worker
    Offline-first: precache the app shell, serve from cache, fall back to network.
    Bump CACHE_VERSION on every deploy so clients pick up the new build. */
-const CACHE_VERSION = 'enzyme-20260707-16';
+const CACHE_VERSION = 'enzyme-20260707-17';
 const CACHE_NAME = 'ecoenzyme-' + CACHE_VERSION;
 
 /* All paths are relative so the app works from any GitHub Pages subfolder. */
