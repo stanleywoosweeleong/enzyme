@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#3a2410">
+<title>环保酵素稀释比例查询 · Eco-Enzyme Dilution Guide</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- iOS standalone / home-screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="环保酵素">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<style>
+  :root{
+    --molasses:#3a2410;
+    --molasses-2:#5a3818;
+    --amber:#c47b2e;
+    --amber-bright:#e0983c;
+    --honey:#f0c14b;
+    --cream:#f7efe0;
+    --cream-2:#efe3cd;
+    --paper:#fdf9f0;
+    --leaf:#5c7a3d;
+    --leaf-deep:#3f5a28;
+    --ink:#2c1e12;
+    --ink-soft:#6b543f;
+    --line:#e3d3b6;
+    --danger:#a8432a;
+    --shadow:rgba(58,36,16,.14);
+    /* readable-text scale, driven by A-/A+ control (1 = default) */
+    --fs:1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.55;
+    padding-bottom:env(safe-area-inset-bottom);
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;
+    background:
+      radial-gradient(circle at 18% 8%, rgba(240,193,75,.18), transparent 42%),
+      radial-gradient(circle at 88% 96%, rgba(92,122,61,.12), transparent 46%),
+      var(--cream);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:relative;
+    background:linear-gradient(155deg,var(--molasses),var(--molasses-2) 70%,#6b4620);
+    color:var(--cream);
+    padding:calc(env(safe-area-inset-top) + 20px) 20px 46px;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:34px;
+    background:var(--cream);
+    clip-path:polygon(0 100%,100% 100%,100% 40%,0 100%);
+  }
+  .drop{
+    position:absolute;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+    background:radial-gradient(circle at 38% 30%, rgba(240,193,75,.5), rgba(196,123,46,.25));
+    filter:blur(.3px);opacity:.5;pointer-events:none;
+  }
+  .brandline{display:flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--honey);font-weight:600;margin-bottom:12px;}
+  .brandline .seed{width:22px;height:22px;flex:none;}
+  h1{font-size:26px;line-height:1.2;font-weight:800;letter-spacing:.01em;}
+  h1 .en{display:block;font-size:13px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:rgba(247,239,224,.72);margin-top:7px;}
+  .recipe{
+    margin-top:16px;display:inline-flex;align-items:center;gap:10px;
+    background:rgba(247,239,224,.1);border:1px solid rgba(240,193,75,.35);
+    padding:8px 14px;border-radius:100px;font-size:calc(14px * var(--fs));font-weight:600;
+    backdrop-filter:blur(4px);
+  }
+  .recipe b{color:var(--honey);font-size:15px;letter-spacing:.03em;}
+  .recipe .sep{opacity:.4;}
+
+  /* ---------- controls ---------- */
+  .controls{padding:4px 16px 0;position:relative;z-index:2;margin-top:-30px;}
+  .searchwrap{position:relative;}
+  .searchwrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:19px;height:19px;color:var(--amber);pointer-events:none;}
+  #search{
+    width:100%;border:1.5px solid var(--line);background:var(--paper);
+    border-radius:15px;padding:16px 16px 16px 44px;font-size:calc(16.5px * var(--fs));color:var(--ink);
+    box-shadow:0 6px 22px -12px var(--shadow);font-family:inherit;
+    transition:border-color .18s,box-shadow .18s;
+  }
+  #search::placeholder{color:#b09a7e;}
+  #search:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 4px rgba(196,123,46,.13);}
+  #clearBtn{position:absolute;right:9px;top:50%;transform:translateY(-50%);
+    border:none;background:var(--cream-2);color:var(--ink-soft);width:30px;height:30px;
+    border-radius:50%;font-size:17px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+  #clearBtn.show{display:flex;}
+
+  .toolrow{display:flex;gap:8px;margin-top:11px;align-items:center;}
+  .langtoggle{
+    display:flex;background:var(--cream-2);border-radius:11px;padding:3px;gap:2px;flex:none;
+    border:1px solid var(--line);
+  }
+  .langtoggle button{
+    border:none;background:transparent;padding:7px 13px;border-radius:8px;
+    font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;font-family:inherit;
+    transition:.15s;
+  }
+  .langtoggle button.active{background:var(--molasses);color:var(--honey);box-shadow:0 2px 6px -2px var(--shadow);}
+  .count{margin-left:auto;font-size:12.5px;color:var(--ink-soft);font-weight:600;
+    white-space:nowrap;padding-right:2px;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  @media (max-width:380px){
+    .count{font-size:11.5px;}
+  }
+
+  /* text-size control (A- / A+) */
+  .textsize{
+    display:flex;align-items:center;background:var(--cream-2);border:1px solid var(--line);
+    border-radius:11px;padding:2px;gap:0;flex:none;
+  }
+  .textsize button{
+    display:flex;align-items:baseline;justify-content:center;gap:1px;
+    border:none;background:transparent;color:var(--molasses);cursor:pointer;font-family:inherit;
+    padding:7px 11px;border-radius:9px;line-height:1;transition:background .15s;
+  }
+  .textsize button:active{background:var(--line);}
+  .textsize button:disabled{opacity:.35;cursor:default;}
+  .textsize .ts-a{font-weight:800;font-size:14px;}
+  .textsize .ts-a.ts-big{font-size:18px;}
+  .textsize .ts-sign{font-weight:800;font-size:12px;}
+  .ts-divider{width:1px;height:20px;background:var(--line);}
+
+  .chips{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;padding:16px 16px 6px;max-width:640px;margin:0 auto;
+  }
+  .chip{
+    border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);
+    padding:12px 6px 10px;border-radius:16px;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    transition:transform .12s,background .15s,border-color .15s,color .15s,box-shadow .15s;
+    min-height:74px;text-align:center;box-shadow:0 3px 10px -8px var(--shadow);
+  }
+  .chip:active{transform:scale(.95);}
+  .chip .ico{
+    font-size:24px;line-height:1;
+    width:40px;height:40px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--cream-2);transition:background .15s;
+  }
+  .chip .lbl{font-size:calc(12.5px * var(--fs));font-weight:800;letter-spacing:.01em;line-height:1.2;}
+  .chip.active{
+    background:var(--molasses);border-color:var(--molasses);color:var(--honey);
+    box-shadow:0 8px 20px -12px var(--shadow);
+  }
+  .chip.active .ico{background:rgba(240,193,75,.16);}
+  /* custom filter chip — subtle amber dashed accent to distinguish it */
+  .chip-custom{border-style:dashed;border-color:var(--amber);}
+  .chip-custom .ico{background:rgba(196,123,46,.12);}
+  .chip-custom.active{background:var(--amber);border-color:var(--amber);color:#fff;border-style:solid;}
+  .chip-custom.active .ico{background:rgba(255,255,255,.2);}
+  /* favourites filter chip — heart accent */
+  .chip-fav .ico{color:#e0455e;background:rgba(224,69,94,.1);}
+  .chip-fav.active{background:#e0455e;border-color:#e0455e;color:#fff;}
+  .chip-fav.active .ico{background:rgba(255,255,255,.22);color:#fff;}
+
+  /* ---------- add custom entry ---------- */
+  .addwrap{max-width:640px;margin:0 auto;padding:2px 16px 0;}
+  .add-entry-btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    background:var(--cream-2);color:var(--molasses);border:1.5px dashed var(--amber);
+    border-radius:14px;padding:13px;font-size:calc(14px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;transition:background .15s,transform .12s;
+  }
+  .add-entry-btn:active{transform:scale(.98);}
+  .add-entry-btn:hover{background:var(--cream);}
+  .add-entry-btn svg{width:19px;height:19px;color:var(--amber);}
+
+  /* custom entry markers */
+  .custom-tag{
+    display:inline-block;vertical-align:middle;margin-left:8px;
+    background:var(--amber);color:#fff;font-size:calc(10.5px * var(--fs));font-weight:800;
+    padding:2px 8px;border-radius:100px;letter-spacing:.02em;
+  }
+  .custom-actions{display:flex;gap:9px;margin-top:11px;}
+  .ca-edit,.ca-del{
+    display:inline-flex;align-items:center;gap:6px;flex:1;justify-content:center;
+    border-radius:11px;padding:11px;font-size:calc(13px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;border:1px solid var(--line);background:var(--cream-2);
+  }
+  .ca-edit{color:var(--molasses);}
+  .ca-del{color:var(--danger);border-color:rgba(168,67,42,.3);background:rgba(168,67,42,.06);}
+  .ca-edit svg,.ca-del svg{width:15px;height:15px;}
+
+  /* ---------- entry form ---------- */
+  .ef-row{margin-bottom:16px;}
+  .ef-label{display:block;font-size:calc(12.5px * var(--fs));font-weight:800;color:var(--ink-soft);margin-bottom:8px;}
+  .ef-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+  .ef-cat{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    border:1.5px solid var(--line);background:var(--paper);border-radius:12px;
+    padding:9px 4px;cursor:pointer;font-family:inherit;transition:.12s;
+  }
+  .ef-cat .i{font-size:20px;line-height:1;}
+  .ef-cat .t{font-size:calc(11px * var(--fs));font-weight:700;color:var(--ink-soft);text-align:center;line-height:1.2;}
+  .ef-cat.sel{border-color:var(--molasses);background:var(--cream-2);}
+  .ef-cat.sel .t{color:var(--molasses);}
+  .ef-kinds{display:flex;gap:6px;}
+  .ef-kind{
+    flex:1;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;
+    padding:10px 4px;font-size:calc(11.5px * var(--fs));font-weight:700;color:var(--ink-soft);
+    cursor:pointer;font-family:inherit;text-align:center;transition:.12s;
+  }
+  .ef-kind.sel{border-color:var(--molasses);background:var(--molasses);color:var(--honey);}
+  .ef-langtabs{display:flex;gap:6px;margin-bottom:12px;border-bottom:1px solid var(--line);padding-bottom:0;}
+  .ef-langtab{
+    border:none;background:transparent;border-bottom:2.5px solid transparent;
+    padding:8px 12px 9px;font-size:calc(13px * var(--fs));font-weight:800;color:var(--ink-soft);
+    cursor:pointer;font-family:inherit;margin-bottom:-1px;
+  }
+  .ef-langtab.sel{color:var(--molasses);border-bottom-color:var(--amber);}
+  .ef-langtab .flag{opacity:.55;font-size:calc(10px * var(--fs));margin-left:4px;font-weight:700;}
+  .ef-langtab.filled .flag{opacity:1;color:var(--leaf);}
+  .ef-field{margin-bottom:13px;}
+  .ef-field label{display:block;font-size:calc(12px * var(--fs));font-weight:800;color:var(--ink-soft);margin-bottom:6px;}
+  .ef-field input,.ef-field textarea{
+    width:100%;border:1.5px solid var(--line);background:var(--paper);border-radius:11px;
+    padding:11px 13px;font-size:calc(14.5px * var(--fs));font-family:inherit;color:var(--ink);outline:none;
+    line-height:1.5;
+  }
+  .ef-field input:focus,.ef-field textarea:focus{border-color:var(--amber);}
+  .ef-field textarea{resize:vertical;min-height:70px;}
+  .ef-hint{
+    font-size:calc(12px * var(--fs));color:var(--ink-soft);line-height:1.5;
+    background:rgba(196,123,46,.08);border-radius:10px;padding:10px 12px;margin:4px 0 16px;
+  }
+  .ef-actions{display:flex;gap:10px;}
+  .ef-cancel{
+    flex:0 0 auto;padding:14px 20px;border-radius:13px;border:1px solid var(--line);
+    background:var(--cream-2);color:var(--ink-soft);font-size:calc(14.5px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;
+  }
+  .ef-save{
+    flex:1;padding:14px;border-radius:13px;border:none;background:var(--molasses);color:var(--honey);
+    font-size:calc(15px * var(--fs));font-weight:800;cursor:pointer;font-family:inherit;
+  }
+  .ef-save:active,.ef-cancel:active{transform:scale(.98);}
+
+  /* in-app confirm dialog (native confirm() is blocked in installed PWAs) */
+  .confirm-bg{align-items:center!important;padding:24px;z-index:400;}
+  .confirm-box{
+    background:var(--cream);width:100%;max-width:360px;border-radius:20px;
+    padding:24px 22px 18px;box-shadow:0 24px 60px -20px rgba(0,0,0,.5);
+    animation:popIn .2s ease;
+  }
+  @keyframes popIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .confirm-msg{font-size:calc(16px * var(--fs));font-weight:700;color:var(--ink);line-height:1.5;text-align:center;margin-bottom:20px;}
+  .confirm-actions{display:flex;gap:10px;}
+  .confirm-no,.confirm-yes{
+    flex:1;padding:14px;border-radius:13px;font-size:calc(14.5px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;border:none;
+  }
+  .confirm-no{background:var(--cream-2);color:var(--ink-soft);border:1px solid var(--line);}
+  .confirm-yes{background:var(--danger);color:#fff;}
+  .confirm-no:active,.confirm-yes:active{transform:scale(.98);}
+
+  /* ---------- list ---------- */  main{padding:8px 16px 40px;max-width:640px;margin:0 auto;}
+  .grouphdr{
+    display:flex;align-items:center;gap:9px;margin:22px 2px 12px;
+    cursor:pointer;user-select:none;
+  }
+  .grouphdr .ico{
+    width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex:none;background:var(--cream-2);box-shadow:inset 0 0 0 1px var(--line);
+  }
+  .grouphdr .ghdr-main{flex:none;}
+  .grouphdr h2{font-size:calc(18px * var(--fs));font-weight:800;color:var(--molasses-2);letter-spacing:.01em;}
+  .grouphdr .en{font-size:calc(12px * var(--fs));font-weight:600;color:var(--ink-soft);letter-spacing:.05em;
+    text-transform:uppercase;display:block;margin-top:1px;}
+  .grouphdr .bar{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-left:2px;}
+  .grouphdr .ghdr-chev{flex:none;display:flex;align-items:center;justify-content:center;color:var(--amber);
+    transition:transform .25s ease;width:24px;height:24px;}
+  .grouphdr .ghdr-chev svg{width:16px;height:16px;}
+  .grouphdr.collapsed .ghdr-chev{transform:rotate(-90deg);}
+
+  .group-cards{overflow:hidden;max-height:20000px;transition:max-height .35s ease,opacity .2s ease;}
+  .group-cards.collapsed{max-height:0!important;opacity:0;pointer-events:none;margin:0;}
+
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    margin-bottom:12px;overflow:hidden;box-shadow:0 4px 16px -13px var(--shadow);
+    transition:box-shadow .2s,border-color .2s;
+  }
+  .card.open{box-shadow:0 12px 34px -18px var(--shadow);border-color:var(--cream-2);}
+
+  /* head is a 2-row grid: [icon | title+ratio | chevron] */
+  .card-head{
+    display:grid;
+    grid-template-columns:auto 1fr auto auto;
+    align-items:center;
+    gap:12px;padding:15px 16px;cursor:pointer;user-select:none;
+  }
+  .card-ico{
+    width:46px;height:46px;border-radius:13px;flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:23px;
+    background:linear-gradient(150deg,var(--cream-2),#e6d4b4);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.6);
+  }
+  .card-main{min-width:0;}
+  .card-title{
+    font-size:calc(17.5px * var(--fs));font-weight:800;color:var(--ink);letter-spacing:.01em;
+    line-height:1.3;
+    /* stop long CJK names from stacking into single columns */
+    word-break:normal;overflow-wrap:break-word;
+  }
+  .card-title .en{
+    display:block;font-size:calc(12.5px * var(--fs));font-weight:600;color:var(--ink-soft);
+    letter-spacing:.03em;margin-top:2px;text-transform:none;line-height:1.35;
+  }
+  .ratio-pill{
+    display:inline-block;margin-top:9px;
+    background:var(--molasses);color:var(--honey);font-weight:800;font-size:calc(15.5px * var(--fs));
+    padding:7px 13px;border-radius:10px;letter-spacing:.02em;
+    font-variant-numeric:tabular-nums;line-height:1.35;
+    max-width:100%;
+  }
+  .ratio-pill.strong{background:var(--danger);color:#ffe9df;}
+  .ratio-pill.neat{background:var(--leaf-deep);color:#e8f2d8;}
+  /* heart favourite button */
+  .fav-btn{
+    flex:none;align-self:start;margin-top:8px;
+    width:34px;height:34px;border:none;background:transparent;cursor:pointer;padding:0;
+    display:flex;align-items:center;justify-content:center;border-radius:50%;
+    transition:background .15s;
+  }
+  .fav-btn:active{background:rgba(168,67,42,.08);}
+  .fav-btn svg{
+    width:23px;height:23px;
+    fill:none;stroke:var(--ink-soft);stroke-width:1.8px;
+    stroke-linejoin:round;stroke-linecap:round;
+    transition:fill .18s,stroke .18s,transform .18s;
+  }
+  .fav-btn.on svg{fill:#e0455e;stroke:#e0455e;}
+  @keyframes heartPop{0%{transform:scale(1);}35%{transform:scale(1.4);}70%{transform:scale(.9);}100%{transform:scale(1);}}
+  .fav-btn.pop svg{animation:heartPop .34s ease;}
+  .chev{
+    width:26px;height:26px;flex:none;align-self:start;margin-top:11px;
+    color:var(--amber);transition:transform .25s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .chev svg{width:16px;height:16px;}
+  .card.open .chev{transform:rotate(180deg);}
+
+  .card-body{
+    max-height:0;overflow:hidden;transition:max-height .3s ease;
+  }
+  .card-body-inner{padding:2px 15px 16px;border-top:1px dashed var(--line);margin:0 0 0;}
+  .card-body-inner>div:first-child{padding-top:13px;}
+  .field{margin-bottom:13px;}
+  .field:last-child{margin-bottom:0;}
+  .field-label{
+    display:flex;align-items:center;gap:6px;font-size:calc(12.5px * var(--fs));font-weight:800;
+    color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;
+  }
+  .field-label .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);flex:none;}
+  .field-text{font-size:calc(16px * var(--fs));color:var(--ink);line-height:1.65;}
+  .field.func .field-label{color:var(--leaf);}
+  .field.func .field-label .dot{background:var(--leaf);}
+  .field.func{background:rgba(92,122,61,.07);border-radius:11px;padding:12px 13px;margin-top:2px;}
+  .field.func .field-text{color:var(--leaf-deep);font-weight:600;}
+  .note{
+    display:flex;gap:8px;background:rgba(168,67,42,.07);border-radius:11px;padding:12px 13px;
+    font-size:calc(14.5px * var(--fs));color:var(--danger);line-height:1.6;margin-top:12px;font-weight:600;
+  }
+  .note svg{width:16px;height:16px;flex:none;margin-top:2px;}
+
+  .noresult{text-align:center;padding:56px 24px;color:var(--ink-soft);}
+  .noresult .big{font-size:40px;margin-bottom:12px;opacity:.6;}
+  .noresult p{font-size:15px;}
+  .noresult .sub{font-size:13px;margin-top:5px;opacity:.75;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--molasses);color:rgba(247,239,224,.72);
+    padding:26px 20px calc(env(safe-area-inset-bottom) + 30px);
+    text-align:center;font-size:12.5px;line-height:1.7;
+  }
+  footer .rule{color:var(--honey);font-weight:700;font-size:calc(14px * var(--fs));margin-bottom:8px;}
+  footer .rule b{font-size:15px;}
+  footer div[id="footRecipe"]{font-size:calc(13.5px * var(--fs));}
+  footer .fine{opacity:.6;margin-top:12px;font-size:calc(12px * var(--fs));max-width:400px;margin-left:auto;margin-right:auto;}
+  footer .sugar-note{
+    margin:12px auto 0;max-width:440px;font-size:calc(13px * var(--fs));line-height:1.55;
+    color:#f7efe0;background:rgba(240,193,75,.1);border:1px solid rgba(240,193,75,.3);
+    border-radius:11px;padding:10px 13px;display:flex;gap:8px;align-items:flex-start;text-align:left;
+  }
+  footer .sugar-note svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--honey);}
+  footer .sugar-note b{color:var(--honey);font-weight:800;}
+  footer .credit{
+    margin:22px auto 0;max-width:420px;font-size:calc(11.5px * var(--fs));line-height:1.7;
+    color:rgba(247,239,224,.62);text-align:center;padding-top:16px;
+    border-top:1px solid rgba(240,193,75,.18);
+  }
+  footer .credit b{color:rgba(240,193,75,.85);font-weight:700;font-size:calc(12.5px * var(--fs));}
+  footer .credit .credit-thanks{display:inline-block;margin-top:6px;color:rgba(247,239,224,.5);font-size:calc(11px * var(--fs));}
+
+  @media (min-width:560px){
+    h1{font-size:30px;}
+    .card-title{font-size:17px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+  }
+</style>
+
+<style>
+  /* ---------- language dropdown (4 langs) ---------- */
+  .langtoggle{position:relative;flex:none;}
+  .langbtn{
+    display:flex;align-items:center;gap:7px;background:var(--cream-2);
+    border:1px solid var(--line);border-radius:11px;padding:9px 13px;
+    font-size:13.5px;font-weight:800;color:var(--molasses);cursor:pointer;font-family:inherit;
+  }
+  .langbtn .globe{width:16px;height:16px;color:var(--amber);}
+  .langbtn .caret{width:12px;height:12px;color:var(--ink-soft);transition:transform .2s;}
+  .langtoggle.open .langbtn .caret{transform:rotate(180deg);}
+  .langmenu{
+    position:absolute;top:calc(100% + 6px);left:0;z-index:40;min-width:172px;
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 16px 40px -14px var(--shadow);padding:6px;display:none;
+  }
+  .langtoggle.open .langmenu{display:block;}
+  .langmenu button{
+    display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    background:transparent;border:none;padding:10px 11px;border-radius:9px;
+    font-size:calc(15px * var(--fs));font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit;
+  }
+  .langmenu button .native{font-weight:800;}
+  .langmenu button .sub{margin-left:auto;font-size:11px;color:var(--ink-soft);font-weight:600;}
+  .langmenu button:hover,.langmenu button.sel{background:var(--cream-2);}
+  .langmenu button.sel{color:var(--molasses);}
+
+  /* ---------- disaster relief quick banner ---------- */
+  .relief-btn{
+    display:flex;align-items:center;gap:13px;width:100%;max-width:640px;margin:14px auto 0;
+    background:linear-gradient(135deg,#8a2f1c,#b4472a);color:#ffe9df;
+    border:none;border-radius:16px;padding:15px 16px;cursor:pointer;font-family:inherit;
+    box-shadow:0 10px 26px -14px rgba(138,47,28,.7);text-align:left;
+  }
+  .relief-btn .r-ico{
+    width:46px;height:46px;border-radius:13px;flex:none;font-size:24px;
+    display:flex;align-items:center;justify-content:center;background:rgba(255,233,223,.16);
+    align-self:flex-start;
+  }
+  .relief-btn .r-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .relief-btn .r-title{font-size:calc(18px * var(--fs));font-weight:800;letter-spacing:.01em;line-height:1.25;}
+  .relief-btn .r-sub{font-size:calc(12.5px * var(--fs));opacity:.88;line-height:1.4;
+    overflow-wrap:break-word;word-break:normal;}
+  .relief-btn .r-arrow{width:20px;height:20px;flex:none;opacity:.9;align-self:center;}
+
+  /* ---------- share button in card body ---------- */
+  .share-row{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap;}
+  .share-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--molasses);color:var(--honey);border:none;border-radius:11px;
+    padding:13px 15px;font-size:calc(14.5px * var(--fs));font-weight:800;cursor:pointer;font-family:inherit;
+    box-shadow:0 6px 16px -10px var(--shadow);flex:1;justify-content:center;min-width:130px;
+  }
+  .share-btn:active{transform:scale(.97);}
+  .share-btn svg{width:17px;height:17px;}
+  .copy-btn{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--cream-2);color:var(--molasses);border:1px solid var(--line);
+    border-radius:11px;padding:13px 15px;font-size:calc(14.5px * var(--fs));font-weight:800;cursor:pointer;
+    font-family:inherit;justify-content:center;min-width:96px;
+  }
+  .copy-btn.copied{background:var(--leaf);color:#fff;border-color:var(--leaf);}
+  .copy-btn svg{width:16px;height:16px;}
+
+  /* ---------- share preview sheet ---------- */
+  /* compact icon-segment channel selector */
+  .chan-tabs{
+    display:flex;gap:4px;margin-bottom:10px;
+    background:var(--cream-2);border:1px solid var(--line);border-radius:12px;padding:4px;
+  }
+  .chan-tab{
+    flex:1;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;
+    border:none;background:transparent;border-radius:9px;
+    padding:8px 6px;cursor:pointer;font-family:inherit;transition:background .15s,box-shadow .15s;
+    min-height:38px;
+  }
+  .chan-tab:active{transform:scale(.97);}
+  .chan-tab .c-ico{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;}
+  .chan-tab .c-ico svg{width:15px;height:15px;}
+  .chan-tab .c-lbl{font-size:calc(13px * var(--fs));font-weight:800;color:var(--ink-soft);white-space:nowrap;
+    max-width:0;overflow:hidden;opacity:0;transition:max-width .2s,opacity .2s;}
+  .chan-tab.wa .c-ico{background:#25d366;}
+  .chan-tab.tg .c-ico{background:#2aabee;}
+  .chan-tab.li .c-ico{background:#06c755;}
+  /* only the active channel shows its label — keeps the row slim */
+  .chan-tab.active{background:var(--paper);box-shadow:0 3px 9px -5px var(--shadow);}
+  .chan-tab.active .c-lbl{max-width:120px;opacity:1;color:var(--molasses);}
+
+  .edit-hint{
+    display:flex;align-items:center;gap:6px;font-size:calc(12px * var(--fs));
+    color:var(--ink-soft);font-weight:700;margin:0 2px 7px;
+  }
+  .edit-hint svg{width:14px;height:14px;flex:none;color:var(--amber);}
+
+  /* message fills the sheet — no decorative wrapper, no wasted padding */
+  .preview-wrap{
+    border-radius:14px;padding:0;margin-bottom:12px;
+    position:relative;overflow:hidden;display:flex;
+    background:#dcf8c6;
+  }
+  .preview-wrap.tg{background:#eeffde;}
+  .preview-wrap.li{background:#8de055;}
+  .bubble{
+    background:transparent;border-radius:14px;padding:15px 16px;width:100%;margin:0;
+    font-size:calc(16.5px * var(--fs));line-height:1.62;color:#0e1a10;font-weight:500;
+    position:relative;display:flex;flex-direction:column;
+  }
+  .preview-wrap.tg .bubble{color:#0f1c26;}
+  .preview-wrap.li .bubble{color:#0c1f05;}
+  .bubble textarea{
+    width:100%;border:none;background:transparent;resize:none;outline:none;
+    font-family:inherit;font-size:inherit;line-height:inherit;color:inherit;font-weight:inherit;
+    padding:0;margin:0;overflow:hidden;min-height:120px;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .bubble textarea::placeholder{color:rgba(14,26,16,.4);}
+  .bubble .b-time{display:block;text-align:right;font-size:calc(11px * var(--fs));color:rgba(14,26,16,.4);margin-top:6px;flex:none;font-weight:600;}
+  .bubble .tick{display:inline-block;margin-left:3px;color:#34b7f1;font-weight:700;}
+  .sheet-actions{display:flex;gap:9px;}
+  .send-btn{
+    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:none;border-radius:13px;padding:15px;font-size:calc(15.5px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;color:#fff;transition:transform .12s;
+  }
+  .send-btn:active{transform:scale(.98);}
+  .send-btn svg{width:19px;height:19px;}
+  .send-btn.wa{background:#25d366;}
+  .send-btn.tg{background:#2aabee;}
+  .send-btn.li{background:#06c755;}
+  .sheet-copy{
+    flex:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    background:var(--cream-2);color:var(--molasses);border:1px solid var(--line);
+    border-radius:13px;padding:15px 18px;font-size:calc(14.5px * var(--fs));font-weight:800;cursor:pointer;font-family:inherit;
+  }
+  .sheet-copy.copied{background:var(--leaf);color:#fff;border-color:var(--leaf);}
+  .sheet-copy svg{width:16px;height:16px;}
+
+  /* ---------- modal (disaster relief + print) ---------- */
+  .modal-bg{
+    position:fixed;inset:0;z-index:100;background:rgba(44,30,18,.55);
+    backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;
+  }
+  .modal-bg.show{display:flex;}
+  .modal{
+    background:var(--cream);width:100%;max-width:640px;max-height:92vh;overflow-y:auto;
+    border-radius:22px 22px 0 0;padding:8px 0 calc(env(safe-area-inset-bottom) + 24px);
+    -webkit-overflow-scrolling:touch;animation:slideUp .28s ease;
+  }
+  @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+  /* share sheet: tall, message area fills remaining space */
+  .share-modal{height:92vh;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;}
+  .share-modal .modal-head{flex:none;}
+  .share-body{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;padding-bottom:18px;}
+  .share-body .chan-tabs,.share-body .edit-hint,.share-body .sheet-actions{flex:none;}
+  .share-body .preview-wrap{flex:1 1 auto;min-height:80px;margin-bottom:12px;}
+  .share-body .bubble{width:100%;height:100%;min-height:0;}
+  .share-body .bubble textarea{flex:1 1 auto;min-height:0;overflow-y:auto;}
+  .modal-grip{width:40px;height:5px;border-radius:3px;background:var(--line);margin:8px auto 6px;}
+  .modal-head{
+    display:flex;align-items:center;gap:11px;padding:10px 18px 14px;
+    border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--cream);z-index:2;
+  }
+  .modal-head .m-ico{font-size:24px;}
+  .modal-head h3{font-size:calc(19px * var(--fs));font-weight:800;color:var(--molasses);flex:1;line-height:1.25;}
+  .modal-head .m-sub{font-size:11.5px;color:var(--ink-soft);font-weight:600;display:block;margin-top:1px;}
+  .modal-close{
+    width:34px;height:34px;border-radius:50%;border:none;background:var(--cream-2);
+    color:var(--ink-soft);font-size:17px;cursor:pointer;flex:none;
+  }
+  .modal-body{padding:16px 18px 4px;}
+  .relief-card{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;padding:15px 16px;margin-bottom:12px;
+  }
+  .relief-card h4{font-size:calc(16.5px * var(--fs));font-weight:800;color:var(--ink);margin-bottom:4px;
+    display:flex;align-items:center;gap:8px;}
+  .relief-card h4 .num{
+    width:24px;height:24px;border-radius:8px;background:var(--danger);color:#fff;
+    font-size:13px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .relief-card .r-ratio{
+    display:inline-block;background:var(--molasses);color:var(--honey);font-weight:800;
+    font-size:calc(14.5px * var(--fs));padding:5px 11px;border-radius:9px;margin:6px 0 8px;}
+  .relief-card p{font-size:calc(14.5px * var(--fs));color:var(--ink);line-height:1.65;}
+  .relief-shareall{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    background:#25863f;color:#fff;border:none;border-radius:13px;
+    padding:15px;font-size:calc(15px * var(--fs));font-weight:800;cursor:pointer;font-family:inherit;
+    box-shadow:0 8px 20px -12px rgba(37,134,63,.8);
+    margin:6px 0 4px;
+  }
+  .relief-shareall:active{transform:scale(.98);}
+  .relief-shareall:disabled{opacity:.6;cursor:default;}
+  .relief-shareall svg{width:19px;height:19px;flex:none;}
+
+  /* image preview fallback (long-press to save on iOS) */
+  .img-preview{
+    position:fixed;inset:0;z-index:300;background:rgba(20,12,4,.9);
+    display:none;align-items:center;justify-content:center;padding:18px;
+  }
+  .img-preview.show{display:flex;}
+  .img-preview-inner{
+    position:relative;max-width:100%;max-height:100%;display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .img-preview-tip{
+    color:#f7efe0;font-size:calc(14px * var(--fs));font-weight:700;text-align:center;
+    background:rgba(247,239,224,.12);padding:10px 16px;border-radius:100px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .img-preview img{
+    max-width:100%;max-height:78vh;object-fit:contain;border-radius:14px;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
+    -webkit-touch-callout:default; /* allow iOS long-press menu */
+  }
+  .img-preview-close{
+    position:absolute;top:-6px;right:-6px;width:38px;height:38px;border-radius:50%;
+    border:none;background:#fdf9f0;color:#3a2410;font-size:18px;font-weight:800;cursor:pointer;
+    box-shadow:0 4px 12px -4px rgba(0,0,0,.5);
+  }
+  .print-hint{
+    background:rgba(92,122,61,.09);border-radius:12px;padding:13px 14px;font-size:calc(14px * var(--fs));
+    color:var(--leaf-deep);line-height:1.55;margin-bottom:8px;font-weight:600;
+    display:flex;gap:9px;}
+  .print-hint svg{width:17px;height:17px;flex:none;margin-top:1px;}
+
+  /* toast */
+  .toast{
+    position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 26px);transform:translateX(-50%) translateY(20px);
+    background:var(--molasses);color:var(--cream);padding:12px 20px;border-radius:100px;
+    font-size:13.5px;font-weight:700;z-index:200;opacity:0;pointer-events:none;
+    transition:opacity .22s,transform .22s;box-shadow:0 10px 30px -10px var(--shadow);white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- PRINT / PROJECTOR ---------- */
+  @media print{
+    body::before,header .drop{display:none!important;}
+    .controls,.chips,.relief-btn,footer,.langtoggle,.modal-bg,.toast,.chev,.share-row{display:none!important;}
+    header{background:none!important;color:#2c1e12!important;padding:0 0 12px!important;border-bottom:3px solid #3a2410;}
+    header::after{display:none!important;}
+    header h1{color:#2c1e12!important;font-size:24pt;}
+    header h1 .en,.brandline span{color:#5a3818!important;}
+    .brandline .seed path[fill]{fill:#5c7a3d!important;}
+    .recipe{background:none!important;border:1.5px solid #3a2410!important;color:#2c1e12!important;}
+    .recipe b{color:#3a2410!important;}
+    main{max-width:none;padding:0;}
+    .grouphdr{break-after:avoid;margin-top:16pt;}
+    .grouphdr h2{color:#2c1e12!important;font-size:14pt;}
+    .card{break-inside:avoid;box-shadow:none!important;border:1px solid #bbb!important;
+      margin-bottom:8pt;background:#fff!important;}
+    .card-body{max-height:none!important;overflow:visible!important;}
+    .card-body-inner{border-top:1px dashed #ccc;}
+    .ratio-pill{background:#3a2410!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .ratio-pill.strong{background:#a8432a!important;}
+    .ratio-pill.neat{background:#3f5a28!important;}
+    .field.func{background:#f2f5eb!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .note{background:#faeee9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .card-ico{background:#eee!important;}
+    @page{margin:14mm;}
+  }
+  body.printing .card-body{max-height:none!important;}
+  body.printing .group-cards{max-height:none!important;opacity:1!important;pointer-events:auto!important;}
+  @media print{ .group-cards{max-height:none!important;opacity:1!important;} .grouphdr .ghdr-chev{display:none;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="drop" style="width:90px;height:90px;top:-20px;right:14%;"></div>
+  <div class="drop" style="width:46px;height:46px;top:40px;right:6%;"></div>
+  <div class="drop" style="width:30px;height:30px;top:96px;left:8%;"></div>
+  <div class="brandline">
+    <svg class="seed" viewBox="0 0 24 24" fill="none"><path d="M12 21C7 21 3.5 17.5 3.5 12.5C3.5 7 8 3 12 3C12 8 16 9.5 20.5 10.5C20.5 16 17 21 12 21Z" fill="#f0c14b" opacity=".9"/><path d="M12 20C12 15 9 11 6 9" stroke="#5c7a3d" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <span id="tagBrand"></span>
+  </div>
+  <h1>
+    <span id="tagTitle"></span>
+    <span class="en" id="tagSubtitle"></span>
+  </h1>
+</header>
+
+<div class="controls">
+  <div class="searchwrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" autocomplete="off">
+    <button id="clearBtn" aria-label="Clear">✕</button>
+  </div>
+  <div class="toolrow">
+    <div class="langtoggle" id="langToggle">
+      <button class="langbtn" id="langBtn" aria-haspopup="true">
+        <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18" stroke-linecap="round"/></svg>
+        <span id="langLabel">中文</span>
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="langmenu" id="langMenu" role="menu"></div>
+    </div>
+    <div class="textsize" id="textSize" role="group" aria-label="Text size">
+      <button id="tsDown" aria-label="Smaller text"><span class="ts-a">A</span><span class="ts-sign">−</span></button>
+      <span class="ts-divider"></span>
+      <button id="tsUp" aria-label="Larger text"><span class="ts-a ts-big">A</span><span class="ts-sign">+</span></button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+  <button class="relief-btn" id="reliefBtn">
+    <span class="r-ico">🆘</span>
+    <span class="r-txt">
+      <span class="r-title" id="reliefTitle"></span>
+      <span class="r-sub" id="reliefSub"></span>
+    </span>
+    <svg class="r-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+</div>
+
+<div class="chips" id="chips"></div>
+
+<div class="addwrap">
+  <button class="add-entry-btn" id="addEntryBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+    <span id="addEntryLabel"></span>
+  </button>
+</div>
+
+<main id="list"></main>
+
+<footer>
+  <div class="rule" id="footRule"></div>
+  <div style="opacity:.85" id="footRecipe"></div>
+  <div class="sugar-note" id="footSugar"></div>
+  <div class="fine" id="footNote"></div>
+  <button class="copy-btn" id="printBtn" style="margin:18px auto 0;background:rgba(247,239,224,.12);color:var(--honey);border-color:rgba(240,193,75,.35);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    <span id="printLabel"></span>
+  </button>
+  <div class="credit" id="footCredit"></div>
+</footer>
+
+<!-- Disaster relief modal -->
+<div class="modal-bg" id="reliefModal">
+  <div class="modal">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <span class="m-ico">🆘</span>
+      <h3 id="reliefModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('reliefModal')">✕</button>
+    </div>
+    <div class="modal-body" id="reliefBody"></div>
+  </div>
+</div>
+
+<!-- Share preview sheet -->
+<div class="modal-bg" id="shareModal">
+  <div class="modal share-modal">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <span class="m-ico">📤</span>
+      <h3 id="shareModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('shareModal')">✕</button>
+    </div>
+    <div class="modal-body share-body">
+      <div class="chan-tabs" id="chanTabs"></div>
+      <div class="edit-hint" id="editHint"></div>
+      <div class="preview-wrap" id="previewWrap">
+        <div class="bubble">
+          <textarea id="previewText" rows="6" spellcheck="false"></textarea>
+          <span class="b-time" id="previewTime"></span>
+        </div>
+      </div>
+      <div class="sheet-actions">
+        <button class="send-btn" id="sendBtn"></button>
+        <button class="sheet-copy" id="sheetCopy"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom entry form modal -->
+<div class="modal-bg" id="entryModal">
+  <div class="modal">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <span class="m-ico">✏️</span>
+      <h3 id="entryModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('entryModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="ef-row">
+        <label class="ef-label" id="lblCat"></label>
+        <div class="ef-cats" id="efCats"></div>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label" id="lblKind"></label>
+        <div class="ef-kinds" id="efKinds"></div>
+      </div>
+      <div class="ef-langtabs" id="efLangTabs"></div>
+      <div class="ef-fields" id="efFields"></div>
+      <div class="ef-hint" id="efHint"></div>
+      <div class="ef-actions">
+        <button class="ef-cancel" id="efCancel"></button>
+        <button class="ef-save" id="efSave"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm dialog (in-app, replaces blocked native confirm in PWA) -->
+<div class="modal-bg confirm-bg" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="confirm-actions">
+      <button class="confirm-no" id="confirmNo"></button>
+      <button class="confirm-yes" id="confirmYes"></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= i18n ================= */
+const LANGS = {
+  zh:  {native:"简体中文", sub:"Simplified", label:"简"},
+  zhT: {native:"繁體中文", sub:"Traditional", label:"繁"},
+  en:  {native:"English",  sub:"EN",          label:"EN"},
+  ms:  {native:"Bahasa Malaysia", sub:"BM",    label:"BM"},
+};
+// UI strings per language
+const UI = {
+  brand:   {zh:"环保酵素 · 拯救地球", zhT:"環保酵素 · 拯救地球", en:"Eco-Enzyme · Saving Earth", ms:"Enzim Eko · Selamatkan Bumi"},
+  title:   {zh:"酵素稀释比例查询", zhT:"酵素稀釋比例查詢", en:"Enzyme Dilution Finder", ms:"Pencari Nisbah Enzim"},
+  subtitle:{zh:"选用途 · 查比例 · 会用法", zhT:"選用途 · 查比例 · 會用法", en:"Pick a use · find the ratio · learn how", ms:"Pilih guna · cari nisbah · cara guna"},
+  recipe:  {zh:"配方", zhT:"配方", en:"Recipe", ms:"Resipi"},
+  recipeParts:{zh:"红糖 · 厨余 · 水", zhT:"紅糖 · 廚餘 · 水", en:"brown sugar · scraps · water", ms:"gula merah · sisa · air"},
+  searchPh:{zh:"搜索用途…  洗碗、泡脚、蔬菜、外伤…", zhT:"搜尋用途…  洗碗、泡腳、蔬菜、外傷…", en:"Search a use…  dish, foot bath, wound…", ms:"Cari kegunaan…  pinggan, kaki, luka…"},
+  allUses: {zh:"全部用途", zhT:"全部用途", en:"All uses", ms:"Semua kegunaan"},
+  addEntry:{zh:"添加自定义用途", zhT:"新增自訂用途", en:"Add custom entry", ms:"Tambah kegunaan sendiri"},
+  editEntry:{zh:"编辑", zhT:"編輯", en:"Edit", ms:"Edit"},
+  delEntry:{zh:"删除", zhT:"刪除", en:"Delete", ms:"Padam"},
+  customTag:{zh:"自定义", zhT:"自訂", en:"Custom", ms:"Sendiri"},
+  customFilter:{zh:"我的用途", zhT:"我的用途", en:"My entries", ms:"Milik saya"},
+  favFilter:{zh:"我的最爱", zhT:"我的最愛", en:"Favourites", ms:"Kegemaran"},
+  favEmpty:{zh:"还没有收藏。点每张卡片的 ♥ 即可收藏。", zhT:"還沒有收藏。點每張卡片的 ♥ 即可收藏。", en:"No favourites yet. Tap the ♥ on any card to save it.", ms:"Tiada kegemaran lagi. Ketik ♥ pada mana-mana kad untuk simpan."},
+  delConfirm:{zh:"确定要删除这个自定义用途吗？", zhT:"確定要刪除這個自訂用途嗎？", en:"Delete this custom entry?", ms:"Padam kegunaan sendiri ini?"},
+  confirmYes:{zh:"删除", zhT:"刪除", en:"Delete", ms:"Padam"},
+  confirmNo:{zh:"取消", zhT:"取消", en:"Cancel", ms:"Batal"},
+  deletedToast:{zh:"已删除", zhT:"已刪除", en:"Deleted", ms:"Dipadam"},
+  formTitleNew:{zh:"添加自定义用途", zhT:"新增自訂用途", en:"New custom entry", ms:"Kegunaan sendiri baharu"},
+  formTitleEdit:{zh:"编辑自定义用途", zhT:"編輯自訂用途", en:"Edit custom entry", ms:"Edit kegunaan sendiri"},
+  fCat:{zh:"分类", zhT:"分類", en:"Category", ms:"Kategori"},
+  fKind:{zh:"浓度类型", zhT:"濃度類型", en:"Strength type", ms:"Jenis kepekatan"},
+  kindNormal:{zh:"一般", zhT:"一般", en:"Normal", ms:"Biasa"},
+  kindStrong:{zh:"较浓/食用", zhT:"較濃/食用", en:"Strong/edible", ms:"Pekat/boleh makan"},
+  kindNeat:{zh:"原液", zhT:"原液", en:"Neat", ms:"Tulen"},
+  fName:{zh:"名称", zhT:"名稱", en:"Name", ms:"Nama"},
+  fRatio:{zh:"稀释比例", zhT:"稀釋比例", en:"Dilution ratio", ms:"Nisbah cairan"},
+  fUse:{zh:"用法", zhT:"用法", en:"How to use", ms:"Cara guna"},
+  fFunc:{zh:"功用（可选）", zhT:"功用（可選）", en:"Benefits (optional)", ms:"Manfaat (pilihan)"},
+  fNote:{zh:"注意（可选）", zhT:"注意（可選）", en:"Note (optional)", ms:"Perhatian (pilihan)"},
+  fLangHint:{zh:"至少填写一种语言。留空的语言会自动使用已填写的内容。", zhT:"至少填寫一種語言。留空的語言會自動使用已填寫的內容。", en:"Fill at least one language. Blank languages fall back to what you filled.", ms:"Isi sekurang-kurangnya satu bahasa. Bahasa kosong akan guna yang anda isi."},
+  fSave:{zh:"保存", zhT:"儲存", en:"Save", ms:"Simpan"},
+  fCancel:{zh:"取消", zhT:"取消", en:"Cancel", ms:"Batal"},
+  fNeedName:{zh:"请至少填写一种语言的名称和比例", zhT:"請至少填寫一種語言的名稱和比例", en:"Please enter a name and ratio in at least one language", ms:"Sila isi nama dan nisbah sekurang-kurangnya satu bahasa"},
+  savedEntry:{zh:"已保存", zhT:"已儲存", en:"Saved", ms:"Disimpan"},
+  langTabZh:{zh:"简", zhT:"简", en:"简", ms:"简"},
+  count:   {zh:n=>`${n} 项用途`, zhT:n=>`${n} 項用途`, en:n=>`${n} uses`, ms:n=>`${n} kegunaan`},
+  labelUse:{zh:"用法", zhT:"用法", en:"How to use", ms:"Cara guna"},
+  labelFunc:{zh:"功用", zhT:"功用", en:"Benefits", ms:"Manfaat"},
+  labelNote:{zh:"注意", zhT:"注意", en:"Note", ms:"Perhatian"},
+  share:   {zh:"分享", zhT:"分享", en:"Share", ms:"Kongsi"},
+  shareAllImg:{zh:"分享", zhT:"分享", en:"Share", ms:"Kongsi"},
+  imgMaking:{zh:"正在生成图片…", zhT:"正在生成圖片…", en:"Creating image…", ms:"Menjana imej…"},
+  imgFail:{zh:"图片生成失败", zhT:"圖片生成失敗", en:"Image generation failed", ms:"Penjanaan imej gagal"},
+  imgSaved:{zh:"图片已保存", zhT:"圖片已儲存", en:"Image saved", ms:"Imej disimpan"},
+  imgDownloaded:{zh:"图片已下载，请在对话中附上", zhT:"圖片已下載，請在對話中附上", en:"Image downloaded — attach it in the chat", ms:"Imej dimuat turun — lampirkannya dalam sembang"},
+  imgTip:{zh:"长按图片即可保存或分享", zhT:"長按圖片即可儲存或分享", en:"Press and hold the image to save or share", ms:"Tekan & tahan imej untuk simpan atau kongsi"},
+  copy:    {zh:"复制", zhT:"複製", en:"Copy", ms:"Salin"},
+  copied:  {zh:"已复制", zhT:"已複製", en:"Copied", ms:"Disalin"},
+  copiedToast:{zh:"比例已复制到剪贴板", zhT:"比例已複製到剪貼簿", en:"Ratio copied to clipboard", ms:"Nisbah disalin ke papan klip"},
+  noResult:{zh:"没有找到相符的用途", zhT:"沒有找到相符的用途", en:"No matching use found", ms:"Tiada kegunaan sepadan"},
+  noResultSub:{zh:"试试「洗碗」「泡脚」「蔬菜」等关键词", zhT:"試試「洗碗」「泡腳」「蔬菜」等關鍵詞", en:"Try “dish”, “foot bath”, “vegetable”…", ms:"Cuba “pinggan”, “kaki”, “sayur”…"},
+  reliefTitle:{zh:"救灾应急速查", zhT:"救災應急速查", en:"Disaster Relief Quick Guide", ms:"Panduan Segera Bantuan Bencana"},
+  reliefSub:{zh:"水灾后清洁、消毒、净水", zhT:"水災後清潔、消毒、淨水", en:"Post-flood cleanup, sanitizing & water purification", ms:"Pembersihan, nyahkuman & tulen air selepas banjir"},
+  reliefModalTitle:{zh:"救灾应急使用指南", zhT:"救災應急使用指南", en:"Disaster Relief Field Guide", ms:"Panduan Lapangan Bantuan Bencana"},
+  print:   {zh:"打印 / 投影版（讲座用）", zhT:"列印 / 投影版（講座用）", en:"Print / projector view (for talks)", ms:"Cetak / paparan projektor (untuk ceramah)"},
+  footRule:{zh:"核心配方", zhT:"核心配方", en:"Core recipe", ms:"Resipi teras"},
+  footRecipe:{zh:"1 份红糖（黑糖） + 3 份厨余 + 10 份水，装入宽口塑料容器发酵 3 个月 = 环保酵素",
+              zhT:"1 份紅糖（黑糖） + 3 份廚餘 + 10 份水，裝入寬口塑膠容器發酵 3 個月 = 環保酵素",
+              en:"1 part brown sugar (molasses / jaggery) + 3 parts kitchen scraps + 10 parts water, fermented 3 months in a wide-mouth plastic container = Eco-Enzyme",
+              ms:"1 bahagian gula merah (molase / jaggery) + 3 bahagian sisa dapur + 10 bahagian air, ditapai 3 bulan dalam bekas plastik bermulut lebar = Enzim Eko"},
+  footNote:{zh:"入口的用途（煮饭、炒菜、发面等）须用发酵 6 个月以上的饮用酵素。健康类为民间使用经验，非医疗建议。酵素渣可打碎冲入下水道或用于堆肥。",
+            zhT:"入口的用途（煮飯、炒菜、發麵等）須用發酵 6 個月以上的飲用酵素。健康類為民間使用經驗，非醫療建議。酵素渣可打碎沖入下水道或用於堆肥。",
+            en:"Anything eaten (rice, dishes, dough) needs edible enzyme aged 6+ months. Health uses are folk experience, not medical advice. Enzyme dregs can be blended into the drain or composted.",
+            ms:"Apa-apa yang dimakan (nasi, lauk, doh) perlu enzim boleh minum ditapai 6+ bulan. Kegunaan kesihatan ialah pengalaman rakyat, bukan nasihat perubatan. Hampas enzim boleh dihancurkan ke longkang atau dikompos."},
+  shareTitle:{zh:"分享比例", zhT:"分享比例", en:"Share this ratio", ms:"Kongsi nisbah ini"},
+  editHint:{zh:"可直接编辑下面的文字，再发送或复制", zhT:"可直接編輯下面的文字，再傳送或複製",
+            en:"Edit the message below before sending or copying", ms:"Edit mesej di bawah sebelum hantar atau salin"},
+  chooseApp:{zh:"选择应用", zhT:"選擇應用", en:"Choose app", ms:"Pilih aplikasi"},
+  previewLabel:{zh:"预览", zhT:"預覽", en:"Preview", ms:"Pratonton"},
+  sendVia:{zh:"发送到", zhT:"發送到", en:"Open in", ms:"Buka dalam"},
+  labelWa:{zh:"WhatsApp", zhT:"WhatsApp", en:"WhatsApp", ms:"WhatsApp"},
+  labelTg:{zh:"Telegram", zhT:"Telegram", en:"Telegram", ms:"Telegram"},
+  labelLi:{zh:"LINE", zhT:"LINE", en:"LINE", ms:"LINE"},
+  sugarNote:{zh:"发酵只用红糖、黑糖或棕榈糖（未精炼糖）。不建议用白糖——精炼过程去除了微生物所需的矿物质与养分。",
+             zhT:"發酵只用紅糖、黑糖或棕櫚糖（未精煉糖）。不建議用白糖——精煉過程去除了微生物所需的礦物質與養分。",
+             en:"Ferment with brown sugar, molasses sugar or palm sugar (unrefined) only. White sugar is not recommended — refining strips out the minerals and nutrients the microbes need.",
+             ms:"Tapai dengan gula merah, gula molase atau gula kabung (tidak diproses) sahaja. Gula putih tidak digalakkan — penapisan membuang mineral dan nutrien yang diperlukan mikrob."},
+  credit:{
+    zh:"内容参考自 ——<br><b>《环保酵素拯救地球 · 温秀枝演讲实录》</b><br>主讲：温秀枝医生（Dr. Joean Oon Siew Kee）<br>整理：谭宜永<br><span class=\"credit-thanks\">谨向作者与整理者致谢 ❤</span>",
+    zhT:"內容參考自 ——<br><b>《環保酵素拯救地球 · 溫秀枝演講實錄》</b><br>主講：溫秀枝醫生（Dr. Joean Oon Siew Kee）<br>整理：谭宜永<br><span class=\"credit-thanks\">謹向作者與整理者致謝 ❤</span>",
+    en:"Content adapted from ——<br><b>“Eco-Enzyme Saving the Earth · Dr. Joean Oon's Lecture Transcript”</b><br>Speaker: Dr. Joean Oon Siew Kee (温秀枝医生)<br>Compiled by: 谭宜永<br><span class=\"credit-thanks\">With gratitude to the author and compiler ❤</span>",
+    ms:"Kandungan diadaptasi daripada ——<br><b>“Enzim Eko Menyelamatkan Bumi · Transkrip Ceramah Dr. Joean Oon”</b><br>Penceramah: Dr. Joean Oon Siew Kee (温秀枝医生)<br>Disusun oleh: 谭宜永<br><span class=\"credit-thanks\">Dengan penghargaan kepada penulis dan penyusun ❤</span>"
+  },
+};
+
+const CATS = {
+  clean:   {zh:"清洁去污", zhT:"清潔去污", en:"Cleaning",      ms:"Pembersihan", ico:"🧽"},
+  personal:{zh:"个人护理", zhT:"個人護理", en:"Personal Care", ms:"Penjagaan Diri", ico:"🧴"},
+  health:  {zh:"健康调理", zhT:"健康調理", en:"Health & Body", ms:"Kesihatan", ico:"🌿"},
+  food:    {zh:"食物烹饪", zhT:"食物烹飪", en:"Food & Cooking",ms:"Makanan", ico:"🍚"},
+  home:    {zh:"居家环境", zhT:"居家環境", en:"Home & Air",    ms:"Rumah & Udara", ico:"🏠"},
+  farm:    {zh:"农业种植", zhT:"農業種植", en:"Farming & Garden", ms:"Pertanian", ico:"🌱"},
+};
+
+/* Disaster-relief curated subset (ids reference DATA zh names). Flood/relief oriented. */
+const RELIEF_IDS = ["净化 · 清洁 · 通渠","除臭 · 净化废气","净化空气（喷雾/加湿器）","个人防护（喷口罩·手）","外伤 · 伤口","脚气 · 脚癣 · 脚干裂","农畜 · 花卉 · 鱼池 · 污水 · 土壤"];
+
+
+const DATA = [
+  {cat:"clean",ico:"💇",kind:"normal",zh:"洗发",zhT:"洗髮",en:"Shampoo",ms:"Syampu",ratioZh:"洗发液 1 · 酵素 1 · 水 1–10",ratioZhT:"洗髮液 1 · 酵素 1 · 水 1–10",ratioEn:"Shampoo 1 : Enzyme 1 : Water 1–10",ratioMs:"Syampu 1 · Enzim 1 · Air 1–10",useZh:"直接当洗发液使用，依洗发液与发质调节用量。可装入喷壶或按压壶。洗涤剂与酵素放置 1 天融合后再加水稀释，效果更佳。",useZhT:"直接當洗髮液使用，依洗髮液與髮質調節用量。可裝入噴壺或按壓壺。洗滌劑與酵素放置 1 天融合後再加水稀釋，效果更佳。",useEn:"Use directly as shampoo; adjust amount to your hair and product. Fill a spray or pump bottle. Letting detergent + enzyme meld for 1 day before diluting works best.",useMs:"Guna terus sebagai syampu; laraskan mengikut jenis rambut dan produk. Boca dalam botol semburan atau botol tekan. Biarkan pencuci + enzim bergabung selama 1 hari sebelum dicairkan untuk hasil terbaik.",funcZh:"顺滑、防脱发、止痒、去头屑；配合头皮按摩助生发，用后的水能净化下水道。",funcZhT:"順滑、防脫髮、止癢、去頭屑；配合頭皮按摩助生髮，用後的水能淨化下水道。",funcEn:"Smooths hair, reduces hair fall, stops itch & dandruff; scalp massage aids growth. Waste water cleans the drain.",funcMs:"Melembut rambut, kurangkan keguguran, hentikan gatal & kelemumur; urut kulit kepala bantu pertumbuhan. Air buangan membersihkan longkang.",noteZh:"酵素会发酵分解，放久可能有异味。最好用无化学成分的洗发品。",noteZhT:"酵素會發酵分解，放久可能有異味。最好用無化學成分的洗髮品。",noteEn:"Enzyme keeps fermenting and may smell over time. Best paired with chemical-free products.",noteMs:"Enzim terus menapai dan mungkin berbau lama-kelamaan. Terbaik dengan produk tanpa bahan kimia.",kw:"洗发 shampoo hair 头发 头皮 头屑 dandruff"},
+  {cat:"clean",ico:"🍽️",kind:"normal",zh:"洗碗 · 去油污",zhT:"洗碗 · 去油汙",en:"Dishwashing / Degrease",ms:"Cuci Pinggan · Nyahminyak",ratioZh:"洗洁精或小苏打 1 · 酵素 1 · 水 1–10",ratioZhT:"洗潔精或小蘇打 1 · 酵素 1 · 水 1–10",ratioEn:"Detergent or baking soda 1 : Enzyme 1 : Water 1–10",ratioMs:"Pencuci atau soda bikarbonat 1 · Enzim 1 · Air 1–10",useZh:"洗洁精改用小苏打去油污更强。用于洗碗、抽油烟机、灶台等。放置 1 天融合后使用效果更佳。",useZhT:"洗潔精改用小蘇打去油汙更強。用於洗碗、抽油煙機、灶臺等。放置 1 天融合後使用效果更佳。",useEn:"Swapping detergent for baking soda cuts grease even better. For dishes, range hoods, stovetops. Best after melding 1 day.",useMs:"Tukar pencuci kepada soda bikarbonat untuk hilangkan minyak lebih berkesan. Untuk pinggan mangkuk, hud dapur, dapur masak. Terbaik selepas bergabung 1 hari.",funcZh:"分解油污；油污重的可浸泡后再洗。不伤手，用后的水能净化下水道。",funcZhT:"分解油汙；油汙重的可浸泡後再洗。不傷手，用後的水能淨化下水道。",funcEn:"Breaks down grease; soak heavy grime first. Gentle on hands; waste water cleans the drain.",funcMs:"Menguraikan minyak; rendam kotoran tebal dahulu. Lembut pada tangan; air buangan membersihkan longkang.",noteZh:"放久可能有异味。最好用无化学成分的清洁剂。",noteZhT:"放久可能有異味。最好用無化學成分的清潔劑。",noteEn:"May smell if kept long. Best with chemical-free cleaner.",noteMs:"Mungkin berbau jika disimpan lama. Terbaik dengan pencuci tanpa bahan kimia.",kw:"洗碗 碗 dish wash 油污 grease 去油 抽油烟机 灶台 小苏打 baking soda 洗洁精"},
+  {cat:"clean",ico:"👕",kind:"normal",zh:"洗衣",zhT:"洗衣",en:"Laundry",ms:"Basuh Pakaian",ratioZh:"洗衣液 1 · 酵素 1 · 水 10",ratioZhT:"洗衣液 1 · 酵素 1 · 水 10",ratioEn:"Detergent 1 : Enzyme 1 : Water 10",ratioMs:"Pencuci 1 · Enzim 1 · Air 10",useZh:"浸泡久后清洗效果更明显，污垢重的多浸泡几天。",useZhT:"浸泡久後清洗效果更明顯，汙垢重的多浸泡幾天。",useEn:"Soaking longer cleans better; soak heavily soiled items a few days.",useMs:"Rendam lebih lama membersih lebih baik; rendam pakaian sangat kotor beberapa hari.",funcZh:"容易洗净、固色，明显减少漂洗次数。衣物更柔软，减少洗衣液残留。用后的水能净化下水道。",funcZhT:"容易洗淨、固色，明顯減少漂洗次數。衣物更柔軟，減少洗衣液殘留。用後的水能淨化下水道。",funcEn:"Cleans easily, sets colour, cuts rinse cycles. Softer clothes, less detergent residue. Waste water cleans the drain.",funcMs:"Mudah dibersihkan, mengekalkan warna, kurangkan bilas. Pakaian lebih lembut, kurang sisa pencuci. Air buangan membersihkan longkang.",noteZh:"放久可能有异味。最好用无化学成分的清洁剂。",noteZhT:"放久可能有異味。最好用無化學成分的清潔劑。",noteEn:"May smell if kept long. Best with chemical-free cleaner.",noteMs:"Mungkin berbau jika disimpan lama. Terbaik dengan pencuci tanpa bahan kimia.",kw:"洗衣 laundry clothes 衣服 洗衣液 固色"},
+  {cat:"clean",ico:"🚽",kind:"neat",zh:"洗厕所",zhT:"洗廁所",en:"Wash the Toilet",ms:"Cuci Tandas",ratioZh:"原液（渣滓）",ratioZhT:"原液（渣滓）",ratioEn:"Neat stock solution (with dregs)",ratioMs:"Enzim tulen (dengan hampas)",useZh:"可在抽水箱里加一瓶打孔的酵素液，随冲水自动清洁。水箱加入 2 瓶盖酵素，每星期倒入 2–3 次。",useZhT:"可在抽水箱裡加一瓶打孔的酵素液，隨沖水自動清潔。水箱加入 2 瓶蓋酵素，每星期倒入 2–3 次。",useEn:"Add a perforated bottle of enzyme into the cistern to clean with each flush. Add 2 caps to the tank, 2–3 times weekly.",useMs:"Masukkan botol enzim bertebuk ke dalam tangki air untuk membersih setiap kali pam. Tambah 2 penutup ke tangki, 2–3 kali seminggu.",funcZh:"易清洗、无臭味、不易堵塞，可除臭。",funcZhT:"易清洗、無臭味、不易堵塞，可除臭。",funcEn:"Easy to clean, odorless, resists clogging, deodorizes.",funcMs:"Mudah dibersihkan, tanpa bau, tidak mudah tersumbat, menyahbau.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"厕所 toilet 马桶 抽水箱 cistern 冲厕 除臭"},
+  {cat:"clean",ico:"🧹",kind:"normal",zh:"拖地板",zhT:"拖地板",en:"Floor Mopping",ms:"Mop Lantai",ratioZh:"酵素 1–½ 瓶盖 · 水 1 桶",ratioZhT:"酵素 1–½ 瓶蓋 · 水 1 桶",ratioEn:"Enzyme 1–1.5 caps : 1 bucket water",ratioMs:"Enzim 1–1.5 penutup : 1 baldi air",useZh:"每桶水加约 1 至 1 瓶半瓶盖酵素拖地。拖地驱蚊需稀释 100 倍以上。",useZhT:"每桶水加約 1 至 1 瓶半瓶蓋酵素拖地。拖地驅蚊需稀釋 100 倍以上。",useEn:"About 1 to 1.5 bottle caps of enzyme per bucket. To repel mosquitoes when mopping, dilute over 100×.",useMs:"Kira-kira 1 hingga 1.5 penutup botol enzim setiap baldi. Untuk halau nyamuk semasa mengemop, cairkan lebih 100×.",funcZh:"消除细菌和油腻。家里的蚊子、苍蝇、老鼠、蟑螂数量会减少。",funcZhT:"消除細菌和油膩。家裡的蚊子、蒼蠅、老鼠、蟑螂數量會減少。",funcEn:"Kills bacteria & grease. Fewer mosquitoes, flies, mice and cockroaches at home.",funcMs:"Membunuh bakteria & minyak. Kurang nyamuk, lalat, tikus dan lipas di rumah.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"拖地 floor mop 地板 mopping 驱蚊 蟑螂 老鼠"},
+  {cat:"clean",ico:"🫧",kind:"neat",zh:"净化 · 清洁 · 通渠",zhT:"淨化 · 清潔 · 通渠",en:"Purify / Unclog Drains",ms:"Nyahcemar · Buka Sumbatan",ratioZh:"原液 或 稀释至 1000 倍",ratioZhT:"原液 或 稀釋至 1000 倍",ratioEn:"Neat, or dilute up to 1000×",ratioMs:"Tulen, atau cairkan sehingga 1000×",useZh:"稀释 1000 倍可净化水。疏通油污堵塞、抽水马桶等可加入原液浸泡后冲洗。厕所水箱加 2 瓶盖，每星期倒入 2–3 次。稀释后可冲洗车辆、拖地、擦抹家具。",useZhT:"稀釋 1000 倍可淨化水。疏通油汙堵塞、抽水馬桶等可加入原液浸泡後沖洗。廁所水箱加 2 瓶蓋，每星期倒入 2–3 次。稀釋後可沖洗車輛、拖地、擦抹傢俱。",useEn:"1000× purifies water. For grease clogs & toilets, soak with neat enzyme then flush. Add 2 caps to the cistern 2–3×/week. Diluted: wash cars, mop, wipe furniture.",useMs:"1000× menulenkan air. Untuk sumbatan minyak & tandas, rendam dengan enzim tulen kemudian pam. Tambah 2 penutup ke tangki 2–3×/minggu. Dicairkan: cuci kereta, mop, lap perabot.",funcZh:"分解油污、净化水质、去除异味。",funcZhT:"分解油汙、淨化水質、去除異味。",funcEn:"Breaks down grease, purifies water, removes odour.",funcMs:"Menguraikan minyak, menulenkan air, menghilangkan bau.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"净化 清洁 purify clean 通渠 堵塞 drain unclog 水管 擦家具 洗车"},
+  {cat:"clean",ico:"🍳",kind:"normal",zh:"重油污（加小苏打）",zhT:"重油汙（加小蘇打）",en:"Heavy Grease + Baking Soda",ms:"Minyak Tebal + Soda Bikarbonat",ratioZh:"酵素 1 · 洗涤剂 1 · 水 5 或 10",ratioZhT:"酵素 1 · 洗滌劑 1 · 水 5 或 10",ratioEn:"Enzyme 1 : Detergent 1 : Water 5 or 10",ratioMs:"Enzim 1 · Pencuci 1 · Air 5 atau 10",useZh:"环保酵素 + 小苏打，瞬间秒杀重油污。适合炉具、抽油烟机等厨房重油垢。",useZhT:"環保酵素 + 小蘇打，瞬間秒殺重油汙。適合爐具、抽油煙機等廚房重油垢。",useEn:"Eco-enzyme + baking soda tackles heavy grease instantly. Great for stoves and range hoods.",useMs:"Enzim eko + soda bikarbonat mengatasi minyak tebal serta-merta. Sesuai untuk dapur dan hud dapur.",funcZh:"强力分解厨房顽固油腻污垢。",funcZhT:"強力分解廚房頑固油膩汙垢。",funcEn:"Powerfully cuts stubborn kitchen grease.",funcMs:"Menghilangkan minyak dapur degil dengan berkesan.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"重油污 grease 小苏打 baking soda 厨房 抽油烟机 炉具"},
+  {cat:"personal",ico:"🛁",kind:"normal",zh:"洗澡 · 泡澡",zhT:"洗澡 · 泡澡",en:"Shower / Bath",ms:"Mandi · Rendam Badan",ratioZh:"沐浴露 1 · 酵素 1 · 水 10",ratioZhT:"沐浴露 1 · 酵素 1 · 水 10",ratioEn:"Body wash 1 : Enzyme 1 : Water 10",ratioMs:"Sabun mandi 1 · Enzim 1 · Air 10",useZh:"淋浴：直接使用，装入起泡瓶或倒在沐浴巾上较方便，放置 1 天融合更佳。泡澡：直接将原液倒入泡澡水，可消除电磁辐射与化学污染。",useZhT:"淋浴：直接使用，裝入起泡瓶或倒在沐浴巾上較方便，放置 1 天融合更佳。泡澡：直接將原液倒入泡澡水，可消除電磁輻射與化學汙染。",useEn:"Shower: use directly, foaming bottle or on a washcloth is handy; melding 1 day helps. Bath: pour neat into bathwater to clear EM radiation & chemical pollution.",useMs:"Mandi: guna terus, botol buih atau pada tuala mandi memudahkan; bergabung 1 hari membantu. Rendam: tuang tulen ke dalam air mandian untuk hilangkan sinaran EM & pencemaran kimia.",funcZh:"容易洗净、滋润皮肤，用后的水能净化下水道。",funcZhT:"容易洗淨、滋潤皮膚，用後的水能淨化下水道。",funcEn:"Cleans easily, moisturises skin; waste water cleans the drain.",funcMs:"Mudah dibersihkan, melembap kulit; air buangan membersihkan longkang.",noteZh:"放久可能有异味。最好用无化学成分的沐浴露。",noteZhT:"放久可能有異味。最好用無化學成分的沐浴露。",noteEn:"May smell if kept long. Best with chemical-free body wash.",noteMs:"Mungkin berbau jika disimpan lama. Terbaik dengan sabun mandi tanpa bahan kimia.",kw:"洗澡 泡澡 shower bath 沐浴 沐浴露 body wash"},
+  {cat:"personal",ico:"🧼",kind:"normal",zh:"洗脸",zhT:"洗臉",en:"Face Wash",ms:"Cuci Muka",ratioZh:"洗面奶 1 · 酵素 1 · 水 10",ratioZhT:"洗面奶 1 · 酵素 1 · 水 10",ratioEn:"Cleanser 1 : Enzyme 1 : Water 10",ratioMs:"Pencuci muka 1 · Enzim 1 · Air 10",useZh:"放置融合后再加水，尽量稀释到能洗干净为宜。白膜可直接敷脸；原液加水稀释可作爽肤水。也可不加洗面奶，直接稀释使用（不宜浓）。",useZhT:"放置融合後再加水，儘量稀釋到能洗乾淨為宜。白膜可直接敷臉；原液加水稀釋可作爽膚水。也可不加洗面奶，直接稀釋使用（不宜濃）。",useEn:"Meld, then dilute — as dilute as still cleans. The surface film can be applied as a mask; diluted neat enzyme works as toner. Can skip cleanser and use diluted alone (not too strong).",useMs:"Gabungkan, kemudian cairkan — secair yang masih membersih. Lapisan filem boleh dijadikan pelapik muka; enzim tulen yang dicairkan berfungsi sebagai toner. Boleh guna tanpa pencuci (jangan terlalu pekat).",funcZh:"滋润皮肤、美白祛斑、防晒。",funcZhT:"滋潤皮膚、美白祛斑、防曬。",funcEn:"Moisturises skin, brightens & fades spots, sun protection.",funcMs:"Melembap kulit, mencerah & pudarkan tompok, perlindungan matahari.",noteZh:"放久可能有异味。最好用无化学成分的洗面奶。",noteZhT:"放久可能有異味。最好用無化學成分的洗面奶。",noteEn:"May smell if kept long. Best with chemical-free cleanser.",noteMs:"Mungkin berbau jika disimpan lama. Terbaik dengan pencuci muka tanpa bahan kimia.",kw:"洗脸 face wash 洗面奶 爽肤水 toner 敷脸 mask 美白"},
+  {cat:"personal",ico:"🤲",kind:"normal",zh:"洗手",zhT:"洗手",en:"Hand Wash",ms:"Cuci Tangan",ratioZh:"洗手液 1 · 酵素 1 · 水 10–20",ratioZhT:"洗手液 1 · 酵素 1 · 水 10–20",ratioEn:"Hand soap 1 : Enzyme 1 : Water 10–20",ratioMs:"Sabun tangan 1 · Enzim 1 · Air 10–20",useZh:"直接使用。最好不使用含化学成分的清洁剂。",useZhT:"直接使用。最好不使用含化學成分的清潔劑。",useEn:"Use directly. Best to avoid chemical cleansers.",useMs:"Guna terus. Terbaik elakkan pencuci berbahan kimia.",funcZh:"滋润皮肤、消除静电，用后的水能净化下水道。",funcZhT:"滋潤皮膚、消除靜電，用後的水能淨化下水道。",funcEn:"Moisturises skin, removes static; waste water cleans the drain.",funcMs:"Melembap kulit, hilangkan statik; air buangan membersihkan longkang.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"洗手 hand wash 洗手液 hand soap 静电"},
+  {cat:"personal",ico:"🪥",kind:"normal",zh:"刷牙 · 漱口",zhT:"刷牙 · 漱口",en:"Brushing / Mouthwash",ms:"Berus Gigi · Kumur",ratioZh:"牙膏 1 · 酵素 1（刷牙稀释 10 倍以上）",ratioZhT:"牙膏 1 · 酵素 1（刷牙稀釋 10 倍以上）",ratioEn:"Toothpaste 1 : Enzyme 1 (brush ≥10×)",ratioMs:"Ubat gigi 1 · Enzim 1 (berus ≥10×)",useZh:"将酵素喷在牙膏上使用，或直接把酵素稀释 10 倍以上刷牙。稀释 10～50 倍的酵素水漱口，可清除口腔异味。",useZhT:"將酵素噴在牙膏上使用，或直接把酵素稀釋 10 倍以上刷牙。稀釋 10～50 倍的酵素水漱口，可清除口腔異味。",useEn:"Spray enzyme onto toothpaste, or brush with enzyme diluted 10× or more. Rinse with enzyme water diluted 10–50× to clear mouth odour.",useMs:"Sembur enzim pada ubat gigi, atau berus dengan enzim dicairkan 10× atau lebih. Kumur dengan air enzim dicairkan 10–50× untuk hilangkan bau mulut.",funcZh:"消炎、止血、清除口臭，改善口腔环境。",funcZhT:"消炎、止血、清除口臭，改善口腔環境。",funcEn:"Anti-inflammatory, stops bleeding, clears bad breath, improves oral health.",funcMs:"Anti-radang, hentikan pendarahan, hilangkan bau mulut, memperbaik kesihatan mulut.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"刷牙 漱口 brush mouthwash 牙膏 口臭 口腔 teeth"},
+  {cat:"personal",ico:"🦶",kind:"normal",zh:"泡脚",zhT:"泡腳",en:"Foot Bath",ms:"Rendam Kaki",ratioZh:"一桶温水 · 酵素 100 ml",ratioZhT:"一桶溫水 · 酵素 100 ml",ratioEn:"1 bucket warm water : 100 ml enzyme",ratioMs:"1 baldi air suam : 100 ml enzim",useZh:"一桶温水加入 100 ml 环保酵素，泡脚 20 分钟。加强版：小苏打与泻盐各五汤匙同泡。水温——心脏病或高血压者 38℃，普通人群 40℃。",useZhT:"一桶溫水加入 100 ml 環保酵素，泡腳 20 分鐘。加強版：小蘇打與瀉鹽各五湯匙同泡。水溫——心臟病或高血壓者 38℃，普通人群 40℃。",useEn:"Add 100 ml enzyme to a bucket of warm water; soak 20 minutes. Boost: add 5 tbsp each baking soda & Epsom salt. Temp — heart disease / high BP 38℃, general 40℃.",useMs:"Tambah 100 ml enzim ke baldi air suam; rendam 20 minit. Tambahan: 5 sudu besar soda bikarbonat & garam Epsom. Suhu — penyakit jantung / tekanan darah tinggi 38℃, umum 40℃.",funcZh:"排重金属、环境荷尔蒙、脚鸡眼、辐射与毒素等。长期用电子产品者、电疗及化疗者尤宜。",funcZhT:"排重金屬、環境荷爾蒙、腳雞眼、輻射與毒素等。長期用電子產品者、電療及化療者尤宜。",funcEn:"Removes heavy metals, environmental hormones, foot corns, radiation & toxins. Good for heavy device users, electro/chemo patients.",funcMs:"Membuang logam berat, hormon persekitaran, mata ikan, sinaran & toksin. Baik untuk pengguna peranti berat, pesakit elektroterapi/kemoterapi.",noteZh:"用后的水手尽量不要碰触，必须倒入马桶，请勿浇花或倒入泥土中。",noteZhT:"用後的水手儘量不要碰觸，必須倒入馬桶，請勿澆花或倒入泥土中。",noteEn:"Avoid touching used water with hands; pour into the toilet — do not water plants or soil.",noteMs:"Elak sentuh air terpakai dengan tangan; tuang ke dalam tandas — jangan siram tumbuhan atau tanah.",kw:"泡脚 foot bath 脚 泻盐 epsom 重金属 heavy metal 辐射 排毒"},
+  {cat:"personal",ico:"🦟",kind:"normal",zh:"驱蚊 · 止痒",zhT:"驅蚊 · 止癢",en:"Repel Mosquitoes / Itch",ms:"Halau Nyamuk · Hilang Gatal",ratioZh:"稀释至 1000 倍 或 原液",ratioZhT:"稀釋至 1000 倍 或 原液",ratioEn:"Dilute to 1000×, or neat",ratioMs:"Cairkan 1000×, atau tulen",useZh:"叮咬后可直接喷涂。稀释液喷空间、拖地可驱蚊（拖地要稀释 100 倍以上）。",useZhT:"叮咬後可直接噴塗。稀釋液噴空間、拖地可驅蚊（拖地要稀釋 100 倍以上）。",useEn:"Spray directly after bites. Spray diluted enzyme in the air or when mopping to repel mosquitoes (mopping needs 100×+).",useMs:"Sembur terus selepas digigit. Sembur enzim dicairkan di udara atau semasa mengemop untuk halau nyamuk (mengemop perlu 100×+).",funcZh:"驱蚊、止痒、不留疤。",funcZhT:"驅蚊、止癢、不留疤。",funcEn:"Repels mosquitoes, stops itch, no scarring.",funcMs:"Menghalau nyamuk, hilangkan gatal, tanpa parut.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"驱蚊 止痒 mosquito itch 叮咬 bite 疤"},
+  {cat:"personal",ico:"😷",kind:"normal",zh:"个人防护（喷口罩·手）",zhT:"個人防護（噴口罩·手）",en:"Personal Protection",ms:"Perlindungan Diri",ratioZh:"酵素 1 · 水 400（1:400）",ratioZhT:"酵素 1 · 水 400（1:400）",ratioEn:"Enzyme 1 : Water 400 (1:400)",ratioMs:"Enzim 1 · Air 400 (1:400)",useZh:"出外时，用稀释后的环保酵素喷在口罩里再套上，防止细菌入侵。也可喷在双手或身体，有效杀菌。",useZhT:"出外時，用稀釋後的環保酵素噴在口罩裡再套上，防止細菌入侵。也可噴在雙手或身體，有效殺菌。",useEn:"When going out, spray diluted enzyme inside the mask before wearing to block bacteria. Also spray on hands or body to sterilize.",useMs:"Ketika keluar, sembur enzim dicairkan di dalam pelitup sebelum memakainya untuk menghalang bakteria. Juga sembur pada tangan atau badan untuk mensteril.",funcZh:"有效杀菌，加强个人防护。",funcZhT:"有效殺菌，加強個人防護。",funcEn:"Effective sterilizing for personal protection.",funcMs:"Mensteril dengan berkesan untuk perlindungan diri.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"防护 protection 口罩 mask 杀菌 sterilize 手 hands 1:400"},
+  {cat:"health",ico:"🩹",kind:"strong",zh:"外伤 · 伤口",zhT:"外傷 · 傷口",en:"Wounds & Injuries",ms:"Luka & Kecederaan",ratioZh:"稀释至 1000 倍 或 原液（最好 6 个月以上）",ratioZhT:"稀釋至 1000 倍 或 原液（最好 6 個月以上）",ratioEn:"Up to 1000×, or neat (best aged 6+ months)",ratioMs:"Sehingga 1000×, atau tulen (terbaik 6+ bulan)",useZh:"皮肤病、刀伤、烫伤、血流不止、发炎、肌肉关节疼痛、痔疮等，把受伤部位泡上或喷抹酵素原液，可马上止血，愈合后无伤痕。烫伤瞬间直接喷原液或浸在原液里，可消炎、消肿、清除水泡。落枕、腰肌劳损用原液加按摩。痔疮可稀释坐浴。肿处可用布或毛巾浸酵素后敷。受重大创伤可大量喝饮用酵素，紧急情况可用环保酵素。",useZhT:"皮膚病、刀傷、燙傷、血流不止、發炎、肌肉關節疼痛、痔瘡等，把受傷部位泡上或噴抹酵素原液，可馬上止血，癒合後無傷痕。燙傷瞬間直接噴原液或浸在原液裡，可消炎、消腫、清除水泡。落枕、腰肌勞損用原液加按摩。痔瘡可稀釋坐浴。腫處可用布或毛巾浸酵素後敷。受重大創傷可大量喝飲用酵素，緊急情況可用環保酵素。",useEn:"For skin conditions, cuts, burns, bleeding, inflammation, joint/muscle pain, hemorrhoids: soak or spray neat enzyme on the area — stops bleeding fast, heals without scars. For fresh burns, spray/soak neat to reduce inflammation, swelling & blisters. Stiff neck / strain: neat + massage. Hemorrhoids: diluted sitz bath. Swelling: apply enzyme-soaked cloth. Major trauma: drink edible enzyme in quantity; eco-enzyme in emergencies.",useMs:"Untuk masalah kulit, luka, melecur, pendarahan, radang, sakit sendi/otot, buasir: rendam atau sembur enzim tulen pada kawasan — hentikan pendarahan cepat, sembuh tanpa parut. Untuk melecur baru, sembur/rendam tulen. Leher kaku / terseliuh: tulen + urut. Buasir: rendaman duduk dicairkan. Bengkak: kain direndam enzim. Trauma besar: minum enzim boleh minum; enzim eko dalam kecemasan.",funcZh:"分解消除伤口坏死细胞，消炎消肿，快速修复受伤组织，让伤口愈合更快，对神经系统有很好的修复作用。",funcZhT:"分解消除傷口壞死細胞，消炎消腫，快速修復受傷組織，讓傷口癒合更快，對神經系統有很好的修復作用。",funcEn:"Clears dead tissue, reduces inflammation & swelling, speeds tissue repair, aids nervous-system recovery.",funcMs:"Membuang tisu mati, kurangkan radang & bengkak, cepatkan pembaikan tisu, bantu pemulihan sistem saraf.",noteZh:"这是民间使用经验，非医疗建议。严重伤口、糖尿病烂脚等请务必先就医。",noteZhT:"這是民間使用經驗，非醫療建議。嚴重傷口、糖尿病爛腳等請務必先就醫。",noteEn:"Folk-use experience, not medical advice. For serious wounds or diabetic foot, see a doctor first.",noteMs:"Pengalaman guna rakyat, bukan nasihat perubatan. Untuk luka serius atau kaki diabetik, jumpa doktor dahulu.",kw:"外伤 伤口 wound injury 烫伤 burn 刀伤 cut 止血 痔疮 消炎 糖尿"},
+  {cat:"health",ico:"👄",kind:"normal",zh:"口腔（溃疡·牙痛）",zhT:"口腔（潰瘍·牙痛）",en:"Oral Care",ms:"Penjagaan Mulut",ratioZh:"稀释 10 到 100 倍",ratioZhT:"稀釋 10 到 100 倍",ratioEn:"Dilute 10 to 100×",ratioMs:"Cairkan 10 hingga 100×",useZh:"稀释后漱口或刷牙。",useZhT:"稀釋後漱口或刷牙。",useEn:"Rinse or brush with diluted enzyme.",useMs:"Kumur atau berus dengan enzim dicairkan.",funcZh:"可调节口腔溃疡、牙痛、牙酸、牙周炎、口臭等。",funcZhT:"可調節口腔潰瘍、牙痛、牙酸、牙周炎、口臭等。",funcEn:"Eases mouth ulcers, toothache, sensitivity, gum disease, bad breath.",funcMs:"Melegakan ulser mulut, sakit gigi, gigi sensitif, penyakit gusi, bau mulut.",noteZh:"民间使用经验，非医疗建议。",noteZhT:"民間使用經驗，非醫療建議。",noteEn:"Folk-use experience, not medical advice.",noteMs:"Pengalaman guna rakyat, bukan nasihat perubatan.",kw:"口腔 oral 溃疡 ulcer 牙痛 toothache 牙周炎 gum 口臭"},
+  {cat:"health",ico:"👃",kind:"normal",zh:"鼻炎 · 喷嚏 · 流涕",zhT:"鼻炎 · 噴嚏 · 流涕",en:"Rhinitis / Sneezing",ms:"Rinitis / Bersin",ratioZh:"稀释 10 到 100 倍",ratioZhT:"稀釋 10 到 100 倍",ratioEn:"Dilute 10 to 100×",ratioMs:"Cairkan 10 hingga 100×",useZh:"棉签沾涂鼻孔，或喷涂鼻孔。更重要的是改善饮食——素食，还有生活习惯。",useZhT:"棉籤沾塗鼻孔，或噴塗鼻孔。更重要的是改善飲食——素食，還有生活習慣。",useEn:"Dab inside nostrils with a cotton swab, or spray. More importantly, improve diet (vegetarian) and lifestyle habits.",useMs:"Sapu dalam lubang hidung dengan kapas, atau sembur. Lebih penting, perbaiki diet (vegetarian) dan tabiat hidup.",funcZh:"减轻鼻塞、打喷嚏、流涕等状况至痊愈。",funcZhT:"減輕鼻塞、打噴嚏、流涕等狀況至痊癒。",funcEn:"Eases congestion, sneezing and runny nose toward recovery.",funcMs:"Melegakan hidung tersumbat, bersin dan hidung berair ke arah pemulihan.",noteZh:"民间使用经验，非医疗建议。",noteZhT:"民間使用經驗，非醫療建議。",noteEn:"Folk-use experience, not medical advice.",noteMs:"Pengalaman guna rakyat, bukan nasihat perubatan.",kw:"鼻炎 rhinitis 喷嚏 sneeze 流涕 鼻塞 nose 鼻孔"},
+  {cat:"health",ico:"🧑",kind:"normal",zh:"皮肤（痘·过敏·皮炎）",zhT:"皮膚（痘·過敏·皮炎）",en:"Skin Care",ms:"Penjagaan Kulit",ratioZh:"稀释 或 原液",ratioZhT:"稀釋 或 原液",ratioEn:"Diluted or neat",ratioMs:"Dicairkan atau tulen",useZh:"青春痘、扁平疣、皮肤过敏、皮炎、手脚裂伤等，痘痘可原液点涂。脸部皮肤慎久用原液。白膜敷脸有美容特效。用面霜混合原液涂抹可保湿久些。妇科可坐浴或喷抹。",useZhT:"青春痘、扁平疣、皮膚過敏、皮炎、手腳裂傷等，痘痘可原液點塗。臉部皮膚慎久用原液。白膜敷臉有美容特效。用面霜混合原液塗抹可保溼久些。婦科可坐浴或噴抹。",useEn:"For acne, flat warts, skin allergy, dermatitis, cracked hands/feet: dab acne with neat enzyme. Use neat sparingly on facial skin. The surface film makes an excellent facial mask. Mix with cream for longer moisture. Gynecological: sitz bath or spray.",useMs:"Untuk jerawat, ketuat rata, alahan kulit, dermatitis, tangan/kaki merekah: sapu jerawat dengan enzim tulen. Guna tulen berhemat pada muka. Lapisan filem jadi pelapik muka yang baik. Campur dengan krim untuk kelembapan lebih lama. Ginekologi: rendaman duduk atau sembur.",funcZh:"皮肤恢复柔嫩光滑、补水、减除过敏。",funcZhT:"皮膚恢復柔嫩光滑、補水、減除過敏。",funcEn:"Restores soft smooth skin, hydrates, reduces allergies.",funcMs:"Memulih kulit lembut licin, melembap, kurangkan alahan.",noteZh:"民间使用经验，非医疗建议。脸部慎用原液。",noteZhT:"民間使用經驗，非醫療建議。臉部慎用原液。",noteEn:"Folk-use experience, not medical advice. Use neat cautiously on face.",noteMs:"Pengalaman guna rakyat, bukan nasihat perubatan. Guna tulen berhati-hati pada muka.",kw:"皮肤 skin 青春痘 acne 过敏 allergy 皮炎 dermatitis 疣 wart 敷脸"},
+  {cat:"health",ico:"🦵",kind:"normal",zh:"脚气 · 脚癣 · 脚干裂",zhT:"腳氣 · 腳癬 · 腳乾裂",en:"Athlete's Foot / Cracks",ms:"Kurap Kaki / Rekahan",ratioZh:"一桶水放 2 瓶盖以上",ratioZhT:"一桶水放 2 瓶蓋以上",ratioEn:"2+ caps per bucket of water",ratioMs:"2+ penutup setiap baldi air",useZh:"40℃ 以下温水浸泡。糖尿病等引起的烂脚，用酵素原液泡，每天数次，无需换液，脏后再换液。脚气也可原液喷抹。静脉曲张、关节疼痛等除泡脚外可试原液喷涂后用布包裹。泡脚时水盖过小腿更佳，用毛巾盖住，最好能微微出汗；泡脚后不宜洗澡，可用好的油（如有机椰油）按摩后休息。",useZhT:"40℃ 以下溫水浸泡。糖尿病等引起的爛腳，用酵素原液泡，每天數次，無需換液，髒後再換液。腳氣也可原液噴抹。靜脈曲張、關節疼痛等除泡腳外可試原液噴塗後用布包裹。泡腳時水蓋過小腿更佳，用毛巾蓋住，最好能微微出汗；泡腳後不宜洗澡，可用好的油（如有機椰油）按摩後休息。",useEn:"Soak in warm water below 40℃. Diabetic foot ulcers: soak in neat enzyme several times daily, no need to change unless dirty. Athlete's foot: spray neat. Varicose veins / joint pain: besides soaking, try spraying neat then wrapping with cloth. Water above the calf is better; cover with a towel, ideally sweat lightly. Don't shower right after; massage with good oil (e.g. organic coconut) and rest.",useMs:"Rendam dalam air suam bawah 40℃. Ulser kaki diabetik: rendam dalam enzim tulen beberapa kali sehari, tak perlu tukar melainkan kotor. Kurap kaki: sembur tulen. Urat bunting / sakit sendi: selain merendam, cuba sembur tulen kemudian balut dengan kain. Air atas betis lebih baik; tutup dengan tuala, elok berpeluh sedikit. Jangan mandi selepas itu; urut dengan minyak baik (cth. minyak kelapa organik) dan rehat.",funcZh:"消除或好转，排触重金属、化学污染、电磁辐射，消除疲劳等。",funcZhT:"消除或好轉，排觸重金屬、化學汙染、電磁輻射，消除疲勞等。",funcEn:"Clears or improves; expels heavy metals, chemical pollution, EM radiation; relieves fatigue.",funcMs:"Menghilangkan atau memperbaik; membuang logam berat, pencemaran kimia, sinaran EM; melegakan keletihan.",noteZh:"民间使用经验，非医疗建议。糖尿病烂脚请配合就医。",noteZhT:"民間使用經驗，非醫療建議。糖尿病爛腳請配合就醫。",noteEn:"Folk-use experience, not medical advice. See a doctor for diabetic foot.",noteMs:"Pengalaman guna rakyat, bukan nasihat perubatan. Jumpa doktor untuk kaki diabetik.",kw:"脚气 脚癣 athlete foot 脚臭 干裂 crack 糖尿 静脉曲张 varicose"},
+  {cat:"health",ico:"📱",kind:"neat",zh:"降低电磁波",zhT:"降低電磁波",en:"Reduce EM Radiation",ms:"Kurangkan Sinaran EM",ratioZh:"原液 或 稀释",ratioZhT:"原液 或 稀釋",ratioEn:"Neat or diluted",ratioMs:"Tulen atau dicairkan",useZh:"原液或正在发酵中的容器放置在电视、电脑等电子器材旁，不用开盖。稀释 1000 倍喷洒在房间里。",useZhT:"原液或正在發酵中的容器放置在電視、電腦等電子器材旁，不用開蓋。稀釋 1000 倍噴灑在房間裡。",useEn:"Place neat enzyme (or a fermenting jar, unopened) beside TVs, computers and other electronics. Dilute 1000× to spray the room.",useMs:"Letak enzim tulen (atau balang yang menapai, tanpa buka) di sebelah TV, komputer dan elektronik lain. Cairkan 1000× untuk sembur bilik.",funcZh:"减低电磁波对身体的伤害。",funcZhT:"減低電磁波對身體的傷害。",funcEn:"Reduces harm from electromagnetic waves to the body.",funcMs:"Mengurangkan kemudaratan gelombang elektromagnet kepada badan.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"电磁波 electromagnetic radiation 辐射 电脑 电视 电子"},
+  {cat:"food",ico:"🥬",kind:"normal",zh:"蔬菜 · 水果",zhT:"蔬菜 · 水果",en:"Vegetables & Fruit",ms:"Sayur & Buah",ratioZh:"1 公斤清水 + 30 ml 或 2 汤匙酵素",ratioZhT:"1 公斤清水 + 30 ml 或 2 湯匙酵素",ratioEn:"1 kg water + 30 ml (2 tbsp) enzyme",ratioMs:"1 kg air + 30 ml (2 sudu besar) enzim",useZh:"一盆水放入一两瓶盖环保酵素，先把菜洗干净；再用另一个盆加水加酵素，浸泡蔬菜、水果约 45 分钟。",useZhT:"一盆水放入一兩瓶蓋環保酵素，先把菜洗乾淨；再用另一個盆加水加酵素，浸泡蔬菜、水果約 45 分鐘。",useEn:"Add 1–2 caps enzyme to a basin, wash the produce clean; then in another basin of water + enzyme, soak vegetables & fruit about 45 minutes.",useMs:"Tambah 1–2 penutup enzim ke besen, basuh hasil hingga bersih; kemudian dalam besen lain air + enzim, rendam sayur & buah kira-kira 45 minit.",funcZh:"味道鲜美，分解、清除残留农药化肥。浸泡过的蔬菜装塑料袋封口放冰箱，3–5 天不腐烂。",funcZhT:"味道鮮美，分解、清除殘留農藥化肥。浸泡過的蔬菜裝塑膠袋封口放冰箱，3–5 天不腐爛。",funcEn:"Tastier; breaks down pesticide & fertilizer residue. Soaked produce sealed in a bag keeps 3–5 days in the fridge without rotting.",funcMs:"Lebih sedap; menguraikan sisa racun perosak & baja. Hasil direndam dalam beg tertutup tahan 3–5 hari dalam peti sejuk tanpa reput.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"蔬菜 vegetable 水果 fruit 农药 pesticide 浸泡 soak 洗菜"},
+  {cat:"food",ico:"🍚",kind:"strong",zh:"煮饭",zhT:"煮飯",en:"Cooking Rice",ms:"Masak Nasi",ratioZh:"原液 或 稀释 10 倍（饮用酵素 1:3:10，发酵 6 个月以上）",ratioZhT:"原液 或 稀釋 10 倍（飲用酵素 1:3:10，發酵 6 個月以上）",ratioEn:"Neat or 10× (edible enzyme 1:3:10, aged 6+ months)",ratioMs:"Tulen atau 10× (enzim boleh minum 1:3:10, 6+ bulan)",useZh:"糙米洗净后，放入适量酵素，浸泡约 8 小时，不须再经过洗净，直接用电饭锅蒸煮（建议吃糙米，不吃白米）。",useZhT:"糙米洗淨後，放入適量酵素，浸泡約 8 小時，不須再經過洗淨，直接用電飯鍋蒸煮（建議吃糙米，不吃白米）。",useEn:"Rinse brown rice, add a suitable amount of enzyme, soak about 8 hours, then cook directly in the rice cooker without re-rinsing (brown rice recommended over white).",useMs:"Bilas beras perang, tambah enzim secukupnya, rendam kira-kira 8 jam, kemudian masak terus dalam periuk nasi tanpa bilas semula (beras perang disyorkan).",funcZh:"煮出的饭食很香。",funcZhT:"煮出的飯食很香。",funcEn:"Makes fragrant, tasty rice.",funcMs:"Menghasilkan nasi wangi dan sedap.",noteZh:"入口的用途须用饮用酵素（1:3:10，发酵 6 个月以上）。",noteZhT:"入口的用途須用飲用酵素（1:3:10，發酵 6 個月以上）。",noteEn:"For anything eaten, use edible enzyme (1:3:10, fermented 6+ months).",noteMs:"Untuk apa-apa yang dimakan, guna enzim boleh minum (1:3:10, ditapai 6+ bulan).",kw:"煮饭 rice cook 糙米 brown rice 饮用酵素 edible"},
+  {cat:"food",ico:"🥗",kind:"strong",zh:"炒菜 · 炖菜 · 凉拌",zhT:"炒菜 · 燉菜 · 涼拌",en:"Cooking Dishes",ms:"Masakan Lauk",ratioZh:"原液 或 稀释 10 倍（饮用酵素）",ratioZhT:"原液 或 稀釋 10 倍（飲用酵素）",ratioEn:"Neat or 10× (edible enzyme)",ratioMs:"Tulen atau 10× (enzim boleh minum)",useZh:"放少量酵素即可。",useZhT:"放少量酵素即可。",useEn:"Add just a small amount of enzyme.",useMs:"Tambah sedikit enzim sahaja.",funcZh:"提升菜的味道，分解农药、防腐剂等化学品。",funcZhT:"提升菜的味道，分解農藥、防腐劑等化學品。",funcEn:"Enhances flavour; breaks down pesticides, preservatives and other chemicals.",funcMs:"Menaikkan rasa; menguraikan racun perosak, pengawet dan bahan kimia lain.",noteZh:"须用饮用酵素（1:3:10，发酵 6 个月以上）。",noteZhT:"須用飲用酵素（1:3:10，發酵 6 個月以上）。",noteEn:"Use edible enzyme (1:3:10, fermented 6+ months).",noteMs:"Guna enzim boleh minum (1:3:10, ditapai 6+ bulan).",kw:"炒菜 炖菜 凉拌 cook dish 饮用酵素 edible"},
+  {cat:"food",ico:"🍞",kind:"strong",zh:"发面",zhT:"發麵",en:"Leavening Dough",ms:"Menaikkan Doh",ratioZh:"酵素妈妈 或 原液（饮用酵素）",ratioZhT:"酵素媽媽 或 原液（飲用酵素）",ratioEn:"Enzyme 'mother' or neat (edible)",ratioMs:"'Ibu' enzim atau tulen (boleh minum)",useZh:"用到的水里加上少许食用酵素或酵素（酵素妈妈也可）当发酵粉用。",useZhT:"用到的水裡加上少許食用酵素或酵素（酵素媽媽也可）當發酵粉用。",useEn:"Add a little edible enzyme (or the enzyme 'mother') to the water as a leavening agent.",useMs:"Tambah sedikit enzim boleh minum (atau 'ibu' enzim) ke dalam air sebagai agen penaik.",funcZh:"味道好，同时可分解面粉内残留的农药、化肥及添加剂的化学成分。",funcZhT:"味道好，同時可分解麵粉內殘留的農藥、化肥及新增劑的化學成分。",funcEn:"Tastes good and breaks down residual pesticides, fertilizer and additives in the flour.",funcMs:"Rasa sedap dan menguraikan sisa racun perosak, baja dan bahan tambahan dalam tepung.",noteZh:"须用饮用酵素。",noteZhT:"須用飲用酵素。",noteEn:"Use edible enzyme.",noteMs:"Guna enzim boleh minum.",kw:"发面 dough leaven 酵素妈妈 mother 面粉 flour"},
+  {cat:"food",ico:"🫛",kind:"normal",zh:"发干货 · 发豆芽",zhT:"發乾貨 · 發豆芽",en:"Soaking Dry Goods / Sprouts",ms:"Rendam Barang Kering / Taugeh",ratioZh:"参照浸菜比例",ratioZhT:"參照浸菜比例",ratioEn:"Same as produce-soak ratio",ratioMs:"Sama seperti nisbah rendam hasil",useZh:"浸泡即可。",useZhT:"浸泡即可。",useEn:"Simply soak.",useMs:"Rendam sahaja.",funcZh:"速度快，味道鲜。",funcZhT:"速度快，味道鮮。",funcEn:"Faster, fresher taste.",funcMs:"Lebih cepat, rasa lebih segar.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"干货 豆芽 sprout dry goods 浸泡"},
+  {cat:"home",ico:"💨",kind:"normal",zh:"除臭 · 净化废气",zhT:"除臭 · 淨化廢氣",en:"Deodorize / Purify Air",ms:"Nyahbau · Tulenkan Gas",ratioZh:"稀释 500～1000 倍",ratioZhT:"稀釋 500～1000 倍",ratioEn:"Dilute 500–1000×",ratioMs:"Cairkan 500–1000×",useZh:"拖地、喷洒。气味厉害的用盘子盛原液放置，若液体变黑倒掉重新放置。宠物洗浴能去除味道，减少寄生虫。动物粪便及宠物笼子用 10～15 倍水稀释喷洒。也可将发酵中的容器放在有异味的房间里。",useZhT:"拖地、噴灑。氣味厲害的用盤子盛原液放置，若液體變黑倒掉重新放置。寵物洗浴能去除味道，減少寄生蟲。動物糞便及寵物籠子用 10～15 倍水稀釋噴灑。也可將發酵中的容器放在有異味的房間裡。",useEn:"Mop or spray. For strong odours, set out neat enzyme in a dish; replace when it darkens. Bathing pets removes smell and reduces parasites. For animal waste & cages, dilute 10–15×. A fermenting jar can also sit in a smelly room.",useMs:"Mop atau sembur. Untuk bau kuat, letak enzim tulen dalam pinggan; ganti bila menjadi gelap. Memandikan haiwan hilangkan bau dan kurangkan parasit. Untuk najis haiwan & sangkar, cairkan 10–15×. Balang menapai juga boleh diletak dalam bilik berbau.",funcZh:"消除香烟气味、汽车废气、家居怪味等，增加空气含氧量。去除新装修甲醛等有害物质，冲刷厕所可除臭。家里蚊子、苍蝇、老鼠、蟑螂会减少。",funcZhT:"消除香菸氣味、汽車廢氣、家居怪味等，增加空氣含氧量。去除新裝修甲醛等有害物質，沖刷廁所可除臭。家裡蚊子、蒼蠅、老鼠、蟑螂會減少。",funcEn:"Clears cigarette smell, car exhaust, household odours; adds oxygen. Removes renovation formaldehyde; deodorizes toilets. Fewer mosquitoes, flies, mice & cockroaches.",funcMs:"Hilangkan bau rokok, ekzos kereta, bau rumah; menambah oksigen. Membuang formaldehid pengubahsuaian; menyahbau tandas. Kurang nyamuk, lalat, tikus & lipas.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"除臭 deodorize 净化空气 air purify 废气 甲醛 formaldehyde 香烟 宠物 pet"},
+  {cat:"home",ico:"🌬️",kind:"normal",zh:"净化空气（喷雾/加湿器）",zhT:"淨化空氣（噴霧/加溼器）",en:"Air Purify (Spray/Humidifier)",ms:"Tulenkan Udara (Sembur/Pelembap)",ratioZh:"酵素 1 · 水 1000（1:1000）",ratioZhT:"酵素 1 · 水 1000（1:1000）",ratioEn:"Enzyme 1 : Water 1000 (1:1000)",ratioMs:"Enzim 1 · Air 1000 (1:1000)",useZh:"把环保酵素用水稀释后，喷洒在居家环境，净化空气同时杀菌。室内可用稀释后的酵素放入空气净化器中，净化室内空气。",useZhT:"把環保酵素用水稀釋後，噴灑在居家環境，淨化空氣同時殺菌。室內可用稀釋後的酵素放入空氣清淨機中，淨化室內空氣。",useEn:"Dilute enzyme with water and spray around the home to purify air and sterilize. Indoors, put diluted enzyme into an air purifier / humidifier to clean the air.",useMs:"Cairkan enzim dengan air dan sembur di sekeliling rumah untuk menulenkan udara dan mensteril. Di dalam rumah, masukkan enzim dicairkan ke penulen udara / pelembap untuk membersihkan udara.",funcZh:"净化空气、杀菌。",funcZhT:"淨化空氣、殺菌。",funcEn:"Purifies air and sterilizes.",funcMs:"Menulenkan udara dan mensteril.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"空气 air 加湿器 humidifier 喷雾 spray 杀菌 1:1000"},
+  {cat:"farm",ico:"🐄",kind:"normal",zh:"农畜 · 花卉 · 鱼池 · 污水 · 土壤",zhT:"農畜 · 花卉 · 魚池 · 汙水 · 土壤",en:"Livestock / Plants / Ponds / Soil",ms:"Ternakan / Tumbuhan / Kolam / Tanah",ratioZh:"稀释 10 到 1000 倍",ratioZhT:"稀釋 10 到 1000 倍",ratioEn:"Dilute 10 to 1000×",ratioMs:"Cairkan 10 hingga 1000×",useZh:"喷施。动物粪便用 10～15 倍水稀释喷洒。污水中直接倒入原液——1 公斤酵素可净化 1000 公斤以上河水、污水。鱼缸放少量，稀释 1000 倍以上。",useZhT:"噴施。動物糞便用 10～15 倍水稀釋噴灑。汙水中直接倒入原液——1 公斤酵素可淨化 1000 公斤以上河水、汙水。魚缸放少量，稀釋 1000 倍以上。",useEn:"Spray. For animal waste, dilute 10–15×. Pour neat enzyme into wastewater — 1 kg enzyme purifies 1000+ kg of river or waste water. Fish tanks: a small amount, diluted 1000×+.",useMs:"Sembur. Untuk najis haiwan, cairkan 10–15×. Tuang enzim tulen ke air sisa — 1 kg enzim menulenkan 1000+ kg air sungai atau air sisa. Tangki ikan: sedikit sahaja, dicairkan 1000×+.",funcZh:"改善环境、分解污水、净化水源。使土壤肥沃，减少虫害。可用于拌种、育苗、蘸根、叶面、果树等。",funcZhT:"改善環境、分解汙水、淨化水源。使土壤肥沃，減少蟲害。可用於拌種、育苗、蘸根、葉面、果樹等。",funcEn:"Improves environment, breaks down wastewater, purifies water. Enriches soil, reduces pests. Use for seed treatment, seedlings, root dip, foliar spray, fruit trees.",funcMs:"Memperbaik persekitaran, menguraikan air sisa, menulenkan air. Menyuburkan tanah, kurangkan perosak. Guna untuk rawatan benih, anak benih, celup akar, semburan daun, pokok buah.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"农畜 花卉 鱼池 污水 土壤 livestock pond soil wastewater 鱼缸 fish"},
+  {cat:"farm",ico:"🌾",kind:"normal",zh:"农业（作物）",zhT:"農業（作物）",en:"Agriculture (Crops)",ms:"Pertanian (Tanaman)",ratioZh:"稀释 500～1000 倍",ratioZhT:"稀釋 500～1000 倍",ratioEn:"Dilute 500–1000×",ratioMs:"Cairkan 500–1000×",useZh:"稀释 1000 倍喷洒在植物上空，一周两次。稀释 500 倍当荷尔蒙用。大蒜、辣椒、香茅草等做的酵素可用于驱虫。",useZhT:"稀釋 1000 倍噴灑在植物上空，一週兩次。稀釋 500 倍當荷爾蒙用。大蒜、辣椒、香茅草等做的酵素可用於驅蟲。",useEn:"Dilute 1000× and spray above plants twice a week. 500× acts as a growth hormone. Enzymes made from garlic, chili or lemongrass work as pest repellent.",useMs:"Cairkan 1000× dan sembur di atas tumbuhan dua kali seminggu. 500× berfungsi sebagai hormon tumbesaran. Enzim daripada bawang putih, cili atau serai berfungsi sebagai penghalau perosak.",funcZh:"改良土壤、水源，促进植物生长。",funcZhT:"改良土壤、水源，促進植物生長。",funcEn:"Improves soil & water, promotes plant growth.",funcMs:"Memperbaik tanah & air, menggalakkan pertumbuhan tumbuhan.",noteZh:"",noteZhT:"",noteEn:"",noteMs:"",kw:"农业 agriculture 作物 crop 荷尔蒙 hormone 驱虫 pest 大蒜 辣椒 香茅"}
+];
+
+/* ================= STATE ================= */
+let lang = 'zh';
+let activeCat = 'all';
+let query = '';
+const openSet = new Set();
+
+/* ---- custom user entries (persisted) ---- */
+let CUSTOM = [];
+try{ const raw=localStorage.getItem('enzymeCustom'); if(raw) CUSTOM=JSON.parse(raw)||[]; }catch(e){ CUSTOM=[]; }
+function saveCustom(){ try{ localStorage.setItem('enzymeCustom', JSON.stringify(CUSTOM)); }catch(e){} }
+/* stable id for any entry (built-in uses zh name, custom uses cid) */
+function entryId(it){ return it.cid || it.zh; }
+/* merged list: built-ins + custom */
+function allEntries(){ return DATA.concat(CUSTOM); }
+
+/* ---- collapsible category groups (persisted) ---- */
+let collapsedCats;
+try{
+  const raw=localStorage.getItem('enzymeCollapsed');
+  if(raw!==null){ collapsedCats=new Set(JSON.parse(raw)||[]); }
+  else { collapsedCats=new Set(Object.keys(CATS)); } // first run: start all collapsed (compact home screen)
+}catch(e){ collapsedCats=new Set(); }
+function saveCollapsed(){ try{ localStorage.setItem('enzymeCollapsed', JSON.stringify([...collapsedCats])); }catch(e){} }
+
+/* ---- favourites (persisted) — heart ❤ to spread love among members ---- */
+let favSet;
+try{ const raw=localStorage.getItem('enzymeFavs'); favSet=new Set(raw?JSON.parse(raw):[]); }catch(e){ favSet=new Set(); }
+function saveFavs(){ try{ localStorage.setItem('enzymeFavs', JSON.stringify([...favSet])); }catch(e){} }
+function isFav(id){ return favSet.has(id); }
+function toggleFav(id){
+  if(favSet.has(id)) favSet.delete(id); else favSet.add(id);
+  saveFavs();
+}
+
+const listEl=document.getElementById('list');
+const chipsEl=document.getElementById('chips');
+const countEl=document.getElementById('count');
+const searchEl=document.getElementById('search');
+const clearBtn=document.getElementById('clearBtn');
+const toastEl=document.getElementById('toast');
+
+/* field accessor by language with graceful fallback */
+function F(item, base){
+  const map={zh:base+'Zh', zhT:base+'ZhT', en:base+'En', ms:base+'Ms'};
+  return item[map[lang]] || item[map.zh] || item[map.en] || item[map.ms] || '';
+}
+function name(item){ return item[lang] || item.zh || item.en || item.ms || item.zhT || ''; }
+function ratio(item){ return F(item,'ratio'); }
+function ratioClass(k){ return k==='strong'?'strong':(k==='neat'?'neat':''); }
+
+/* ================= LANG MENU ================= */
+const langToggle=document.getElementById('langToggle');
+const langBtn=document.getElementById('langBtn');
+const langMenu=document.getElementById('langMenu');
+const langLabel=document.getElementById('langLabel');
+
+function buildLangMenu(){
+  langMenu.innerHTML=Object.entries(LANGS).map(([k,v])=>
+    `<button data-l="${k}" class="${k===lang?'sel':''}" role="menuitem">
+      <span class="native">${v.native}</span><span class="sub">${v.sub}</span></button>`).join('');
+  langMenu.querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>{ setLang(b.dataset.l); langToggle.classList.remove('open'); };
+  });
+}
+langBtn.onclick=(e)=>{ e.stopPropagation(); langToggle.classList.toggle('open'); };
+document.addEventListener('click',()=>langToggle.classList.remove('open'));
+
+/* ================= CHIPS ================= */
+function buildChips(){
+  let html=`<button class="chip ${activeCat==='all'?'active':''}" data-cat="all">
+      <span class="ico">🗂️</span><span class="lbl">${UI.allUses[lang]}</span></button>`;
+  for(const [key,c] of Object.entries(CATS)){
+    html+=`<button class="chip ${activeCat===key?'active':''}" data-cat="${key}">
+      <span class="ico">${c.ico}</span><span class="lbl">${c[lang]}</span></button>`;
+  }
+  // favourites chip — only shown once the user has hearted something
+  if(favSet.size>0){
+    html+=`<button class="chip chip-fav ${activeCat==='fav'?'active':''}" data-cat="fav">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span><span class="lbl">${UI.favFilter[lang]}</span></button>`;
+  }
+  // custom chip — only shown once the user has created custom entries
+  if(CUSTOM.length>0){
+    html+=`<button class="chip chip-custom ${activeCat==='custom'?'active':''}" data-cat="custom">
+      <span class="ico">⭐</span><span class="lbl">${UI.customFilter[lang]}</span></button>`;
+  }
+  chipsEl.innerHTML=html;
+  chipsEl.querySelectorAll('.chip').forEach(ch=>{
+    ch.onclick=()=>{
+      activeCat=ch.dataset.cat; buildChips(); render();
+      if(activeCat!=='all') listEl.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+  });
+}
+
+/* ================= FILTER + RENDER ================= */
+function matches(item){
+  if(activeCat==='custom'){ if(!item.cid) return false; }
+  else if(activeCat==='fav'){ if(!isFav(entryId(item))) return false; }
+  else if(activeCat!=='all' && item.cat!==activeCat) return false;
+  if(!query) return true;
+  const q=query.toLowerCase();
+  // build a haystack from ALL language variants of every searchable field
+  // (so a search works regardless of the display language, and covers custom entries)
+  const parts=[
+    item.zh, item.zhT, item.en, item.ms, item.kw,
+    item.ratioZh, item.ratioZhT, item.ratioEn, item.ratioMs,
+    item.useZh, item.useZhT, item.useEn, item.useMs,
+    item.funcZh, item.funcZhT, item.funcEn, item.funcMs,
+    item.noteZh, item.noteZhT, item.noteEn, item.noteMs
+  ];
+  const hay=parts.filter(Boolean).join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+function render(){
+  const items=allEntries().filter(matches);
+  countEl.textContent=UI.count[lang](items.length);
+  if(items.length===0){
+    if(activeCat==='fav' && !query){
+      listEl.innerHTML=`<div class="noresult"><div class="big">🤍</div>
+        <p>${UI.favFilter[lang]}</p><p class="sub">${UI.favEmpty[lang]}</p></div>`;
+    }else{
+      listEl.innerHTML=`<div class="noresult"><div class="big">🫙</div>
+        <p>${UI.noResult[lang]}</p><p class="sub">${UI.noResultSub[lang]}</p></div>`;
+    }
+    return;
+  }
+  const order=Object.keys(CATS);
+  const groups={};
+  items.forEach(it=>{(groups[it.cat]=groups[it.cat]||[]).push(it);});
+  // within each category, float favourites to the top in the order they were hearted
+  const favOrder=[...favSet];                       // insertion order = order favourited
+  const favRank=id=>{ const i=favOrder.indexOf(id); return i<0 ? Infinity : i; };
+  for(const cat in groups){
+    groups[cat].forEach((it,i)=>{ it.__i=i; });     // remember original order as tiebreaker
+    groups[cat].sort((a,b)=>{
+      const ra=favRank(entryId(a)), rb=favRank(entryId(b));
+      if(ra!==rb) return ra-rb;                       // favourites first, in favourite order
+      return a.__i-b.__i;                             // otherwise keep original order
+    });
+    groups[cat].forEach(it=>{ delete it.__i; });
+  }
+  // when searching or viewing a specific filter, always expand (results must be visible)
+  const forceOpen = !!query || activeCat!=='all';
+  let html='';
+  for(const cat of order){
+    if(!groups[cat]) continue;
+    const c=CATS[cat];
+    const other = lang==='en'? c.zh : c.en;
+    const collapsed = !forceOpen && collapsedCats.has(cat);
+    html+=`<div class="grouphdr ${collapsed?'collapsed':''}" data-cat="${cat}">
+      <div class="ico">${c.ico}</div>
+      <div class="ghdr-main"><h2>${c[lang]}</h2><span class="en">${other}</span></div>
+      <div class="bar"></div>
+      <div class="ghdr-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+    </div>`;
+    html+=`<div class="group-cards ${collapsed?'collapsed':''}" data-cards="${cat}">`;
+    groups[cat].forEach(it=>{ html+=cardHtml(it); });
+    html+=`</div>`;
+  }
+  listEl.innerHTML=html;
+  wireGroups(forceOpen);
+  wireCards();
+}
+
+function wireGroups(forceOpen){
+  if(forceOpen) return; // headers aren't collapsible while searching/single-category
+  listEl.querySelectorAll('.grouphdr').forEach(h=>{
+    h.onclick=()=>{
+      const cat=h.dataset.cat;
+      const cards=listEl.querySelector(`[data-cards="${cat}"]`);
+      if(collapsedCats.has(cat)){
+        collapsedCats.delete(cat);
+        h.classList.remove('collapsed'); cards.classList.remove('collapsed');
+      }else{
+        collapsedCats.add(cat);
+        h.classList.add('collapsed'); cards.classList.add('collapsed');
+      }
+      saveCollapsed();
+    };
+  });
+}
+
+function cardHtml(it){
+  const id=entryId(it);
+  const isOpen=openSet.has(id);
+  const title=name(it);
+  const sub = lang==='en'? it.zh : it.en;
+  const r=ratio(it);
+  const useTxt=F(it,'use'), funcTxt=F(it,'func'), noteTxt=F(it,'note');
+  const isCustom=!!it.cid;
+
+  let body=`<div class="field"><div class="field-label"><span class="dot"></span>${UI.labelUse[lang]}</div>
+    <div class="field-text">${useTxt}</div></div>`;
+  if(funcTxt) body+=`<div class="field func"><div class="field-label"><span class="dot"></span>${UI.labelFunc[lang]}</div>
+    <div class="field-text">${funcTxt}</div></div>`;
+  if(noteTxt) body+=`<div class="note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+    <div>${noteTxt}</div></div>`;
+  body+=`<div class="share-row">
+    <button class="share-btn" data-share="${encodeURIComponent(id)}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v14"/></svg>
+      ${UI.share[lang]}</button>
+    <button class="copy-btn" data-copy="${encodeURIComponent(id)}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <span>${UI.copy[lang]}</span></button>
+  </div>`;
+  if(isCustom){
+    body+=`<div class="custom-actions">
+      <button class="ca-edit" data-edit="${encodeURIComponent(id)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>${UI.editEntry[lang]}</button>
+      <button class="ca-del" data-del="${encodeURIComponent(id)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>${UI.delEntry[lang]}</button>
+    </div>`;
+  }
+
+  const faved=isFav(id);
+  return `<div class="card ${isOpen?'open':''} ${faved?'faved':''}" data-id="${id}">
+    <div class="card-head">
+      <div class="card-ico">${it.ico}</div>
+      <div class="card-main">
+        <div class="card-title">${title}${isCustom?`<span class="custom-tag">${UI.customTag[lang]}</span>`:''}<span class="en">${sub}</span></div>
+        <span class="ratio-pill ${ratioClass(it.kind)}">${r}</span>
+      </div>
+      <button class="fav-btn ${faved?'on':''}" data-fav="${encodeURIComponent(id)}" aria-label="favourite">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+      <div class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+    </div>
+    <div class="card-body"><div class="card-body-inner">${body}</div></div>
+  </div>`;
+}
+
+function wireCards(){
+  listEl.querySelectorAll('.card-head').forEach(h=>{
+    h.onclick=()=>{
+      const card=h.closest('.card'), id=card.dataset.id;
+      if(openSet.has(id)){ openSet.delete(id); closeCard(card); }
+      else { openSet.add(id); openCard(card); }
+    };
+  });
+  listEl.querySelectorAll('[data-share]').forEach(b=>{
+    b.onclick=(e)=>{ e.stopPropagation(); shareItem(decodeURIComponent(b.dataset.share)); };
+  });
+  listEl.querySelectorAll('[data-copy]').forEach(b=>{
+    b.onclick=(e)=>{ e.stopPropagation(); copyItem(decodeURIComponent(b.dataset.copy), b); };
+  });
+  listEl.querySelectorAll('[data-edit]').forEach(b=>{
+    b.onclick=(e)=>{ e.stopPropagation(); openEntryForm(decodeURIComponent(b.dataset.edit)); };
+  });
+  listEl.querySelectorAll('[data-del]').forEach(b=>{
+    b.onclick=(e)=>{ e.stopPropagation(); deleteCustom(decodeURIComponent(b.dataset.del)); };
+  });
+  listEl.querySelectorAll('[data-fav]').forEach(b=>{
+    b.onclick=(e)=>{
+      e.stopPropagation();
+      const id=decodeURIComponent(b.dataset.fav);
+      const wasEmpty=(favSet.size===0);
+      toggleFav(id);
+      const on=isFav(id);
+      b.classList.toggle('on', on);
+      b.closest('.card').classList.toggle('faved', on);
+      if(on){ b.classList.add('pop'); setTimeout(()=>b.classList.remove('pop'),340); }
+      // show/hide the favourites chip as the set crosses empty
+      if(wasEmpty!==(favSet.size===0)) buildChips();
+      if(activeCat==='fav' && !on){
+        // viewing favourites and this was un-hearted → refresh (drop it from view)
+        if(favSet.size===0) activeCat='all';
+        buildChips(); render();
+      }else{
+        // let the heart-pop play, then re-render so the entry moves to the top of its section
+        const y=window.scrollY;
+        setTimeout(()=>{ render(); window.scrollTo(0,y); }, 360);
+      }
+    };
+  });
+}
+function openCard(card){
+  const body=card.querySelector('.card-body');
+  card.classList.add('open');
+  body.style.maxHeight=body.querySelector('.card-body-inner').scrollHeight+'px';
+}
+function closeCard(card){
+  const body=card.querySelector('.card-body');
+  body.style.maxHeight=body.scrollHeight+'px';
+  requestAnimationFrame(()=>{ body.style.maxHeight='0px'; card.classList.remove('open'); });
+}
+
+/* ================= CUSTOM ENTRY FORM ================= */
+const EF_LANGS=[['zh','简'],['zhT','繁'],['en','EN'],['ms','BM']];
+const EF_FIELDS=['name','ratio','use','func','note']; // name maps to lang key directly; others <field><LangSuffix>
+let efLang='zh';           // active language tab
+let efEditingCid=null;     // cid when editing, null when new
+let efDraft=null;          // {cat, ico, kind, data:{ zh:{name,ratio,use,func,note}, ... }}
+
+document.getElementById('addEntryBtn').onclick=()=>openEntryForm(null);
+
+function blankDraft(){
+  const d={ cat:'clean', ico:'', kind:'normal', data:{} };
+  EF_LANGS.forEach(([k])=>{ d.data[k]={name:'',ratio:'',use:'',func:'',note:''}; });
+  return d;
+}
+function entryToDraft(it){
+  const d={ cat:it.cat, ico:it.ico||'', kind:it.kind||'normal', data:{} };
+  const suf={zh:'Zh',zhT:'ZhT',en:'En',ms:'Ms'};
+  EF_LANGS.forEach(([k])=>{
+    d.data[k]={
+      name: it[k]||'',
+      ratio: it['ratio'+suf[k]]||'',
+      use: it['use'+suf[k]]||'',
+      func: it['func'+suf[k]]||'',
+      note: it['note'+suf[k]]||''
+    };
+  });
+  return d;
+}
+
+function openEntryForm(cid){
+  efEditingCid=cid||null;
+  if(cid){
+    const it=CUSTOM.find(c=>c.cid===cid);
+    efDraft = it? entryToDraft(it) : blankDraft();
+  }else{
+    efDraft=blankDraft();
+    efDraft.cat = (activeCat!=='all' && CATS[activeCat]) ? activeCat : 'clean';
+  }
+  efLang=lang; // start on the app's current language
+  document.getElementById('entryModalTitle').textContent = cid?UI.formTitleEdit[lang]:UI.formTitleNew[lang];
+  document.getElementById('lblCat').textContent=UI.fCat[lang];
+  document.getElementById('lblKind').textContent=UI.fKind[lang];
+  document.getElementById('efHint').textContent=UI.fLangHint[lang];
+  document.getElementById('efCancel').textContent=UI.fCancel[lang];
+  document.getElementById('efSave').textContent=UI.fSave[lang];
+  buildEfCats(); buildEfKinds(); buildEfLangTabs(); buildEfFields();
+  openModal('entryModal');
+}
+
+function buildEfCats(){
+  const el=document.getElementById('efCats');
+  el.innerHTML=Object.entries(CATS).map(([k,c])=>
+    `<button class="ef-cat ${efDraft.cat===k?'sel':''}" data-c="${k}"><span class="i">${c.ico}</span><span class="t">${c[lang]}</span></button>`).join('');
+  el.querySelectorAll('.ef-cat').forEach(b=>b.onclick=()=>{ efDraft.cat=b.dataset.c; buildEfCats(); });
+}
+function buildEfKinds(){
+  const el=document.getElementById('efKinds');
+  const kinds=[['normal',UI.kindNormal[lang]],['strong',UI.kindStrong[lang]],['neat',UI.kindNeat[lang]]];
+  el.innerHTML=kinds.map(([k,t])=>`<button class="ef-kind ${efDraft.kind===k?'sel':''}" data-k="${k}">${t}</button>`).join('');
+  el.querySelectorAll('.ef-kind').forEach(b=>b.onclick=()=>{ efDraft.kind=b.dataset.k; buildEfKinds(); });
+}
+function buildEfLangTabs(){
+  const el=document.getElementById('efLangTabs');
+  el.innerHTML=EF_LANGS.map(([k,label])=>{
+    const filled = efDraft.data[k] && (efDraft.data[k].name||efDraft.data[k].ratio);
+    return `<button class="ef-langtab ${k===efLang?'sel':''} ${filled?'filled':''}" data-l="${k}">${label}${filled?'<span class="flag">✓</span>':''}</button>`;
+  }).join('');
+  el.querySelectorAll('.ef-langtab').forEach(b=>b.onclick=()=>{ saveEfFields(); efLang=b.dataset.l; buildEfLangTabs(); buildEfFields(); });
+}
+function buildEfFields(){
+  const d=efDraft.data[efLang];
+  document.getElementById('efFields').innerHTML=`
+    <div class="ef-field"><label>${UI.fName[lang]}</label><input type="text" id="ef_name" value="${escAttr(d.name)}"></div>
+    <div class="ef-field"><label>${UI.fRatio[lang]}</label><input type="text" id="ef_ratio" value="${escAttr(d.ratio)}"></div>
+    <div class="ef-field"><label>${UI.fUse[lang]}</label><textarea id="ef_use">${escHtml(d.use)}</textarea></div>
+    <div class="ef-field"><label>${UI.fFunc[lang]}</label><textarea id="ef_func">${escHtml(d.func)}</textarea></div>
+    <div class="ef-field"><label>${UI.fNote[lang]}</label><textarea id="ef_note">${escHtml(d.note)}</textarea></div>`;
+}
+function saveEfFields(){
+  const g=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
+  efDraft.data[efLang]={ name:g('ef_name'), ratio:g('ef_ratio'), use:g('ef_use'), func:g('ef_func'), note:g('ef_note') };
+}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return escHtml(s).replace(/"/g,'&quot;');}
+
+document.getElementById('efCancel').onclick=()=>closeModal('entryModal');
+document.getElementById('efSave').onclick=()=>{
+  saveEfFields();
+  // require at least one language with name + ratio
+  const langsFilled=EF_LANGS.map(([k])=>k).filter(k=>efDraft.data[k].name && efDraft.data[k].ratio);
+  if(langsFilled.length===0){ showToast(UI.fNeedName[lang]); return; }
+  // fill blank languages from the first filled one
+  const primary=langsFilled[0];
+  const suf={zh:'Zh',zhT:'ZhT',en:'En',ms:'Ms'};
+  const entry={ cat:efDraft.cat, ico:CATS[efDraft.cat].ico, kind:efDraft.kind, kw:'' };
+  EF_LANGS.forEach(([k])=>{
+    const src = (efDraft.data[k].name||efDraft.data[k].ratio)? efDraft.data[k] : efDraft.data[primary];
+    entry[k]=src.name;
+    entry['ratio'+suf[k]]=src.ratio;
+    entry['use'+suf[k]]=src.use;
+    entry['func'+suf[k]]=src.func;
+    entry['note'+suf[k]]=src.note;
+  });
+  // keyword blob for search
+  entry.kw=EF_LANGS.map(([k])=>efDraft.data[k].name+' '+efDraft.data[k].ratio).join(' ').trim();
+
+  if(efEditingCid){
+    const i=CUSTOM.findIndex(c=>c.cid===efEditingCid);
+    if(i>=0){ entry.cid=efEditingCid; CUSTOM[i]=entry; }
+  }else{
+    entry.cid='custom-'+Date.now()+'-'+Math.floor(Math.random()*1000);
+    CUSTOM.push(entry);
+  }
+  saveCustom();
+  closeModal('entryModal');
+  showToast(UI.savedEntry[lang]);
+  buildChips();
+  render();
+};
+document.getElementById('entryModal').onclick=(e)=>{ if(e.target===document.getElementById('entryModal')) closeModal('entryModal'); };
+
+/* in-app confirm dialog — native confirm() is blocked/unreliable in installed PWAs */
+function askConfirm(msg, onYes){
+  const modal=document.getElementById('confirmModal');
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmYes').textContent=UI.confirmYes[lang];
+  document.getElementById('confirmNo').textContent=UI.confirmNo[lang];
+  const yes=document.getElementById('confirmYes');
+  const no=document.getElementById('confirmNo');
+  const close=()=>{ modal.classList.remove('show'); if(!document.querySelector('.modal-bg.show')) document.body.style.overflow=''; };
+  yes.onclick=()=>{ close(); onYes(); };
+  no.onclick=close;
+  modal.onclick=(e)=>{ if(e.target===modal) close(); };
+  modal.classList.add('show'); document.body.style.overflow='hidden';
+}
+
+function deleteCustom(id){
+  const it=CUSTOM.find(c=>c.cid===id); if(!it) return;
+  askConfirm(UI.delConfirm[lang], ()=>{
+    CUSTOM=CUSTOM.filter(c=>c.cid!==id);
+    saveCustom();
+    openSet.delete(id);
+    // if we were viewing the custom filter and none remain, drop back to All
+    if(activeCat==='custom' && CUSTOM.length===0) activeCat='all';
+    buildChips();
+    render();
+    showToast(UI.deletedToast[lang]);
+  });
+}
+
+/* ================= SHARE / COPY ================= */
+function shareText(it){
+  const parts=[];
+  parts.push(`🌿 ${name(it)}`);
+  parts.push(`💧 ${ratio(it)}`);
+  parts.push('');
+  parts.push(`▸ ${UI.labelUse[lang]}: ${F(it,'use')}`);
+  if(F(it,'func')) parts.push(`▸ ${UI.labelFunc[lang]}: ${F(it,'func')}`);
+  if(F(it,'note')) parts.push(`⚠ ${UI.labelNote[lang]}: ${F(it,'note')}`);
+  parts.push('');
+  parts.push(`— ${UI.footRecipe[lang]}`);
+  return parts.join('\n');
+}
+function findItem(id){ return allEntries().find(d=>entryId(d)===id); }
+
+/* ---- share sheet with channel toggle + live preview ---- */
+const CHANNELS=['wa','tg','li'];
+let shareChannel='wa';
+try{
+  const savedCh=localStorage.getItem('enzymeShareCh');
+  if(savedCh && CHANNELS.includes(savedCh)) shareChannel=savedCh;
+}catch(e){}
+let shareCurrentId=null;
+
+const shareModal=document.getElementById('shareModal');
+const chanTabs=document.getElementById('chanTabs');
+const previewWrap=document.getElementById('previewWrap');
+const previewText=document.getElementById('previewText');
+const previewTime=document.getElementById('previewTime');
+const editHint=document.getElementById('editHint');
+const sendBtn=document.getElementById('sendBtn');
+const sheetCopy=document.getElementById('sheetCopy');
+
+const CHAN_ICON={
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7.3 7.3 0 0 1-1.4-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4a.5.5 0 0 0 0-.4l-.7-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c.6.3 1.1.4 1.5.5a3.6 3.6 0 0 0 1.6.1c.5-.1 1.4-.6 1.6-1.1a2 2 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg>',
+  tg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.5 20c-.3 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.3-.1-.5-.6-.2L6.4 13.2 1.5 11.7c-1.1-.3-1.1-1 .2-1.5l19-7.3c.9-.3 1.7.2 1.4 1.4z"/></svg>',
+  li:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.9 3 2.8 6.4 2.8 10.5c0 3.7 3.3 6.8 7.7 7.4.3.1.7.2.8.5.1.3 0 .7 0 .9l-.1.8c0 .2-.2.9.8.5s5.4-3.2 7.4-5.5c1.4-1.5 2-3.1 2-4.9C21.2 6.4 17.1 3 12 3zM8.3 12.7H6.5c-.3 0-.5-.2-.5-.5V8.9c0-.3.2-.5.5-.5s.5.2.5.5v2.9h1.3c.3 0 .5.2.5.5s-.2.4-.5.4zm2-0.5c0 .3-.2.5-.5.5s-.5-.2-.5-.5V8.9c0-.3.2-.5.5-.5s.5.2.5.5v3.3zm4.2 0c0 .2-.1.4-.3.5h-.2c-.2 0-.3-.1-.4-.2l-1.4-1.9v1.6c0 .3-.2.5-.5.5s-.5-.2-.5-.5V8.9c0-.2.1-.4.3-.5.2-.1.5 0 .6.2l1.4 1.9V8.9c0-.3.2-.5.5-.5s.5.2.5.5v3.3zm2.8-2.2c.3 0 .5.2.5.5s-.2.5-.5.5h-1.3v.8h1.3c.3 0 .5.2.5.5s-.2.4-.5.4h-1.8c-.3 0-.5-.2-.5-.5V8.9c0-.3.2-.5.5-.5h1.8c.3 0 .5.2.5.5s-.2.5-.5.5h-1.3v.8h1.3z"/></svg>'
+};
+
+function buildChanTabs(){
+  chanTabs.innerHTML=CHANNELS.map(c=>{
+    const lbl={wa:UI.labelWa,tg:UI.labelTg,li:UI.labelLi}[c][lang];
+    return `<button class="chan-tab ${c} ${c===shareChannel?'active':''}" data-c="${c}">
+      <span class="c-ico">${CHAN_ICON[c]}</span><span class="c-lbl">${lbl}</span></button>`;
+  }).join('');
+  chanTabs.querySelectorAll('.chan-tab').forEach(t=>{
+    t.onclick=()=>{
+      shareChannel=t.dataset.c;
+      try{ localStorage.setItem('enzymeShareCh', shareChannel); }catch(e){}
+      buildChanTabs(); paintChannel();
+    };
+  });
+}
+
+function nowTime(){
+  const d=new Date();
+  return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+
+/* update only channel-dependent skin — does NOT touch the editable text */
+function paintChannel(){
+  previewWrap.className='preview-wrap '+shareChannel;
+  const tick = shareChannel==='wa' ? '✓✓' : '✓';
+  previewTime.innerHTML=`${nowTime()}<span class="tick">${tick}</span>`;
+  sendBtn.className='send-btn '+shareChannel;
+  const lbl={wa:UI.labelWa,tg:UI.labelTg,li:UI.labelLi}[shareChannel][lang];
+  sendBtn.innerHTML=`${CHAN_ICON[shareChannel]}<span>${UI.sendVia[lang]} ${lbl}</span>`;
+}
+
+/* load default message text into the editable area (called on open) */
+function loadPreviewText(){
+  const it=findItem(shareCurrentId); if(!it) return;
+  previewText.value=shareText(it);
+}
+
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function shareItem(id){
+  shareCurrentId=id;
+  // keep the user's remembered channel (do NOT force WhatsApp)
+  document.getElementById('shareModalTitle').textContent=UI.shareTitle[lang];
+  editHint.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span>${UI.editHint[lang]}</span>`;
+  sheetCopy.classList.remove('copied');
+  sheetCopy.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>${UI.copy[lang]}</span>`;
+  buildChanTabs();
+  loadPreviewText();
+  paintChannel();
+  openModal('shareModal');
+}
+shareModal.onclick=(e)=>{ if(e.target===shareModal) closeModal('shareModal'); };
+
+/* send action — uses the (possibly edited) text in the preview */
+sendBtn && (sendBtn.onclick=()=>{
+  const txt=previewText.value;
+  const enc=encodeURIComponent(txt);
+  let url;
+  if(shareChannel==='wa')      url='https://api.whatsapp.com/send?text='+enc;
+  else if(shareChannel==='tg') url='https://t.me/share/url?url='+encodeURIComponent(' ')+'&text='+enc;
+  else                         url='https://line.me/R/msg/text/?'+enc; // LINE
+  openExternal(url);
+});
+
+sheetCopy && (sheetCopy.onclick=()=>{
+  doCopy(previewText.value,()=>{
+    sheetCopy.classList.add('copied');
+    sheetCopy.querySelector('span').textContent=UI.copied[lang];
+    showToast(UI.copiedToast[lang]);
+    setTimeout(()=>{ sheetCopy.classList.remove('copied'); const s=sheetCopy.querySelector('span'); if(s) s.textContent=UI.copy[lang]; },1800);
+  });
+});
+
+/* Reliable external open — works in iOS Safari when triggered by user gesture */
+function openExternal(url){
+  // Direct navigation is the most reliable across iOS in-app browsers.
+  const a=document.createElement('a');
+  a.href=url; a.target='_blank'; a.rel='noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+function copyItem(id, btn){
+  const it=findItem(id); if(!it) return;
+  doCopy(shareText(it),()=>{
+    btn.classList.add('copied');
+    const span=btn.querySelector('span'); const old=span.textContent;
+    span.textContent=UI.copied[lang];
+    showToast(UI.copiedToast[lang]);
+    setTimeout(()=>{ btn.classList.remove('copied'); span.textContent=old; },1600);
+  });
+}
+function doCopy(txt,done){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  } else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement('textarea');ta.value=txt;
+  ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';
+  ta.contentEditable='true';ta.readOnly=false;
+  document.body.appendChild(ta);
+  // iOS-specific selection
+  const range=document.createRange();range.selectNodeContents(ta);
+  const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+  ta.setSelectionRange(0,txt.length);
+  try{document.execCommand('copy');done();}catch(e){}
+  document.body.removeChild(ta);
+}
+let toastT;
+function showToast(msg){
+  toastEl.textContent=msg;toastEl.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),1900);
+}
+
+/* ================= DISASTER RELIEF ================= */
+const reliefModal=document.getElementById('reliefModal');
+document.getElementById('reliefBtn').onclick=()=>{ buildRelief(); openModal('reliefModal'); };
+function buildRelief(){
+  const intro = {
+    zh:"水灾、地震等救灾现场的重点用途。全部为环保、无毒、可就地取材的方法。",
+    zhT:"水災、地震等救災現場的重點用途。全部為環保、無毒、可就地取材的方法。",
+    en:"Key uses for flood, quake and relief sites. All eco-friendly, non-toxic, field-ready methods.",
+    ms:"Kegunaan utama untuk banjir, gempa dan tapak bantuan. Semua kaedah mesra alam, tanpa toksik, sedia di lapangan."
+  }[lang];
+  let html=`<div class="print-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <div>${intro}</div></div>`;
+  RELIEF_IDS.forEach((id,i)=>{
+    const it=findItem(id); if(!it) return;
+    html+=`<div class="relief-card">
+      <h4><span class="num">${i+1}</span>${it.ico} ${name(it)}</h4>
+      <span class="r-ratio">${ratio(it)}</span>
+      <p>${F(it,'use')}</p>
+      ${F(it,'note')?`<p style="color:var(--danger);margin-top:7px;font-weight:600;">⚠ ${F(it,'note')}</p>`:''}
+    </div>`;
+  });
+  // share button at the bottom (consistent with other cards)
+  html+=`<button class="relief-shareall" id="reliefShareAll">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>
+      <span>${UI.shareAllImg[lang]}</span></button>`;
+  document.getElementById('reliefBody').innerHTML=html;
+  const sa=document.getElementById('reliefShareAll');
+  sa.onclick=()=>shareAllReliefImage(sa);
+}
+function openModal(id){ document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
+function closeModal(id){
+  document.getElementById(id).classList.remove('show');
+  // only unlock scroll if no modal remains open
+  const anyOpen=document.querySelector('.modal-bg.show');
+  if(!anyOpen) document.body.style.overflow='';
+}
+reliefModal.onclick=(e)=>{ if(e.target===reliefModal) closeModal('reliefModal'); };
+
+/* ============= SHARE ALL RELIEF CARDS AS ONE IMAGE (Canvas 2D — iOS-safe) ============= */
+const IMG_FONT="'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei','WenQuanYi Zen Hei',sans-serif";
+
+/* strip emoji so text metrics stay simple */
+function noEmojiStr(s){return String(s).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{1F1E6}-\u{1F1FF}\u{20E3}\u{2190}-\u{21FF}\u{2300}-\u{23FF}]/gu,'').replace(/\s{2,}/g,' ').trim();}
+
+/* wrap to pixel width: CJK per-char, Latin per-word */
+function wrapText(ctx, text, maxW){
+  const lines=[];
+  String(text).split('\n').forEach(para=>{
+    if(para===''){ lines.push(''); return; }
+    let line='';
+    const tokens=para.match(/[A-Za-z0-9%·.,:;!?()\-\/'"']+|\s+|[^\s]/g)||[];
+    for(const tk of tokens){
+      const test=line+tk;
+      if(ctx.measureText(test).width>maxW && line!==''){
+        lines.push(line.replace(/\s+$/,''));
+        line = tk.match(/^\s+$/)? '' : tk;
+      }else line=test;
+    }
+    if(line!=='') lines.push(line.replace(/\s+$/,''));
+  });
+  return lines;
+}
+/* rounded-rect helper (Safari lacks roundRect on older versions) */
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+/* Renders all relief cards to a canvas, returns a PNG blob. Pure 2D — works on iOS. */
+async function renderAllReliefImage(){
+  const scale=(window.devicePixelRatio&&window.devicePixelRatio>1)?2:1;
+  const W=640, MX=28, cardPad=24, gap=18, innerW=W-MX*2-cardPad*2;
+
+  // measuring pass to get total height
+  const mcv=document.createElement('canvas');
+  const mc=mcv.getContext('2d');
+  const layout=[]; // {kind, ...}
+  let y=0;
+
+  y+=30;
+  // page title
+  mc.font="800 30px "+IMG_FONT;
+  const titleLines=wrapText(mc, noEmojiStr(UI.reliefModalTitle[lang]), W-MX*2-58);
+  layout.push({kind:'sos', x:MX, y:y});
+  layout.push({kind:'pageTitle', lines:titleLines, x:MX+56, y:y});
+  y+=Math.max(44, titleLines.length*40)+6;
+  // intro
+  const intro={zh:"水灾、地震等救灾现场的重点用途。全部为环保、无毒、可就地取材的方法。",
+    zhT:"水災、地震等救災現場的重點用途。全部為環保、無毒、可就地取材的方法。",
+    en:"Key uses for flood, quake and relief sites. All eco-friendly, non-toxic, field-ready methods.",
+    ms:"Kegunaan utama untuk banjir, gempa dan tapak bantuan. Semua kaedah mesra alam, tanpa toksik, sedia di lapangan."}[lang];
+  mc.font="400 17px "+IMG_FONT;
+  const introLines=wrapText(mc, intro, W-MX*2);
+  layout.push({kind:'intro', lines:introLines, x:MX, y:y});
+  y+=introLines.length*24+20;
+
+  RELIEF_IDS.forEach((id,idx)=>{
+    const it=findItem(id); if(!it) return;
+    const cardTop=y;
+    let cy=y+cardPad;
+    mc.font="800 23px "+IMG_FONT;
+    const tLines=wrapText(mc, noEmojiStr(name(it)), innerW-44);
+    const titleH=Math.max(34, tLines.length*31);
+    mc.font="800 20px "+IMG_FONT;
+    const rtxt=ratio(it); const rW=mc.measureText(rtxt).width+30;
+    mc.font="400 19px "+IMG_FONT;
+    const useLines=wrapText(mc, F(it,'use'), innerW);
+    const noteTxt=F(it,'note'); let noteLines=null;
+    if(noteTxt){ mc.font="600 17px "+IMG_FONT; noteLines=wrapText(mc, UI.labelNote[lang]+'：'+noteTxt, innerW-24); }
+
+    let ch=cardPad + titleH + 12 + 40 + 14 + useLines.length*28;
+    if(noteLines) ch+= 10 + noteLines.length*26 + 20;
+    ch+=cardPad-4;
+
+    const card={kind:'card', x:MX, y:cardTop, w:W-MX*2, h:ch, n:idx+1,
+      tLines, ty:cy, rtxt, rW, useLines, noteLines};
+    layout.push(card);
+    y=cardTop+ch+gap;
+  });
+
+  // footer
+  mc.font="400 15px "+IMG_FONT;
+  const recLines=wrapText(mc, noEmojiStr(UI.footRecipe[lang]), W-MX*2);
+  layout.push({kind:'foot', lines:recLines, x:MX, y:y+4});
+  y+=recLines.length*23+8;
+  layout.push({kind:'brand', text:noEmojiStr(UI.brand[lang]), x:MX, y:y+4});
+  y+=28;
+  const H=y+18;
+
+  // draw pass
+  const cv=document.createElement('canvas');
+  cv.width=Math.round(W*scale); cv.height=Math.round(H*scale);
+  const ctx=cv.getContext('2d');
+  ctx.setTransform(scale,0,0,scale,0,0);
+  ctx.textBaseline='alphabetic';
+  // bg
+  ctx.fillStyle='#f7efe0'; ctx.fillRect(0,0,W,H);
+
+  for(const b of layout){
+    if(b.kind==='sos'){
+      ctx.fillStyle='#d43f2a'; roundRect(ctx,b.x,b.y,44,44,11); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font="800 17px "+IMG_FONT; ctx.textAlign='center';
+      ctx.fillText('SOS', b.x+22, b.y+29); ctx.textAlign='left';
+    }else if(b.kind==='pageTitle'){
+      ctx.fillStyle='#3a2410'; ctx.font="800 30px "+IMG_FONT;
+      b.lines.forEach((ln,i)=>ctx.fillText(ln, b.x, b.y+30+i*40));
+    }else if(b.kind==='intro'){
+      ctx.fillStyle='#6b543f'; ctx.font="400 17px "+IMG_FONT;
+      b.lines.forEach((ln,i)=>ctx.fillText(ln, b.x, b.y+16+i*24));
+    }else if(b.kind==='card'){
+      // card bg + border
+      ctx.fillStyle='#fdf9f0'; roundRect(ctx,b.x,b.y,b.w,b.h,18); ctx.fill();
+      ctx.strokeStyle='#e3d3b6'; ctx.lineWidth=1.5; roundRect(ctx,b.x,b.y,b.w,b.h,18); ctx.stroke();
+      let cy=b.y+cardPad;
+      // number badge
+      ctx.fillStyle='#a8432a'; roundRect(ctx,b.x+cardPad,cy,34,34,9); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font="800 18px "+IMG_FONT; ctx.textAlign='center';
+      ctx.fillText(String(b.n), b.x+cardPad+17, cy+24); ctx.textAlign='left';
+      // title
+      ctx.fillStyle='#2c1e12'; ctx.font="800 23px "+IMG_FONT;
+      const titleH=Math.max(34, b.tLines.length*31);
+      b.tLines.forEach((ln,i)=>ctx.fillText(ln, b.x+cardPad+44, cy+24+i*31));
+      cy+=titleH+12;
+      // ratio pill
+      ctx.fillStyle='#3a2410'; roundRect(ctx,b.x+cardPad,cy,b.rW,40,11); ctx.fill();
+      ctx.fillStyle='#f0c14b'; ctx.font="800 20px "+IMG_FONT;
+      ctx.fillText(b.rtxt, b.x+cardPad+15, cy+27);
+      cy+=40+14;
+      // use text
+      ctx.fillStyle='#2c1e12'; ctx.font="400 19px "+IMG_FONT;
+      b.useLines.forEach((ln,i)=>ctx.fillText(ln, b.x+cardPad, cy+16+i*28));
+      cy+=b.useLines.length*28;
+      // note
+      if(b.noteLines){
+        cy+=10;
+        const nh=b.noteLines.length*26+16;
+        ctx.fillStyle='#f7ece9'; roundRect(ctx,b.x+cardPad,cy,innerW,nh,11); ctx.fill();
+        ctx.fillStyle='#a8432a'; ctx.font="600 17px "+IMG_FONT;
+        b.noteLines.forEach((ln,i)=>ctx.fillText(ln, b.x+cardPad+12, cy+25+i*26));
+      }
+    }else if(b.kind==='foot'){
+      // divider
+      ctx.strokeStyle='#e3d3b6'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(b.x,b.y-6); ctx.lineTo(W-MX,b.y-6); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#6b543f'; ctx.font="400 15px "+IMG_FONT;
+      b.lines.forEach((ln,i)=>ctx.fillText(ln, b.x, b.y+16+i*23));
+    }else if(b.kind==='brand'){
+      ctx.fillStyle='#8a7355'; ctx.font="700 14px "+IMG_FONT;
+      ctx.fillText(b.text, b.x, b.y+14);
+    }
+  }
+
+  return new Promise((resolve,reject)=>{
+    if(cv.toBlob){
+      cv.toBlob(bl=> bl?resolve(bl):reject(new Error('toBlob null')),'image/png');
+    }else{
+      try{ fetch(cv.toDataURL('image/png')).then(r=>r.blob()).then(resolve).catch(reject); }
+      catch(e){ reject(e); }
+    }
+  });
+}
+
+async function shareAllReliefImage(btn){
+  const orig=btn.innerHTML;
+  btn.disabled=true;
+  btn.innerHTML=`<span>${UI.imgMaking[lang]}</span>`;
+  let blob;
+  try{
+    blob=await renderAllReliefImage();
+  }catch(e){
+    showToast(UI.imgFail[lang]+' ('+((e&&e.message)||e)+')');
+    btn.disabled=false; btn.innerHTML=orig; return;
+  }
+  const file=new File([blob], 'eco-enzyme-relief.png', {type:'image/png'});
+  const txt=UI.reliefModalTitle[lang];
+  const canFiles = navigator.canShare && navigator.canShare({files:[file]});
+
+  // ---- Branch 1 (mobile / iOS / Android): native share sheet with the image file ----
+  // iOS shows its sheet where the user picks WhatsApp / LINE / Telegram / Save to Photos.
+  if(navigator.share && (canFiles || navigator.canShare===undefined)){
+    try{
+      await navigator.share({files:[file], text:txt});
+      btn.disabled=false; btn.innerHTML=orig; return;      // done
+    }catch(e){
+      if(e && e.name==='AbortError'){ btn.disabled=false; btn.innerHTML=orig; return; } // user cancelled
+      // else fall through to Branch 2 / preview
+    }
+  }
+
+  // ---- Branch 2 (desktop): download the image, then open the chosen messaging web app ----
+  // The user attaches the just-downloaded PNG in the messaging app (drag-drop / paste).
+  // Which app: use the remembered channel preference (wa / tg / li).
+  let ch='wa';
+  try{ const s=localStorage.getItem('enzymeShareCh'); if(s&&['wa','tg','li'].includes(s)) ch=s; }catch(e){}
+  try{
+    // download PNG
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=file.name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+    showToast(UI.imgDownloaded[lang]);
+    // open the messaging web app so the user can attach the downloaded image
+    const webUrl = ch==='tg' ? 'https://web.telegram.org/'
+                 : ch==='li' ? 'https://line.me/'
+                 : 'https://web.whatsapp.com/';
+    setTimeout(()=>{ window.open(webUrl,'_blank','noopener'); }, 700);
+  }catch(e){
+    // if even download fails, show the on-screen preview to long-press/save
+    showImagePreview(blob);
+  }
+  btn.disabled=false; btn.innerHTML=orig;
+}
+
+/* image viewer fallback: shows the PNG so user can long-press → "Save Image"/"Share" (iOS) */
+function showImagePreview(blob){
+  const url=URL.createObjectURL(blob);
+  let ov=document.getElementById('imgPreview');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='imgPreview'; ov.className='img-preview';
+    ov.innerHTML=`<div class="img-preview-inner">
+        <div class="img-preview-tip" id="imgPreviewTip"></div>
+        <img alt="">
+        <button class="img-preview-close" id="imgPreviewClose">✕</button>
+      </div>`;
+    document.body.appendChild(ov);
+    ov.addEventListener('click',(e)=>{ if(e.target===ov) closeImagePreview(); });
+    ov.querySelector('#imgPreviewClose').onclick=closeImagePreview;
+  }
+  ov.querySelector('#imgPreviewTip').textContent=UI.imgTip[lang];
+  const imgEl=ov.querySelector('img');
+  imgEl.src=url; imgEl.dataset.url=url;
+  ov.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeImagePreview(){
+  const ov=document.getElementById('imgPreview');
+  if(!ov) return;
+  ov.classList.remove('show');
+  const imgEl=ov.querySelector('img');
+  if(imgEl.dataset.url){ URL.revokeObjectURL(imgEl.dataset.url); imgEl.dataset.url=''; }
+  if(!document.querySelector('.modal-bg.show')) document.body.style.overflow='';
+}
+document.getElementById('printBtn').onclick=()=>{
+  // open every card so all content prints
+  DATA.forEach(d=>openSet.add(d.zh));
+  const savedCat=activeCat, savedQ=query;
+  activeCat='all'; query=''; searchEl.value=''; clearBtn.classList.remove('show');
+  render();
+  document.body.classList.add('printing');
+  setTimeout(()=>{ window.print(); document.body.classList.remove('printing'); },350);
+};
+
+/* ================= SEARCH ================= */
+searchEl.addEventListener('input',e=>{
+  query=e.target.value.trim();
+  clearBtn.classList.toggle('show',query.length>0);
+  render();
+});
+clearBtn.onclick=()=>{ searchEl.value='';query='';clearBtn.classList.remove('show');render();searchEl.focus(); };
+
+/* ================= APPLY LANG ================= */
+function setText(id,val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+function setLang(l){
+  lang=l;
+  document.documentElement.lang = l==='ms'?'ms':(l==='en'?'en':'zh');
+  langLabel.textContent=LANGS[l].native;
+  setText('tagBrand',UI.brand[l]);
+  setText('tagTitle',UI.title[l]);
+  setText('tagSubtitle',UI.subtitle[l]);
+  setText('reliefTitle',UI.reliefTitle[l]);
+  setText('reliefSub',UI.reliefSub[l]);
+  setText('reliefModalTitle',UI.reliefModalTitle[l]);
+  setText('printLabel',UI.print[l]);
+  setText('addEntryLabel',UI.addEntry[l]);
+  setText('footRule',UI.footRule[l]);
+  setText('footRecipe',UI.footRecipe[l]);
+  document.getElementById('footSugar').innerHTML=
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 8c-3 0-5 2-5 5v7h10v-7c0-3-2-5-5-5z"/><path d="M9 20v-4M15 20v-4"/></svg><div>'+UI.sugarNote[l]+'</div>';
+  setText('footNote',UI.footNote[l]);
+  document.getElementById('footCredit').innerHTML=UI.credit[l];
+  searchEl.placeholder=UI.searchPh[l];
+  buildLangMenu(); buildChips(); render();
+}
+
+/* ================= TEXT SIZE ================= */
+const FS_STEPS=[1, 1.15, 1.3, 1.5];
+let fsIndex=0;
+const tsDown=document.getElementById('tsDown');
+const tsUp=document.getElementById('tsUp');
+
+function applyFs(){
+  document.documentElement.style.setProperty('--fs', FS_STEPS[fsIndex]);
+  tsDown.disabled = fsIndex<=0;
+  tsUp.disabled = fsIndex>=FS_STEPS.length-1;
+  // reflow any open cards so their expanded height matches new text size
+  listEl.querySelectorAll('.card.open').forEach(card=>{
+    const body=card.querySelector('.card-body');
+    body.style.maxHeight=body.querySelector('.card-body-inner').scrollHeight+'px';
+  });
+  try{ localStorage.setItem('enzymeFs', fsIndex); }catch(e){}
+}
+tsDown.onclick=()=>{ if(fsIndex>0){ fsIndex--; applyFs(); } };
+tsUp.onclick=()=>{ if(fsIndex<FS_STEPS.length-1){ fsIndex++; applyFs(); } };
+try{
+  const saved=parseInt(localStorage.getItem('enzymeFs'),10);
+  if(!isNaN(saved)&&saved>=0&&saved<FS_STEPS.length) fsIndex=saved;
+}catch(e){}
+
+/* ================= INIT ================= */
+setLang('zh');
+applyFs();
+
+/* ================= PWA: register service worker ================= */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then((reg) => {
+      // when a new SW is found and installed while the app is open, activate it
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            // a newer version is ready; take over on next load
+            nw.postMessage('skipWaiting');
+          }
+        });
+      });
+    }).catch(() => { /* offline install or unsupported — app still works */ });
+
+    // reload once when the new SW takes control, so users get the latest build
+    let refreshed = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshed) return;
+      refreshed = true;
+      window.location.reload();
+    });
+  });
+}
+</script>
+</body>
+</html>
