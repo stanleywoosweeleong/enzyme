@@ -505,12 +505,6 @@
     border-bottom:1px solid rgba(240,193,75,.25);flex:none;
     background:linear-gradient(180deg,rgba(240,193,75,.08),transparent);
   }
-  .proj-brand{display:flex;align-items:center;gap:14px;min-width:0;}
-  .proj-formula{font-weight:800;font-size:clamp(22px,3.4vw,40px);letter-spacing:.02em;white-space:nowrap;}
-  .proj-formula .pf-1{color:var(--honey);} .proj-formula .pf-3{color:#8cba60;} .proj-formula .pf-10{color:#6aa8cd;}
-  .proj-formula .pf-op{color:rgba(247,239,224,.45);margin:0 2px;}
-  .proj-brandtxt{color:rgba(247,239,224,.72);font-size:clamp(13px,1.8vw,20px);font-weight:600;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .proj-controls{display:flex;align-items:center;gap:10px;flex:none;}
   .proj-menubtn{
     display:flex;align-items:center;gap:7px;height:clamp(44px,5vw,56px);padding:0 clamp(12px,1.6vw,18px);
@@ -974,15 +968,11 @@
 <!-- Fullscreen projector mode (for talks) -->
 <div class="proj-overlay" id="projOverlay" aria-hidden="true">
   <div class="proj-bar">
-    <div class="proj-brand">
-      <span class="proj-formula"><b class="pf-1">1</b><span class="pf-op">:</span><b class="pf-3">3</b><span class="pf-op">:</span><b class="pf-10">10</b></span>
-      <span class="proj-brandtxt" id="projBrandTxt"></span>
-    </div>
+    <button class="proj-menubtn" id="projMenuBtn" aria-label="Sections">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span id="projMenuLabel"></span>
+    </button>
     <div class="proj-controls">
-      <button class="proj-menubtn" id="projMenuBtn" aria-label="Sections">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <span id="projMenuLabel"></span>
-      </button>
       <button class="proj-navbtn" id="projPrev" aria-label="Previous">‹</button>
       <span class="proj-count" id="projCount"></span>
       <button class="proj-navbtn" id="projNext" aria-label="Next">›</button>
@@ -1206,7 +1196,6 @@ const UI = {
   reliefSub:{zh:"水灾后清洁、消毒、净水", zhT:"水災後清潔、消毒、淨水", en:"Post-flood cleanup, sanitizing & water purification", ms:"Pembersihan, nyahkuman & tulen air selepas banjir"},
   reliefModalTitle:{zh:"救灾应急使用指南", zhT:"救災應急使用指南", en:"Disaster Relief Field Guide", ms:"Panduan Lapangan Bantuan Bencana"},
   print:   {zh:"投影版（讲座用）", zhT:"投影版（講座用）", en:"Projector view (for talks)", ms:"Paparan projektor (untuk ceramah)"},
-  projBrand:{zh:"环保酵素稀释比例", zhT:"環保酵素稀釋比例", en:"Eco-Enzyme Dilution", ms:"Nisbah Enzim Eko"},
   projPick:{zh:"选择要讲解的分类", zhT:"選擇要講解的分類", en:"Choose a section to present", ms:"Pilih bahagian untuk dibentangkan"},
   projAll:{zh:"全部用途", zhT:"全部用途", en:"All uses", ms:"Semua kegunaan"},
   projSections:{zh:"分类", zhT:"分類", en:"Sections", ms:"Bahagian"},
@@ -2423,7 +2412,6 @@ function projGo(delta){
 }
 function openProjector(){
   if(!allEntries().length) return;
-  document.getElementById('projBrandTxt').textContent = UI.projBrand[lang];
   document.getElementById('projHint').textContent = UI.projHint[lang];
   document.getElementById('projMenuLabel').textContent = UI.projSections[lang];
   showProjMenu();                       // open to the section picker first
