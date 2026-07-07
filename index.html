@@ -707,7 +707,7 @@
 <div class="controls">
   <div class="searchwrap">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="search" type="search" autocomplete="off">
+    <input id="search" type="search" autocomplete="off" aria-label="搜索用途 / Search uses">
     <button id="clearBtn" aria-label="Clear">✕</button>
   </div>
   <div class="toolrow">
@@ -809,11 +809,11 @@
     </div>
     <div class="modal-body">
       <div class="ef-row">
-        <label class="ef-label" id="lblCat"></label>
+        <div class="ef-label" id="lblCat"></div>
         <div class="ef-cats" id="efCats"></div>
       </div>
       <div class="ef-row">
-        <label class="ef-label" id="lblKind"></label>
+        <div class="ef-label" id="lblKind"></div>
         <div class="ef-kinds" id="efKinds"></div>
       </div>
       <div class="ef-langtabs" id="efLangTabs"></div>
@@ -1341,11 +1341,11 @@ function buildEfLangTabs(){
 function buildEfFields(){
   const d=efDraft.data[efLang];
   document.getElementById('efFields').innerHTML=`
-    <div class="ef-field"><label>${UI.fName[lang]}</label><input type="text" id="ef_name" value="${escAttr(d.name)}"></div>
-    <div class="ef-field"><label>${UI.fRatio[lang]}</label><input type="text" id="ef_ratio" value="${escAttr(d.ratio)}"></div>
-    <div class="ef-field"><label>${UI.fUse[lang]}</label><textarea id="ef_use">${escHtml(d.use)}</textarea></div>
-    <div class="ef-field"><label>${UI.fFunc[lang]}</label><textarea id="ef_func">${escHtml(d.func)}</textarea></div>
-    <div class="ef-field"><label>${UI.fNote[lang]}</label><textarea id="ef_note">${escHtml(d.note)}</textarea></div>`;
+    <div class="ef-field"><label for="ef_name">${UI.fName[lang]}</label><input type="text" id="ef_name" value="${escAttr(d.name)}"></div>
+    <div class="ef-field"><label for="ef_ratio">${UI.fRatio[lang]}</label><input type="text" id="ef_ratio" value="${escAttr(d.ratio)}"></div>
+    <div class="ef-field"><label for="ef_use">${UI.fUse[lang]}</label><textarea id="ef_use">${escHtml(d.use)}</textarea></div>
+    <div class="ef-field"><label for="ef_func">${UI.fFunc[lang]}</label><textarea id="ef_func">${escHtml(d.func)}</textarea></div>
+    <div class="ef-field"><label for="ef_note">${UI.fNote[lang]}</label><textarea id="ef_note">${escHtml(d.note)}</textarea></div>`;
 }
 function saveEfFields(){
   const g=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
