@@ -188,6 +188,38 @@
   .add-entry-btn:hover{background:var(--cream);}
   .add-entry-btn svg{width:19px;height:19px;color:var(--amber);}
 
+  /* share / import custom tricks */
+  .share-tricks-row{display:flex;gap:10px;margin-top:10px;}
+  .tricks-btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+    background:transparent;color:var(--amber);border:1px solid var(--line);
+    border-radius:12px;padding:10px;font-size:calc(12.5px * var(--fs));font-weight:700;
+    cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s;
+  }
+  .tricks-btn:hover{background:var(--cream-2);border-color:var(--amber);}
+  .tricks-btn:active{transform:scale(.98);}
+  .tricks-btn svg{width:16px;height:16px;flex:none;}
+  .tricks-intro{font-size:calc(13px * var(--fs));line-height:1.6;color:var(--ink-soft);margin-bottom:12px;}
+  .tricks-code{
+    width:100%;min-height:110px;resize:vertical;box-sizing:border-box;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;
+    background:var(--cream-2);color:var(--ink);border:1px solid var(--line);border-radius:12px;
+    padding:12px;word-break:break-all;
+  }
+  .tricks-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+  .tricks-action-btn{
+    flex:1;min-width:120px;background:var(--cream-2);color:var(--molasses);
+    border:1px solid var(--line);border-radius:12px;padding:12px;font-size:calc(13.5px * var(--fs));
+    font-weight:800;cursor:pointer;font-family:inherit;transition:background .15s;
+  }
+  .tricks-action-btn:hover{background:var(--cream);}
+  .tricks-action-btn:active{transform:scale(.98);}
+  .tricks-action-btn.primary{background:var(--amber);color:#fff;border-color:var(--amber);}
+  .tricks-action-btn.primary:hover{background:var(--amber-bright);}
+  .import-result{margin-top:14px;font-size:calc(13px * var(--fs));line-height:1.6;}
+  .import-result.ok{color:var(--leaf-deep);font-weight:700;}
+  .import-result.err{color:var(--danger);font-weight:700;}
+
   /* custom entry markers */
   .custom-tag{
     display:inline-block;vertical-align:middle;margin-left:8px;
@@ -399,15 +431,162 @@
   }
   footer .rule{color:var(--honey);font-weight:700;font-size:calc(14px * var(--fs));margin-bottom:8px;}
   footer .rule b{font-size:15px;}
-  footer div[id="footRecipe"]{font-size:calc(13.5px * var(--fs));}
-  footer .fine{opacity:.6;margin-top:12px;font-size:calc(12px * var(--fs));max-width:400px;margin-left:auto;margin-right:auto;}
+
+  /* ---- hero recipe card ---- */
+  .recipe-card{
+    max-width:440px;margin:0 auto;
+    background:linear-gradient(155deg,rgba(240,193,75,.14),rgba(196,123,46,.08));
+    border:1px solid rgba(240,193,75,.28);border-radius:20px;
+    padding:20px 18px 18px;box-shadow:0 10px 30px -18px rgba(0,0,0,.6);
+  }
+  .rc-title{
+    color:var(--honey);font-weight:800;font-size:calc(15px * var(--fs));letter-spacing:.04em;
+    margin-bottom:16px;
+  }
+  .rc-formula{
+    display:flex;align-items:flex-start;justify-content:center;gap:6px;flex-wrap:nowrap;margin-bottom:14px;
+  }
+  .rc-part{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;flex:0 1 auto;}
+  .rc-num{
+    font-weight:800;font-size:calc(38px * var(--fs));line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .rc-sugar{color:var(--honey);}
+  .rc-scraps{color:#8cba60;}
+  .rc-water{color:#6aa8cd;}
+  .rc-plabel{font-size:calc(11.5px * var(--fs));font-weight:700;color:rgba(247,239,224,.82);white-space:nowrap;}
+  .rc-op{color:rgba(247,239,224,.5);font-size:calc(24px * var(--fs));font-weight:700;line-height:1.5;align-self:flex-start;margin-top:6px;}
+  .rc-ferment{
+    font-size:calc(12.5px * var(--fs));line-height:1.6;color:rgba(247,239,224,.86);
+    border-top:1px dashed rgba(240,193,75,.25);padding-top:12px;margin-bottom:12px;
+  }
+  .rc-ferment b{color:var(--honey);font-weight:700;}
+
+  footer .fine{opacity:.6;margin-top:16px;font-size:calc(12px * var(--fs));max-width:400px;margin-left:auto;margin-right:auto;}
   footer .sugar-note{
-    margin:12px auto 0;max-width:440px;font-size:calc(13px * var(--fs));line-height:1.55;
-    color:#f7efe0;background:rgba(240,193,75,.1);border:1px solid rgba(240,193,75,.3);
+    margin:0 auto;max-width:440px;font-size:calc(12.5px * var(--fs));line-height:1.55;
+    color:#f7efe0;background:rgba(58,36,16,.35);border:1px solid rgba(240,193,75,.22);
     border-radius:11px;padding:10px 13px;display:flex;gap:8px;align-items:flex-start;text-align:left;
   }
   footer .sugar-note svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--honey);}
   footer .sugar-note b{color:var(--honey);font-weight:800;}
+
+  /* ---- QR share card (compact) ---- */
+  /* ---- action row: QR + projector button side by side ---- */
+  .action-row{
+    max-width:420px;margin:20px auto 0;display:flex;align-items:stretch;gap:14px;
+    background:rgba(247,239,224,.06);border:1px solid rgba(240,193,75,.2);
+    border-radius:18px;padding:14px;
+  }
+  .qr-code{flex:none;background:#fdf9f0;border-radius:12px;padding:7px;line-height:0;
+    box-shadow:0 4px 14px -6px rgba(0,0,0,.5);align-self:center;}
+  .qr-code svg{display:block;border-radius:3px;}
+
+  /* ---- projector view button (fills the rest of the row) ---- */
+  .proj-btn{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+    background:rgba(240,193,75,.12);color:var(--honey);border:1px solid rgba(240,193,75,.4);
+    border-radius:13px;padding:14px 16px;font-size:calc(15px * var(--fs));font-weight:800;
+    cursor:pointer;font-family:inherit;transition:background .15s;line-height:1.3;text-align:center;
+  }
+  .proj-btn:active{transform:scale(.98);}
+  .proj-btn:hover{background:rgba(240,193,75,.2);}
+  .proj-btn svg{width:26px;height:26px;flex:none;}
+
+  /* ===== Fullscreen projector mode ===== */
+  .proj-overlay{
+    position:fixed;inset:0;z-index:2000;background:var(--molasses);
+    display:none;flex-direction:column;color:var(--cream);
+  }
+  .proj-overlay.on{display:flex;}
+  .proj-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:calc(env(safe-area-inset-top) + 14px) 24px 14px;
+    border-bottom:1px solid rgba(240,193,75,.25);flex:none;
+    background:linear-gradient(180deg,rgba(240,193,75,.08),transparent);
+  }
+  .proj-brand{display:flex;align-items:center;gap:14px;min-width:0;}
+  .proj-formula{font-weight:800;font-size:clamp(22px,3.4vw,40px);letter-spacing:.02em;white-space:nowrap;}
+  .proj-formula .pf-1{color:var(--honey);} .proj-formula .pf-3{color:#8cba60;} .proj-formula .pf-10{color:#6aa8cd;}
+  .proj-formula .pf-op{color:rgba(247,239,224,.45);margin:0 2px;}
+  .proj-brandtxt{color:rgba(247,239,224,.72);font-size:clamp(13px,1.8vw,20px);font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .proj-controls{display:flex;align-items:center;gap:10px;flex:none;}
+  .proj-menubtn{
+    display:flex;align-items:center;gap:7px;height:clamp(44px,5vw,56px);padding:0 clamp(12px,1.6vw,18px);
+    border-radius:clamp(22px,2.5vw,28px);border:1px solid rgba(240,193,75,.35);
+    background:rgba(247,239,224,.08);color:var(--honey);cursor:pointer;font-family:inherit;
+    font-size:clamp(13px,1.7vw,18px);font-weight:700;transition:background .15s;white-space:nowrap;
+  }
+  .proj-menubtn:hover{background:rgba(240,193,75,.2);}
+  .proj-menubtn svg{width:clamp(18px,2vw,22px);height:clamp(18px,2vw,22px);flex:none;}
+  .proj-navbtn,.proj-close{
+    width:clamp(44px,5vw,56px);height:clamp(44px,5vw,56px);border-radius:50%;
+    border:1px solid rgba(240,193,75,.35);background:rgba(247,239,224,.08);
+    color:var(--honey);font-size:clamp(22px,2.6vw,30px);font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;font-family:inherit;
+    transition:background .15s;
+  }
+  .proj-navbtn:hover,.proj-close:hover{background:rgba(240,193,75,.2);}
+  .proj-navbtn:disabled{opacity:.3;cursor:default;}
+  .proj-close{color:var(--cream);font-size:clamp(20px,2.2vw,26px);}
+  .proj-count{color:rgba(247,239,224,.7);font-size:clamp(14px,1.8vw,20px);font-weight:700;
+    font-variant-numeric:tabular-nums;min-width:64px;text-align:center;}
+  /* while the section menu is open, hide the slide-nav controls */
+  .proj-overlay.menu-open .proj-navbtn,
+  .proj-overlay.menu-open .proj-count,
+  .proj-overlay.menu-open .proj-menubtn,
+  .proj-overlay.menu-open .proj-stage,
+  .proj-overlay.menu-open .proj-hint{display:none;}
+  .proj-menu{display:none;flex:1;overflow-y:auto;padding:clamp(20px,4vw,50px);}
+  .proj-overlay.menu-open .proj-menu{display:block;}
+  .proj-menu-title{text-align:center;color:var(--honey);font-weight:800;
+    font-size:clamp(20px,3vw,34px);margin-bottom:clamp(20px,3vw,36px);}
+  .proj-menu-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(140px,22vw,240px),1fr));
+    gap:clamp(12px,1.6vw,20px);max-width:1100px;margin:0 auto;
+  }
+  .proj-menu-tile{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:clamp(18px,2.5vw,34px) 14px;border-radius:clamp(14px,1.8vw,20px);cursor:pointer;
+    border:1px solid rgba(240,193,75,.28);background:rgba(247,239,224,.06);
+    color:var(--cream);font-family:inherit;transition:background .15s,transform .1s;text-align:center;
+  }
+  .proj-menu-tile:hover{background:rgba(240,193,75,.16);}
+  .proj-menu-tile:active{transform:scale(.97);}
+  .proj-menu-tile .pm-ico{font-size:clamp(30px,4vw,52px);line-height:1;}
+  .proj-menu-tile .pm-name{font-weight:800;font-size:clamp(16px,2vw,24px);}
+  .proj-menu-tile .pm-count{color:rgba(247,239,224,.55);font-size:clamp(12px,1.4vw,16px);font-weight:600;}
+  .proj-menu-tile.pm-all{background:linear-gradient(150deg,rgba(240,193,75,.2),rgba(196,123,46,.12));border-color:rgba(240,193,75,.5);}
+  .proj-menu-tile.pm-custom{background:linear-gradient(150deg,rgba(224,69,94,.16),rgba(240,193,75,.08));border-color:rgba(240,193,75,.45);}
+  .proj-menu-tile.pm-custom .pm-name{color:var(--honey);}
+  .proj-custom-badge{
+    display:inline-block;margin-left:10px;vertical-align:middle;
+    background:rgba(240,193,75,.18);color:var(--honey);border:1px solid rgba(240,193,75,.4);
+    border-radius:999px;padding:2px 12px;font-size:clamp(11px,1.4vw,16px);font-weight:700;
+    letter-spacing:.02em;text-transform:none;
+  }
+  .proj-stage{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:clamp(24px,4vw,60px);text-align:center;overflow:hidden;
+  }
+  .proj-cat{color:var(--honey);font-weight:700;font-size:clamp(16px,2.4vw,28px);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;opacity:.85;}
+  .proj-name{font-weight:800;font-size:clamp(34px,7vw,88px);line-height:1.1;margin-bottom:8px;}
+  .proj-name-en{color:rgba(247,239,224,.6);font-size:clamp(16px,2.4vw,30px);font-weight:600;margin-bottom:clamp(24px,4vw,44px);}
+  .proj-ratio{
+    display:inline-block;background:var(--honey);color:var(--molasses);
+    font-weight:800;font-size:clamp(28px,6vw,72px);line-height:1.2;
+    padding:clamp(12px,2vw,22px) clamp(24px,4vw,48px);border-radius:clamp(14px,2vw,24px);
+    font-variant-numeric:tabular-nums;margin-bottom:clamp(20px,3vw,36px);max-width:92vw;
+  }
+  .proj-ratio.strong{background:var(--danger);color:#ffe9df;}
+  .proj-ratio.neat{background:var(--leaf-deep);color:#e8f2d8;}
+  .proj-use{font-size:clamp(18px,3vw,38px);line-height:1.45;color:var(--cream);max-width:26ch;margin:0 auto clamp(14px,2vw,22px);}
+  .proj-note{font-size:clamp(15px,2.2vw,26px);line-height:1.4;color:rgba(240,193,75,.85);max-width:30ch;margin:0 auto;
+    background:rgba(240,193,75,.08);border-radius:14px;padding:12px 18px;}
+  .proj-hint{flex:none;text-align:center;color:rgba(247,239,224,.4);font-size:clamp(12px,1.5vw,16px);
+    padding:0 20px calc(env(safe-area-inset-bottom) + 16px);}
   footer .credit{
     margin:22px auto 0;max-width:420px;font-size:calc(11.5px * var(--fs));line-height:1.7;
     color:rgba(247,239,224,.62);text-align:center;padding-top:16px;
@@ -743,21 +922,81 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
     <span id="addEntryLabel"></span>
   </button>
+  <div class="share-tricks-row" id="shareTricksRow">
+    <button class="tricks-btn" id="exportTricksBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>
+      <span id="exportTricksLabel"></span>
+    </button>
+    <button class="tricks-btn" id="importTricksBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M8 10l4 4 4-4"/><path d="M12 3v11"/></svg>
+      <span id="importTricksLabel"></span>
+    </button>
+  </div>
 </div>
 
 <main id="list"></main>
 
 <footer>
-  <div class="rule" id="footRule"></div>
-  <div style="opacity:.85" id="footRecipe"></div>
-  <div class="sugar-note" id="footSugar"></div>
+  <!-- Hero recipe card -->
+  <div class="recipe-card">
+    <div class="rc-title" id="footRule"></div>
+    <div class="rc-formula">
+      <div class="rc-part"><span class="rc-num rc-sugar">1</span><span class="rc-plabel" id="rcSugar"></span></div>
+      <span class="rc-op">+</span>
+      <div class="rc-part"><span class="rc-num rc-scraps">3</span><span class="rc-plabel" id="rcScraps"></span></div>
+      <span class="rc-op">+</span>
+      <div class="rc-part"><span class="rc-num rc-water">10</span><span class="rc-plabel" id="rcWater"></span></div>
+    </div>
+    <div class="rc-ferment" id="rcFerment"></div>
+    <div class="sugar-note" id="footSugar"></div>
+  </div>
+
   <div class="fine" id="footNote"></div>
-  <button class="copy-btn" id="printBtn" style="margin:18px auto 0;background:rgba(247,239,224,.12);color:var(--honey);border-color:rgba(240,193,75,.35);">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
-    <span id="printLabel"></span>
-  </button>
+
+  <!-- Action row: QR code + projector button side by side -->
+  <div class="action-row">
+    <div class="qr-code">
+      <svg viewBox="0 0 37 37" width="96" height="96" shape-rendering="crispEdges" aria-label="QR code">
+        <rect width="37" height="37" fill="#fdf9f0"/>
+        <path fill="#2c1e12" d="M2 2h7v1h-7zM11 2h1v1h-1zM13 2h1v1h-1zM16 2h2v1h-2zM20 2h2v1h-2zM23 2h3v1h-3zM28 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM11 3h2v1h-2zM17 3h1v1h-1zM19 3h1v1h-1zM22 3h1v1h-1zM25 3h1v1h-1zM28 3h1v1h-1zM34 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM12 4h1v1h-1zM16 4h2v1h-2zM19 4h1v1h-1zM22 4h1v1h-1zM25 4h1v1h-1zM28 4h1v1h-1zM30 4h3v1h-3zM34 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM11 5h5v1h-5zM17 5h1v1h-1zM19 5h1v1h-1zM21 5h1v1h-1zM23 5h1v1h-1zM28 5h1v1h-1zM30 5h3v1h-3zM34 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM11 6h1v1h-1zM14 6h1v1h-1zM18 6h1v1h-1zM21 6h1v1h-1zM25 6h2v1h-2zM28 6h1v1h-1zM30 6h3v1h-3zM34 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h3v1h-3zM20 7h1v1h-1zM22 7h3v1h-3zM26 7h1v1h-1zM28 7h1v1h-1zM34 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h7v1h-7zM11 9h1v1h-1zM16 9h1v1h-1zM19 9h5v1h-5zM25 9h2v1h-2zM2 10h1v1h-1zM5 10h1v1h-1zM7 10h2v1h-2zM10 10h3v1h-3zM15 10h4v1h-4zM21 10h1v1h-1zM23 10h1v1h-1zM25 10h3v1h-3zM29 10h1v1h-1zM2 11h1v1h-1zM4 11h2v1h-2zM7 11h1v1h-1zM10 11h1v1h-1zM12 11h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM18 11h1v1h-1zM22 11h1v1h-1zM24 11h1v1h-1zM26 11h4v1h-4zM33 11h2v1h-2zM2 12h5v1h-5zM8 12h1v1h-1zM10 12h1v1h-1zM13 12h2v1h-2zM19 12h1v1h-1zM21 12h1v1h-1zM23 12h2v1h-2zM26 12h1v1h-1zM28 12h3v1h-3zM32 12h1v1h-1zM34 12h1v1h-1zM3 13h1v1h-1zM5 13h1v1h-1zM9 13h2v1h-2zM12 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM18 13h2v1h-2zM25 13h2v1h-2zM28 13h1v1h-1zM30 13h2v1h-2zM34 13h1v1h-1zM3 14h1v1h-1zM6 14h3v1h-3zM12 14h1v1h-1zM17 14h1v1h-1zM25 14h4v1h-4zM31 14h1v1h-1zM33 14h2v1h-2zM3 15h1v1h-1zM5 15h3v1h-3zM10 15h1v1h-1zM12 15h1v1h-1zM14 15h2v1h-2zM17 15h2v1h-2zM24 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM30 15h2v1h-2zM33 15h2v1h-2zM3 16h2v1h-2zM8 16h1v1h-1zM11 16h1v1h-1zM16 16h1v1h-1zM19 16h1v1h-1zM22 16h1v1h-1zM24 16h2v1h-2zM27 16h3v1h-3zM31 16h1v1h-1zM33 16h1v1h-1zM3 17h2v1h-2zM11 17h1v1h-1zM13 17h2v1h-2zM16 17h2v1h-2zM19 17h1v1h-1zM21 17h1v1h-1zM23 17h4v1h-4zM28 17h1v1h-1zM30 17h2v1h-2zM33 17h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM8 18h2v1h-2zM15 18h2v1h-2zM19 18h1v1h-1zM21 18h1v1h-1zM23 18h4v1h-4zM28 18h1v1h-1zM30 18h1v1h-1zM33 18h1v1h-1zM3 19h2v1h-2zM6 19h2v1h-2zM12 19h2v1h-2zM16 19h1v1h-1zM23 19h4v1h-4zM29 19h1v1h-1zM31 19h1v1h-1zM3 20h2v1h-2zM7 20h4v1h-4zM12 20h2v1h-2zM16 20h1v1h-1zM20 20h1v1h-1zM24 20h1v1h-1zM27 20h1v1h-1zM32 20h3v1h-3zM5 21h1v1h-1zM7 21h1v1h-1zM10 21h2v1h-2zM16 21h1v1h-1zM19 21h3v1h-3zM23 21h1v1h-1zM25 21h1v1h-1zM28 21h2v1h-2zM2 22h1v1h-1zM4 22h1v1h-1zM8 22h1v1h-1zM13 22h3v1h-3zM18 22h3v1h-3zM24 22h4v1h-4zM34 22h1v1h-1zM3 23h2v1h-2zM6 23h2v1h-2zM10 23h1v1h-1zM12 23h1v1h-1zM16 23h9v1h-9zM26 23h1v1h-1zM28 23h2v1h-2zM32 23h3v1h-3zM2 24h2v1h-2zM5 24h1v1h-1zM7 24h3v1h-3zM11 24h1v1h-1zM13 24h3v1h-3zM17 24h1v1h-1zM22 24h3v1h-3zM27 24h4v1h-4zM34 24h1v1h-1zM3 25h1v1h-1zM5 25h1v1h-1zM11 25h1v1h-1zM15 25h2v1h-2zM18 25h1v1h-1zM20 25h1v1h-1zM23 25h2v1h-2zM30 25h2v1h-2zM34 25h1v1h-1zM2 26h1v1h-1zM4 26h1v1h-1zM6 26h3v1h-3zM10 26h1v1h-1zM13 26h3v1h-3zM17 26h3v1h-3zM21 26h1v1h-1zM23 26h1v1h-1zM25 26h6v1h-6zM33 26h1v1h-1zM10 27h1v1h-1zM14 27h1v1h-1zM16 27h1v1h-1zM21 27h2v1h-2zM24 27h3v1h-3zM30 27h2v1h-2zM34 27h1v1h-1zM2 28h7v1h-7zM11 28h2v1h-2zM16 28h1v1h-1zM18 28h1v1h-1zM22 28h2v1h-2zM26 28h1v1h-1zM28 28h1v1h-1zM30 28h4v1h-4zM2 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM16 29h1v1h-1zM18 29h1v1h-1zM22 29h1v1h-1zM26 29h1v1h-1zM30 29h1v1h-1zM33 29h1v1h-1zM2 30h1v1h-1zM4 30h3v1h-3zM8 30h1v1h-1zM11 30h2v1h-2zM14 30h2v1h-2zM17 30h2v1h-2zM24 30h1v1h-1zM26 30h6v1h-6zM34 30h1v1h-1zM2 31h1v1h-1zM4 31h3v1h-3zM8 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM14 31h4v1h-4zM19 31h1v1h-1zM21 31h2v1h-2zM28 31h1v1h-1zM30 31h1v1h-1zM32 31h2v1h-2zM2 32h1v1h-1zM4 32h3v1h-3zM8 32h1v1h-1zM11 32h4v1h-4zM19 32h1v1h-1zM23 32h1v1h-1zM25 32h3v1h-3zM30 32h3v1h-3zM34 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM11 33h2v1h-2zM14 33h2v1h-2zM17 33h4v1h-4zM23 33h1v1h-1zM26 33h1v1h-1zM28 33h1v1h-1zM2 34h7v1h-7zM10 34h1v1h-1zM13 34h3v1h-3zM18 34h1v1h-1zM23 34h1v1h-1zM26 34h1v1h-1zM28 34h1v1h-1zM30 34h2v1h-2zM33 34h1v1h-1z"/>
+      </svg>
+    </div>
+    <button class="proj-btn" id="printBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 3v3M18 3v3"/></svg>
+      <span id="printLabel"></span>
+    </button>
+  </div>
+
+  <!-- Credit -->
   <div class="credit" id="footCredit"></div>
 </footer>
+
+<!-- Fullscreen projector mode (for talks) -->
+<div class="proj-overlay" id="projOverlay" aria-hidden="true">
+  <div class="proj-bar">
+    <div class="proj-brand">
+      <span class="proj-formula"><b class="pf-1">1</b><span class="pf-op">:</span><b class="pf-3">3</b><span class="pf-op">:</span><b class="pf-10">10</b></span>
+      <span class="proj-brandtxt" id="projBrandTxt"></span>
+    </div>
+    <div class="proj-controls">
+      <button class="proj-menubtn" id="projMenuBtn" aria-label="Sections">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span id="projMenuLabel"></span>
+      </button>
+      <button class="proj-navbtn" id="projPrev" aria-label="Previous">‹</button>
+      <span class="proj-count" id="projCount"></span>
+      <button class="proj-navbtn" id="projNext" aria-label="Next">›</button>
+      <button class="proj-close" id="projClose" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <!-- section picker -->
+  <div class="proj-menu" id="projMenu">
+    <div class="proj-menu-title" id="projMenuTitle"></div>
+    <div class="proj-menu-grid" id="projMenuGrid"></div>
+  </div>
+  <div class="proj-stage" id="projStage"></div>
+  <div class="proj-hint" id="projHint"></div>
+</div>
 
 <!-- Disaster relief modal -->
 <div class="modal-bg" id="reliefModal">
@@ -838,6 +1077,49 @@
   </div>
 </div>
 
+<!-- Export tricks modal -->
+<div class="modal-bg" id="exportModal">
+  <div class="modal">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <span class="m-ico">📤</span>
+      <h3 id="exportModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('exportModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="tricks-intro" id="exportIntro"></div>
+      <textarea class="tricks-code" id="exportCode" readonly></textarea>
+      <div class="tricks-actions">
+        <button class="tricks-action-btn primary" id="exportCopyBtn"></button>
+        <button class="tricks-action-btn" id="exportShareBtn"></button>
+        <button class="tricks-action-btn" id="exportFileBtn"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import tricks modal -->
+<div class="modal-bg" id="importModal">
+  <div class="modal">
+    <div class="modal-grip"></div>
+    <div class="modal-head">
+      <span class="m-ico">📥</span>
+      <h3 id="importModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('importModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="tricks-intro" id="importIntro"></div>
+      <textarea class="tricks-code" id="importCode" placeholder=""></textarea>
+      <input type="file" id="importFileInput" accept=".txt,.json,application/json,text/plain" style="display:none">
+      <div class="tricks-actions">
+        <button class="tricks-action-btn primary" id="importDoBtn"></button>
+        <button class="tricks-action-btn" id="importFileBtn"></button>
+      </div>
+      <div class="import-result" id="importResult"></div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -862,6 +1144,24 @@ const UI = {
   delEntry:{zh:"删除", zhT:"刪除", en:"Delete", ms:"Padam"},
   customTag:{zh:"自定义", zhT:"自訂", en:"Custom", ms:"Sendiri"},
   customFilter:{zh:"我的用途", zhT:"我的用途", en:"My entries", ms:"Milik saya"},
+  exportTricksLabel:{zh:"分享我的用途", zhT:"分享我的用途", en:"Share my entries", ms:"Kongsi milik saya"},
+  importTricksLabel:{zh:"导入用途", zhT:"匯入用途", en:"Import entries", ms:"Import kegunaan"},
+  noTricks:{zh:"还没有自定义用途可分享", zhT:"還沒有自訂用途可分享", en:"No custom entries to share yet", ms:"Tiada kegunaan sendiri untuk dikongsi"},
+  exportTitle:{zh:"分享我的用途", zhT:"分享我的用途", en:"Share my entries", ms:"Kongsi milik saya"},
+  exportIntro:{zh:"把下面的代码发给其他讲师，他们用「导入用途」即可加入这些用途。", zhT:"把下面的代碼發給其他講師，他們用「匯入用途」即可加入這些用途。", en:"Send this code to another presenter; they use “Import entries” to add them.", ms:"Hantar kod ini kepada penceramah lain; mereka guna “Import kegunaan” untuk menambahnya."},
+  exportCopy:{zh:"复制代码", zhT:"複製代碼", en:"Copy code", ms:"Salin kod"},
+  exportShare:{zh:"分享", zhT:"分享", en:"Share", ms:"Kongsi"},
+  exportFile:{zh:"存成文件", zhT:"存成檔案", en:"Save file", ms:"Simpan fail"},
+  shareMsg:{zh:"环保酵素用途分享代码（在 App 中用「导入用途」加入）：", zhT:"環保酵素用途分享代碼（在 App 中用「匯入用途」加入）：", en:"Eco-Enzyme entries share code (add via “Import entries” in the app):", ms:"Kod kongsi kegunaan Enzim Eko (tambah melalui “Import kegunaan” dalam apl):"},
+  fileSaved:{zh:"已存成文件", zhT:"已存成檔案", en:"File saved", ms:"Fail disimpan"},
+  importTitle:{zh:"导入用途", zhT:"匯入用途", en:"Import entries", ms:"Import kegunaan"},
+  importIntro:{zh:"粘贴别人分享的代码，或从文件导入。", zhT:"貼上別人分享的代碼，或從檔案匯入。", en:"Paste a shared code, or import from a file.", ms:"Tampal kod yang dikongsi, atau import dari fail."},
+  importPlaceholder:{zh:"在此粘贴 ENZ1: 开头的代码…", zhT:"在此貼上 ENZ1: 開頭的代碼…", en:"Paste the code starting with ENZ1: here…", ms:"Tampal kod bermula dengan ENZ1: di sini…"},
+  importDo:{zh:"导入", zhT:"匯入", en:"Import", ms:"Import"},
+  importFile:{zh:"从文件选择", zhT:"從檔案選擇", en:"Choose file", ms:"Pilih fail"},
+  importDone:{zh:(a,s)=>`成功导入 ${a} 项${s?`，跳过 ${s} 项（重复或无效）`:''}。`, zhT:(a,s)=>`成功匯入 ${a} 項${s?`，跳過 ${s} 項（重複或無效）`:''}。`, en:(a,s)=>`Imported ${a} ${a===1?'entry':'entries'}${s?`, skipped ${s}`:''}.`, ms:(a,s)=>`${a} kegunaan diimport${s?`, ${s} dilangkau`:''}.`},
+  importNoneNew:{zh:"没有新用途可导入（可能都已存在）。", zhT:"沒有新用途可匯入（可能都已存在）。", en:"No new entries to import (they may already exist).", ms:"Tiada kegunaan baru untuk diimport (mungkin sudah wujud)."},
+  importBad:{zh:"代码无法识别，请检查后再试。", zhT:"代碼無法識別，請檢查後再試。", en:"Couldn't read that code — please check and try again.", ms:"Kod tidak dapat dibaca — sila semak dan cuba lagi."},
   favFilter:{zh:"我的最爱", zhT:"我的最愛", en:"Favourites", ms:"Kegemaran"},
   favEmpty:{zh:"还没有收藏。点每张卡片的 ♥ 即可收藏。", zhT:"還沒有收藏。點每張卡片的 ♥ 即可收藏。", en:"No favourites yet. Tap the ♥ on any card to save it.", ms:"Tiada kegemaran lagi. Ketik ♥ pada mana-mana kad untuk simpan."},
   delConfirm:{zh:"确定要删除这个自定义用途吗？", zhT:"確定要刪除這個自訂用途嗎？", en:"Delete this custom entry?", ms:"Padam kegunaan sendiri ini?"},
@@ -905,8 +1205,23 @@ const UI = {
   reliefTitle:{zh:"救灾应急速查", zhT:"救災應急速查", en:"Disaster Relief Quick Guide", ms:"Panduan Segera Bantuan Bencana"},
   reliefSub:{zh:"水灾后清洁、消毒、净水", zhT:"水災後清潔、消毒、淨水", en:"Post-flood cleanup, sanitizing & water purification", ms:"Pembersihan, nyahkuman & tulen air selepas banjir"},
   reliefModalTitle:{zh:"救灾应急使用指南", zhT:"救災應急使用指南", en:"Disaster Relief Field Guide", ms:"Panduan Lapangan Bantuan Bencana"},
-  print:   {zh:"打印 / 投影版（讲座用）", zhT:"列印 / 投影版（講座用）", en:"Print / projector view (for talks)", ms:"Cetak / paparan projektor (untuk ceramah)"},
-  footRule:{zh:"核心配方", zhT:"核心配方", en:"Core recipe", ms:"Resipi teras"},
+  print:   {zh:"投影版（讲座用）", zhT:"投影版（講座用）", en:"Projector view (for talks)", ms:"Paparan projektor (untuk ceramah)"},
+  projBrand:{zh:"环保酵素稀释比例", zhT:"環保酵素稀釋比例", en:"Eco-Enzyme Dilution", ms:"Nisbah Enzim Eko"},
+  projPick:{zh:"选择要讲解的分类", zhT:"選擇要講解的分類", en:"Choose a section to present", ms:"Pilih bahagian untuk dibentangkan"},
+  projAll:{zh:"全部用途", zhT:"全部用途", en:"All uses", ms:"Semua kegunaan"},
+  projSections:{zh:"分类", zhT:"分類", en:"Sections", ms:"Bahagian"},
+  projHint:{zh:"← → 或点击左右切换 · Esc 或“分类”返回选单", zhT:"← → 或點擊左右切換 · Esc 或「分類」返回選單", en:"← → or tap sides · Esc or “Sections” to go back", ms:"← → atau ketik tepi · Esc atau “Bahagian” untuk kembali"},
+  footRule:{zh:"核心配方", zhT:"核心配方", en:"Core Recipe", ms:"Resipi Teras"},
+  rcSugar:{zh:"红糖", zhT:"紅糖", en:"molasses", ms:"gula merah"},
+  rcScraps:{zh:"厨余", zhT:"廚餘", en:"scraps", ms:"sisa dapur"},
+  rcWater:{zh:"水", zhT:"水", en:"water", ms:"air"},
+  rcFerment:{
+    zh:"装入宽口塑料容器，发酵 <b>3 个月</b> = 环保酵素",
+    zhT:"裝入寬口塑膠容器，發酵 <b>3 個月</b> = 環保酵素",
+    en:"Seal in a wide-mouth plastic container, ferment <b>3 months</b> = Eco-Enzyme",
+    ms:"Simpan dalam bekas plastik bermulut lebar, tapai <b>3 bulan</b> = Enzim Eko"
+  },
+  qrHead:{zh:"扫码分享这个应用", zhT:"掃碼分享這個應用", en:"Scan to share this app", ms:"Imbas untuk kongsi apl ini"},
   footRecipe:{zh:"1 份红糖（黑糖） + 3 份厨余 + 10 份水，装入宽口塑料容器发酵 3 个月 = 环保酵素",
               zhT:"1 份紅糖（黑糖） + 3 份廚餘 + 10 份水，裝入寬口塑膠容器發酵 3 個月 = 環保酵素",
               en:"1 part brown sugar (molasses / jaggery) + 3 parts kitchen scraps + 10 parts water, fermented 3 months in a wide-mouth plastic container = Eco-Enzyme",
@@ -1098,6 +1413,7 @@ function matches(item){
 function render(){
   const items=allEntries().filter(matches);
   countEl.textContent=UI.count[lang](items.length);
+  updateTricksRow();
   if(items.length===0){
     if(activeCat==='fav' && !query){
       listEl.innerHTML=`<div class="noresult"><div class="big">🤍</div>
@@ -1418,6 +1734,153 @@ function deleteCustom(id){
     showToast(UI.deletedToast[lang]);
   });
 }
+
+/* ============== SHARE / IMPORT CUSTOM TRICKS ============== */
+/* Portable code format: "ENZ1:" + base64(JSON of custom entries).
+   Unicode-safe base64 so Chinese text survives. */
+const TRICKS_PREFIX='ENZ1:';
+function b64EncodeUnicode(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function b64DecodeUnicode(str){
+  return decodeURIComponent(escape(atob(str)));
+}
+function exportTricksCode(){
+  // strip nothing sensitive; keep every field. cid is regenerated on import to avoid clashes.
+  const payload = CUSTOM.map(c=>{ const {cid, ...rest}=c; return rest; });
+  return TRICKS_PREFIX + b64EncodeUnicode(JSON.stringify(payload));
+}
+function parseTricksCode(raw){
+  let s=String(raw||'').trim();
+  if(!s) throw new Error('empty');
+  // tolerate surrounding text / whitespace: grab the ENZ1:... token
+  const m=s.match(/ENZ1:[A-Za-z0-9+/=]+/);
+  if(m) s=m[0];
+  if(!s.startsWith(TRICKS_PREFIX)) throw new Error('format');
+  const json=b64DecodeUnicode(s.slice(TRICKS_PREFIX.length));
+  const arr=JSON.parse(json);
+  if(!Array.isArray(arr)) throw new Error('format');
+  return arr;
+}
+function importTricks(raw){
+  const arr=parseTricksCode(raw);
+  // validate + merge; skip exact duplicates (same zh name + same ratios)
+  const sig=c=>[c.zh,c.zhT,c.en,c.ms,c.ratioZh,c.ratioEn].join('¦');
+  const existing=new Set(CUSTOM.map(sig));
+  const VALID_CATS=Object.keys(CATS);
+  let added=0, skipped=0;
+  arr.forEach(raw=>{
+    if(!raw || typeof raw!=='object'){ skipped++; return; }
+    // must have at least one name and one ratio across languages
+    const hasName = raw.zh||raw.zhT||raw.en||raw.ms;
+    const hasRatio = raw.ratioZh||raw.ratioZhT||raw.ratioEn||raw.ratioMs;
+    if(!hasName || !hasRatio){ skipped++; return; }
+    const cat = VALID_CATS.includes(raw.cat)? raw.cat : VALID_CATS[0];
+    const kind = ['normal','strong','neat'].includes(raw.kind)? raw.kind : 'normal';
+    const entry={
+      cid:'custom-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),
+      cat, ico: CATS[cat].ico, kind,
+      zh:raw.zh||'', zhT:raw.zhT||'', en:raw.en||'', ms:raw.ms||'',
+      ratioZh:raw.ratioZh||'', ratioZhT:raw.ratioZhT||'', ratioEn:raw.ratioEn||'', ratioMs:raw.ratioMs||'',
+      useZh:raw.useZh||'', useZhT:raw.useZhT||'', useEn:raw.useEn||'', useMs:raw.useMs||'',
+      funcZh:raw.funcZh||'', funcZhT:raw.funcZhT||'', funcEn:raw.funcEn||'', funcMs:raw.funcMs||'',
+      noteZh:raw.noteZh||'', noteZhT:raw.noteZhT||'', noteEn:raw.noteEn||'', noteMs:raw.noteMs||'',
+      kw:raw.kw||''
+    };
+    if(existing.has(sig(entry))){ skipped++; return; }
+    existing.add(sig(entry));
+    CUSTOM.push(entry); added++;
+  });
+  if(added>0){ saveCustom(); buildChips(); render(); }
+  return {added, skipped};
+}
+
+/* ---- export modal ---- */
+function updateTricksRow(){
+  // Export only makes sense with custom entries; import is always available.
+  const exp=document.getElementById('exportTricksBtn');
+  if(exp) exp.style.display = CUSTOM.length>0 ? '' : 'none';
+}
+function openExportModal(){
+  if(CUSTOM.length===0){ showToast(UI.noTricks[lang]); return; }
+  document.getElementById('exportModalTitle').textContent=UI.exportTitle[lang];
+  document.getElementById('exportIntro').textContent=UI.count[lang](CUSTOM.length)+' · '+UI.exportIntro[lang];
+  document.getElementById('exportCode').value=exportTricksCode();
+  document.getElementById('exportCopyBtn').textContent=UI.exportCopy[lang];
+  document.getElementById('exportShareBtn').textContent=UI.exportShare[lang];
+  document.getElementById('exportFileBtn').textContent=UI.exportFile[lang];
+  openModal('exportModal');
+}
+async function exportCopy(){
+  const code=document.getElementById('exportCode').value;
+  try{ await navigator.clipboard.writeText(code); showToast(UI.copiedToast[lang]); }
+  catch(e){
+    const ta=document.getElementById('exportCode'); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); showToast(UI.copiedToast[lang]); }catch(_){}
+  }
+}
+async function exportShare(){
+  const code=document.getElementById('exportCode').value;
+  const msg=UI.shareMsg[lang]+'\n\n'+code;
+  if(navigator.share){
+    try{ await navigator.share({text:msg}); return; }catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  // fallback: open WhatsApp with the code
+  window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(msg),'_blank');
+}
+function exportFile(){
+  const code=document.getElementById('exportCode').value;
+  const blob=new Blob([code],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='enzyme-tricks.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast(UI.fileSaved[lang]);
+}
+
+/* ---- import modal ---- */
+function openImportModal(){
+  document.getElementById('importModalTitle').textContent=UI.importTitle[lang];
+  document.getElementById('importIntro').textContent=UI.importIntro[lang];
+  document.getElementById('importCode').value='';
+  document.getElementById('importCode').placeholder=UI.importPlaceholder[lang];
+  document.getElementById('importDoBtn').textContent=UI.importDo[lang];
+  document.getElementById('importFileBtn').textContent=UI.importFile[lang];
+  const res=document.getElementById('importResult'); res.textContent=''; res.className='import-result';
+  openModal('importModal');
+}
+function doImport(raw){
+  const res=document.getElementById('importResult');
+  try{
+    const {added,skipped}=importTricks(raw);
+    if(added===0 && skipped>0){
+      res.className='import-result err';
+      res.textContent=UI.importNoneNew[lang];
+    }else{
+      res.className='import-result ok';
+      res.textContent=UI.importDone[lang](added,skipped);
+      showToast(UI.importDone[lang](added,skipped));
+    }
+  }catch(e){
+    res.className='import-result err';
+    res.textContent=UI.importBad[lang];
+  }
+}
+document.getElementById('exportTricksBtn').onclick=openExportModal;
+document.getElementById('importTricksBtn').onclick=openImportModal;
+document.getElementById('exportCopyBtn').onclick=exportCopy;
+document.getElementById('exportShareBtn').onclick=exportShare;
+document.getElementById('exportFileBtn').onclick=exportFile;
+document.getElementById('importDoBtn').onclick=()=>doImport(document.getElementById('importCode').value);
+document.getElementById('importFileBtn').onclick=()=>document.getElementById('importFileInput').click();
+document.getElementById('importFileInput').onchange=(e)=>{
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  const reader=new FileReader();
+  reader.onload=()=>{ document.getElementById('importCode').value=String(reader.result||''); doImport(reader.result); };
+  reader.readAsText(f);
+  e.target.value='';
+};
 
 /* ================= SHARE / COPY ================= */
 function shareText(it){
@@ -1859,15 +2322,162 @@ function closeImagePreview(){
   if(imgEl.dataset.url){ URL.revokeObjectURL(imgEl.dataset.url); imgEl.dataset.url=''; }
   if(!document.querySelector('.modal-bg.show')) document.body.style.overflow='';
 }
-document.getElementById('printBtn').onclick=()=>{
-  // open every card so all content prints
-  DATA.forEach(d=>openSet.add(d.zh));
-  const savedCat=activeCat, savedQ=query;
-  activeCat='all'; query=''; searchEl.value=''; clearBtn.classList.remove('show');
-  render();
-  document.body.classList.add('printing');
-  setTimeout(()=>{ window.print(); document.body.classList.remove('printing'); },350);
-};
+/* ================= Projector mode (fullscreen, for talks) ================= */
+let projIndex=0, projItems=[];
+const projOverlay=document.getElementById('projOverlay');
+const projStage=document.getElementById('projStage');
+let projCat='all';   // currently presented section ('all' or a category key)
+
+function projEntriesByCat(){
+  const byCat={};
+  allEntries().forEach(it=>{(byCat[it.cat]=byCat[it.cat]||[]).push(it);});
+  return byCat;
+}
+function projBuildItems(cat){
+  // build the slide list for the chosen section (cat='all' => everything, 'custom' => user's own)
+  projItems=[];
+  if(cat==='custom'){
+    CUSTOM.forEach(it=>projItems.push(it));
+    return;
+  }
+  const order=Object.keys(CATS);
+  const byCat=projEntriesByCat();
+  order.forEach(c=>{
+    if(cat!=='all' && c!==cat) return;
+    (byCat[c]||[]).forEach(it=>projItems.push(it));
+  });
+}
+function buildProjMenu(){
+  const byCat=projEntriesByCat();
+  const total=allEntries().length;
+  document.getElementById('projMenuTitle').textContent = UI.projPick[lang];
+  let html='';
+  // "All uses" tile first
+  html+=`<button class="proj-menu-tile pm-all" data-pcat="all">
+    <span class="pm-ico">📖</span>
+    <span class="pm-name">${UI.projAll[lang]}</span>
+    <span class="pm-count">${UI.count[lang](total)}</span>
+  </button>`;
+  // presenter's own custom entries — a dedicated section (only if they have any)
+  if(CUSTOM.length>0){
+    html+=`<button class="proj-menu-tile pm-custom" data-pcat="custom">
+      <span class="pm-ico">⭐</span>
+      <span class="pm-name">${UI.customFilter[lang]}</span>
+      <span class="pm-count">${UI.count[lang](CUSTOM.length)}</span>
+    </button>`;
+  }
+  Object.keys(CATS).forEach(c=>{
+    const cnt=(byCat[c]||[]).length;
+    if(!cnt) return;
+    const cat=CATS[c];
+    html+=`<button class="proj-menu-tile" data-pcat="${c}">
+      <span class="pm-ico">${cat.ico}</span>
+      <span class="pm-name">${cat[lang]}</span>
+      <span class="pm-count">${UI.count[lang](cnt)}</span>
+    </button>`;
+  });
+  const grid=document.getElementById('projMenuGrid');
+  grid.innerHTML=html;
+  grid.querySelectorAll('.proj-menu-tile').forEach(t=>{
+    t.onclick=()=>startProjSection(t.dataset.pcat);
+  });
+}
+function showProjMenu(){
+  buildProjMenu();
+  projOverlay.classList.add('menu-open');
+}
+function startProjSection(cat){
+  projCat=cat;
+  projBuildItems(cat);
+  if(!projItems.length){ showProjMenu(); return; }
+  projIndex=0;
+  projOverlay.classList.remove('menu-open');
+  projRender();
+}
+function projRender(){
+  const it=projItems[projIndex];
+  if(!it){ projStage.innerHTML=''; return; }
+  const cat=CATS[it.cat];
+  const catName = cat ? cat[lang] : '';
+  const isCustom = !!it.cid;
+  const nm=name(it);
+  const sub = lang==='en'? it.zh : it.en;
+  const r=ratio(it);
+  const useTxt=F(it,'use');
+  const noteTxt=F(it,'note');
+  let html=`<div class="proj-cat">${cat?cat.ico+' ':''}${catName}${isCustom?` <span class="proj-custom-badge">⭐ ${UI.customTag[lang]}</span>`:''}</div>
+    <div class="proj-name">${nm}</div>`;
+  if(sub && sub!==nm) html+=`<div class="proj-name-en">${sub}</div>`;
+  html+=`<div class="proj-ratio ${ratioClass(it.kind)}">${r}</div>`;
+  if(useTxt) html+=`<div class="proj-use">${useTxt}</div>`;
+  if(noteTxt) html+=`<div class="proj-note">${noteTxt}</div>`;
+  projStage.innerHTML=html;
+  document.getElementById('projCount').textContent=`${projIndex+1} / ${projItems.length}`;
+  document.getElementById('projPrev').disabled = projIndex===0;
+  document.getElementById('projNext').disabled = projIndex===projItems.length-1;
+}
+function projGo(delta){
+  const n=projIndex+delta;
+  if(n<0||n>=projItems.length) return;
+  projIndex=n; projRender();
+}
+function openProjector(){
+  if(!allEntries().length) return;
+  document.getElementById('projBrandTxt').textContent = UI.projBrand[lang];
+  document.getElementById('projHint').textContent = UI.projHint[lang];
+  document.getElementById('projMenuLabel').textContent = UI.projSections[lang];
+  showProjMenu();                       // open to the section picker first
+  projOverlay.classList.add('on');
+  projOverlay.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  const el=document.documentElement;
+  const rq=el.requestFullscreen||el.webkitRequestFullscreen||el.msRequestFullscreen;
+  if(rq){ try{ rq.call(el).catch(()=>{}); }catch(e){} }
+  document.addEventListener('keydown', projKey);
+}
+function closeProjector(){
+  projOverlay.classList.remove('on');
+  projOverlay.classList.remove('menu-open');
+  projOverlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  document.removeEventListener('keydown', projKey);
+  if(document.fullscreenElement){ try{ document.exitFullscreen().catch(()=>{}); }catch(e){} }
+  else if(document.webkitFullscreenElement){ try{ document.webkitExitFullscreen(); }catch(e){} }
+}
+function projKey(e){
+  const menuOpen=projOverlay.classList.contains('menu-open');
+  if(e.key==='Escape'){
+    if(menuOpen) closeProjector();      // Esc from the menu exits
+    else showProjMenu();                // Esc from a slide returns to the menu
+    return;
+  }
+  if(menuOpen) return;                  // arrows do nothing on the menu
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){ e.preventDefault(); projGo(1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); projGo(-1); }
+  else if(e.key==='Home'){ projIndex=0; projRender(); }
+  else if(e.key==='End'){ projIndex=projItems.length-1; projRender(); }
+}
+document.getElementById('printBtn').onclick=openProjector;
+document.getElementById('projClose').onclick=closeProjector;
+document.getElementById('projMenuBtn').onclick=showProjMenu;   // back to section picker
+document.getElementById('projPrev').onclick=()=>projGo(-1);
+document.getElementById('projNext').onclick=()=>projGo(1);
+// tap left/right half of stage to navigate; swipe support
+projStage.addEventListener('click',(e)=>{
+  const mid=projStage.getBoundingClientRect().left+projStage.getBoundingClientRect().width/2;
+  projGo(e.clientX<mid?-1:1);
+});
+let projTouchX=null;
+projStage.addEventListener('touchstart',(e)=>{ projTouchX=e.touches[0].clientX; },{passive:true});
+projStage.addEventListener('touchend',(e)=>{
+  if(projTouchX===null) return;
+  const dx=e.changedTouches[0].clientX-projTouchX;
+  if(Math.abs(dx)>40) projGo(dx<0?1:-1);
+  projTouchX=null;
+});
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement && projOverlay.classList.contains('on')) closeProjector();
+});
 
 /* ================= SEARCH ================= */
 searchEl.addEventListener('input',e=>{
@@ -1891,8 +2501,13 @@ function setLang(l){
   setText('reliefModalTitle',UI.reliefModalTitle[l]);
   setText('printLabel',UI.print[l]);
   setText('addEntryLabel',UI.addEntry[l]);
+  setText('exportTricksLabel',UI.exportTricksLabel[l]);
+  setText('importTricksLabel',UI.importTricksLabel[l]);
   setText('footRule',UI.footRule[l]);
-  setText('footRecipe',UI.footRecipe[l]);
+  setText('rcSugar',UI.rcSugar[l]);
+  setText('rcScraps',UI.rcScraps[l]);
+  setText('rcWater',UI.rcWater[l]);
+  document.getElementById('rcFerment').innerHTML=UI.rcFerment[l];
   document.getElementById('footSugar').innerHTML=
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 8c-3 0-5 2-5 5v7h10v-7c0-3-2-5-5-5z"/><path d="M9 20v-4M15 20v-4"/></svg><div>'+UI.sugarNote[l]+'</div>';
   setText('footNote',UI.footNote[l]);
